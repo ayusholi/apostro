@@ -1,0 +1,327 @@
+/* ==========================================================================
+   Justica — Lawyer & Attorney
+   Static template (HTML + CSS + vanilla JS)
+   ========================================================================== */
+
+/* Reset --------------------------------------------------------------------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body,h1,h2,h3,h4,h5,h6,p,figure,blockquote,dl,dd{margin:0}
+ul[role="list"],ol[role="list"]{list-style:none;padding:0;margin:0}
+ul,ol{padding:0;margin:0;list-style:none}
+a{color:inherit;text-decoration:none}
+img,picture,svg,video{display:block;max-width:100%;height:auto}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,textarea,select{font:inherit;color:inherit}
+
+/* Tokens -------------------------------------------------------------------- */
+:root{
+  --bg:#0c0c0c;
+  --bg-2:#141414;
+  --bg-3:#1c1c1c;
+  --line:#262626;
+  --text:#e9e6e1;
+  --muted:#a5a097;
+  --gold:#c89b53;
+  --gold-2:#b6884a;
+  --white:#ffffff;
+  --container:1240px;
+  --radius:14px;
+  --radius-sm:8px;
+  --shadow:0 25px 60px -25px rgba(0,0,0,.6);
+  --serif:"Cormorant Garamond","Playfair Display",Georgia,serif;
+  --display:"Cinzel","Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+html,body{background:var(--bg);color:var(--text);font-family:var(--sans);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+h1,h2,h3,h4{font-family:var(--serif);font-weight:500;line-height:1.1;color:var(--white);letter-spacing:-.01em}
+h1{font-size:clamp(2.5rem,5.5vw,5.25rem)}
+h2{font-size:clamp(2rem,4vw,3.5rem)}
+h3{font-size:clamp(1.4rem,2vw,1.875rem)}
+h4{font-size:1.25rem}
+p{color:var(--muted)}
+
+.container{width:100%;max-width:var(--container);margin-inline:auto;padding-inline:24px}
+.section{padding:96px 0}
+.section--sm{padding:64px 0}
+.section--tight{padding:56px 0}
+
+/* Eyebrow & section heads --------------------------------------------------- */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--gold);
+  font-family:var(--sans);font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--gold)}
+.section-head{max-width:780px;margin-bottom:56px}
+.section-head.center{margin-inline:auto;text-align:center}
+.section-head.center .eyebrow{justify-content:center}
+.section-head h2{margin:14px 0 18px}
+.section-head p{font-size:1.05rem;max-width:60ch}
+.section-head.center p{margin-inline:auto}
+
+/* Buttons ------------------------------------------------------------------- */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;
+  font-weight:500;font-size:.9rem;letter-spacing:.04em;transition:.25s ease;border:1px solid transparent}
+.btn .arrow{width:16px;height:16px;display:inline-block;transition:transform .25s ease}
+.btn:hover .arrow{transform:translate(3px,-3px)}
+.btn--gold{background:var(--gold);color:#1a1207}
+.btn--gold:hover{background:var(--gold-2)}
+.btn--ghost{border-color:rgba(255,255,255,.18);color:var(--white)}
+.btn--ghost:hover{background:rgba(255,255,255,.06);border-color:var(--gold)}
+.btn--dark{background:#181818;color:var(--white);border-color:var(--line)}
+.btn--icon{width:54px;height:54px;border-radius:50%;justify-content:center;padding:0;
+  background:var(--gold);color:#1a1207}
+.btn--icon:hover{background:var(--gold-2)}
+
+/* Header -------------------------------------------------------------------- */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.7);
+  backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid rgba(255,255,255,.05)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:88px;gap:24px}
+.brand{display:inline-flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px}
+.brand-logo{width:102px;height:102px}
+.brand-text{font-family:var(--display);font-size:1.35rem;letter-spacing:.18em;color:var(--white)}
+.brand-text small{display:block;font-family:var(--sans);font-size:.62rem;letter-spacing:.3em;color:var(--muted);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-size:.92rem;color:var(--bg-3);position:relative;padding:6px 0;letter-spacing:.02em}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold);transition:width .25s}
+.nav-links a:hover::after,.nav-links a[aria-current]::after{width:100%}
+.nav-actions{display:flex;align-items:center;gap:14px}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  display:inline-flex;align-items:center;justify-content:center;color:var(--white);transition:.2s}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold)}
+.has-dropdown{position:relative}
+.has-dropdown > a::after{content:" ▾";color:var(--muted);font-size:.7em}
+.dropdown{position:absolute;top:100%;left:-12px;min-width:200px;background:rgba(255,255,255,.9);
+  border:1px solid var(--line);border-radius:10px;padding:8px;opacity:0;visibility:hidden;
+  transform:translateY(6px);transition:.2s}
+.has-dropdown:hover .dropdown,.has-dropdown:focus-within .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.dropdown a{display:block;padding:10px 14px;border-radius:6px;font-size:.88rem}
+.dropdown a:hover{background:#222;color:var(--gold)}
+.dropdown a::after{display:none}
+
+.menu-toggle{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;
+  align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.menu-toggle span{width:18px;height:1.5px;background:var(--white);transition:.2s}
+.menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* Hero ---------------------------------------------------------------------- */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:120px 0 60px;overflow:hidden;isolation:isolate;text-align:center}
+.hero::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(12,12,12,.55) 0%,rgba(12,12,12,.85) 70%,var(--bg) 100%),
+   url("../images/giammarco-boscaro-zeH-ljawHtg-unsplash.jpg") center/cover no-repeat;
+  z-index:-1}
+.hero__marquee{display:flex;gap:80px;white-space:nowrap;font-family:var(--serif);
+  font-size:clamp(4rem,12vw,11rem);line-height:1;color:var(--white);opacity:.95;
+  animation:marquee 35s linear infinite;will-change:transform}
+.hero__marquee span{display:inline-flex;align-items:center;gap:80px}
+.hero__marquee .dot{width:14px;height:14px;background:var(--gold);border-radius:50%;display:inline-block}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hero__statue{margin:42px auto 0;width:min(360px,55vw)}
+.hero__statue img{filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.hero__split{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:60px;align-items:end}
+.hero__split .item{max-width:340px}
+.hero__split p{font-size:.95rem}
+.hero__split .left{justify-self:start;text-align:left}
+.hero__split .right{justify-self:end;text-align:left}
+.hero__split h3{font-size:1.5rem;color:var(--white);margin-bottom:14px}
+
+/* Logos strip --------------------------------------------------------------- */
+.logos{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:36px 0}
+.logos__label{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.3em;
+  text-transform:uppercase;margin-bottom:26px}
+.logos__grid{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.logos__grid img{height:34px;width:auto;opacity:.55;filter:brightness(0) invert(1);transition:opacity .2s}
+.logos__grid img:hover{opacity:1}
+
+/* Section title big "ABOUT JUSTICA" feature ------------------------------- */
+.bigtitle{font-family:var(--serif);font-size:clamp(3rem,8vw,7rem);color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.18);line-height:1;text-transform:uppercase;
+  letter-spacing:.02em;text-align:center;margin-bottom:40px}
+
+/* About / Two column -------------------------------------------------------- */
+.about-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center}
+.about-grid__media{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow)}
+.about-grid__media img{width:100%;height:100%;object-fit:cover}
+.about-grid__badge{position:absolute;left:24px;bottom:24px;background:rgba(12,12,12,.78);
+  border:1px solid var(--line);border-radius:12px;padding:14px 20px;backdrop-filter:blur(8px)}
+.about-grid__badge strong{display:block;font-family:var(--serif);font-size:1.8rem;color:var(--gold)}
+.about-grid__badge span{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.about-grid h2{margin:14px 0 24px}
+.value-list{display:grid;gap:18px;margin-top:30px}
+.value-list .v{display:flex;gap:18px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--bg-2)}
+.value-list .v .num{font-family:var(--serif);color:var(--gold);font-size:1.5rem;min-width:36px}
+.value-list .v h4{color:var(--white);margin-bottom:6px}
+.value-list .v p{font-size:.92rem}
+
+/* Why choose us / stats ----------------------------------------------------- */
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px}
+.why .stat{padding:32px 24px;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;text-align:center}
+.why .stat strong{font-family:var(--serif);font-size:3rem;color:var(--gold);display:block;line-height:1}
+.why .stat span{font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:10px;display:block}
+
+/* Services ------------------------------------------------------------------ */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.service-card{background:var(--bg-2);border:1px solid var(--line);border-radius:16px;
+  padding:32px;display:flex;flex-direction:column;gap:20px;transition:.25s ease;position:relative;overflow:hidden}
+.service-card:hover{border-color:var(--gold);transform:translateY(-4px)}
+.service-card__num{font-family:var(--serif);color:var(--gold);font-size:1rem;letter-spacing:.1em}
+.service-card__icon{width:64px;height:64px;border-radius:50%;background:rgba(200,155,83,.1);
+  display:flex;align-items:center;justify-content:center}
+.service-card__icon img{width:34px;height:34px;filter:brightness(0) saturate(100%) invert(70%) sepia(31%) saturate(548%) hue-rotate(355deg) brightness(95%) contrast(86%)}
+.service-card h3{font-size:1.5rem;color:var(--white)}
+.service-card ul{display:grid;gap:10px;margin-top:10px}
+.service-card ul li{display:flex;align-items:center;gap:10px;font-size:.92rem;color:var(--text)}
+.service-card ul li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 6px}
+.service-card .more{color:var(--gold);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;margin-top:auto}
+
+/* CTA strip ----------------------------------------------------------------- */
+.cta{position:relative;overflow:hidden;border-radius:24px;padding:64px;
+  background:linear-gradient(135deg,#1f1810,#0c0c0c 60%);border:1px solid var(--line)}
+.cta__grid{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
+.cta h2{font-size:clamp(2rem,3.2vw,2.75rem);margin-bottom:18px}
+.cta p{max-width:48ch}
+.cta__actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:flex-end}
+.cta__phone{font-family:var(--serif);font-size:2rem;color:var(--white)}
+.cta__phone small{display:block;font-family:var(--sans);font-size:.72rem;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+
+/* Testimonials -------------------------------------------------------------- */
+.testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.t-card{background:var(--bg-2);border:1px solid var(--line);border-radius:16px;padding:32px}
+.t-card .stars{color:var(--gold);letter-spacing:4px;margin-bottom:16px}
+.t-card p{color:var(--text);font-family:var(--serif);font-size:1.25rem;line-height:1.45;margin-bottom:24px}
+.t-card .who{display:flex;align-items:center;gap:14px}
+.t-card .who img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+.t-card .who strong{display:block;color:var(--white)}
+.t-card .who span{font-size:.75rem;color:var(--muted);letter-spacing:.2em;text-transform:uppercase}
+
+/* FAQ ----------------------------------------------------------------------- */
+.faq{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;align-items:start}
+.faq-item{border:1px solid var(--line);border-radius:12px;background:var(--bg-2);margin-bottom:12px;overflow:hidden}
+.faq-item__q{width:100%;text-align:left;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+  font-family:var(--serif);font-size:1.2rem;color:var(--white)}
+.faq-item__q .ico{width:28px;height:28px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);
+  display:inline-flex;align-items:center;justify-content:center;font-size:1rem;transition:.2s}
+.faq-item.open .faq-item__q .ico{transform:rotate(45deg);background:var(--gold);color:#1a1207}
+.faq-item__a{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 26px}
+.faq-item__a p{padding-bottom:22px;font-size:.95rem}
+
+/* Attorneys / Team ---------------------------------------------------------- */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.t-member{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:3/4;background:var(--bg-2)}
+.t-member img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.t-member:hover img{transform:scale(1.05)}
+.t-member__info{position:absolute;left:16px;right:16px;bottom:16px;padding:16px 20px;
+  background:rgba(12,12,12,.85);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px}
+.t-member__info h4{font-family:var(--serif);color:var(--white);text-transform:capitalize;font-size:1.15rem;margin-bottom:2px}
+.t-member__info span{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.t-member__social{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;gap:8px;opacity:0;transition:.25s;transform:translateY(-6px)}
+.t-member:hover .t-member__social{opacity:1;transform:translateY(0)}
+.t-member__social a{width:36px;height:36px;border-radius:50%;background:rgba(12,12,12,.8);
+  display:inline-flex;align-items:center;justify-content:center;color:var(--white);font-size:.85rem}
+.t-member__social a:hover{background:var(--gold);color:#1a1207}
+
+/* Cases --------------------------------------------------------------------- */
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.case-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5}
+.case-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.case-card:hover img{transform:scale(1.06)}
+.case-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.85))}
+.case-card__meta{position:absolute;left:24px;right:24px;bottom:24px;z-index:2}
+.case-card__tag{display:inline-block;padding:6px 12px;background:var(--gold);color:#1a1207;
+  border-radius:999px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px}
+.case-card h3{color:var(--white);font-size:1.4rem}
+
+/* Page header (inner pages) ------------------------------------------------- */
+.page-head{position:relative;padding:160px 0 100px;text-align:center;overflow:hidden;isolation:isolate}
+.page-head::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(12,12,12,.55),rgba(12,12,12,.95)),
+   url("../images/giammarco-boscaro-zeH-ljawHtg-unsplash.jpg") center/cover no-repeat}
+.page-head h1{font-style:italic}
+.page-head h1 em{color:var(--gold);font-style:normal}
+.page-head p{max-width:60ch;margin:18px auto 0}
+.crumbs{font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.crumbs a{color:var(--gold)}
+
+/* Contact ------------------------------------------------------------------- */
+.contact-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:64px}
+.contact-card{padding:32px;border:1px solid var(--line);border-radius:16px;background:var(--bg-2);text-align:center}
+.contact-card .ico{width:56px;height:56px;border-radius:50%;background:rgba(200,155,83,.12);color:var(--gold);
+  display:inline-flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:18px}
+.contact-card strong{font-family:var(--serif);font-size:1.5rem;color:var(--white);display:block;margin-bottom:6px}
+.contact-card p{font-size:.9rem}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:start}
+.form{display:grid;gap:16px;background:var(--bg-2);border:1px solid var(--line);border-radius:16px;padding:32px}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field label{display:block;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.field input,.field textarea,.field select{width:100%;background:#0d0d0d;border:1px solid var(--line);
+  color:var(--white);border-radius:8px;padding:14px 16px;transition:border-color .2s}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--gold)}
+.field textarea{min-height:140px;resize:vertical}
+.form-status{font-size:.85rem;color:var(--gold);min-height:1em}
+
+/* Blog ---------------------------------------------------------------------- */
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.post{background:var(--bg-2);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.post__img{aspect-ratio:4/3;overflow:hidden}
+.post__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.post:hover .post__img img{transform:scale(1.05)}
+.post__body{padding:26px;display:flex;flex-direction:column;gap:14px;flex:1}
+.post__meta{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.post h3{font-size:1.3rem}
+.post a.read{margin-top:auto;color:var(--gold);font-size:.85rem;letter-spacing:.18em;text-transform:uppercase}
+
+/* Footer -------------------------------------------------------------------- */
+.footer{padding:96px 0 36px;border-top:1px solid var(--line);background:linear-gradient(180deg,#0c0c0c,#080808)}
+.footer__top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--line)}
+.footer__top h5{font-family:var(--sans);color:var(--white);text-transform:uppercase;letter-spacing:.22em;font-size:.78rem;margin-bottom:22px;font-weight:600}
+.footer__top a{display:block;padding:6px 0;color:var(--muted);font-size:.92rem}
+.footer__top a:hover{color:var(--gold)}
+.footer__brand p{margin:18px 0 24px;font-size:.95rem}
+.footer__social{display:flex;gap:10px}
+.footer__social a{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center}
+.footer__social a:hover{border-color:var(--gold);color:var(--gold)}
+.footer__bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;color:var(--muted);font-size:.85rem;gap:16px;flex-wrap:wrap}
+
+/* 404 ----------------------------------------------------------------------- */
+.err{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;padding:120px 0}
+.err__code{font-family:var(--serif);color:var(--gold);font-size:clamp(6rem,18vw,14rem);line-height:1}
+
+/* Reveal animation ---------------------------------------------------------- */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.is-visible{opacity:1;transform:none}
+
+/* Responsive ---------------------------------------------------------------- */
+@media (max-width:1024px){
+  .about-grid,.faq,.contact-grid,.cta__grid{grid-template-columns:1fr;gap:40px}
+  .services-grid,.testimonials,.contact-cards,.cases-grid,.blog-grid{grid-template-columns:repeat(2,1fr)}
+  .team-grid{grid-template-columns:repeat(3,1fr)}
+  .why{grid-template-columns:repeat(2,1fr)}
+  .footer__top{grid-template-columns:1fr 1fr;gap:32px}
+  .cta__actions{justify-content:flex-start}
+}
+@media (max-width:768px){
+  .section{padding:72px 0}
+  .nav-links,.nav-actions .icon-btn{display:none}
+  .menu-toggle{display:inline-flex}
+  .nav-links.is-open{display:flex;position:absolute;top:88px;left:0;right:0;flex-direction:column;
+    background:var(--bg-2);border-top:1px solid var(--line);padding:24px;gap:16px;align-items:stretch}
+  .nav-links.is-open .has-dropdown .dropdown{position:static;opacity:1;visibility:visible;transform:none;
+    background:transparent;border:0;padding:8px 0 0 12px}
+  .nav-links.is-open .has-dropdown > a::after{display:none}
+  .nav-links.is-open a { color: var(--white)}
+  .hero{min-height:auto;padding:80px 0 40px}
+  .hero__split{grid-template-columns:1fr;gap:24px}
+  .hero__split .left,.hero__split .right{justify-self:start;text-align:left;max-width:100%}
+  .services-grid,.testimonials,.contact-cards,.cases-grid,.blog-grid,.team-grid{grid-template-columns:1fr}
+  .cta{padding:36px}
+  .form .row{grid-template-columns:1fr}
+  .footer__top{grid-template-columns:1fr;gap:28px;padding-bottom:36px}
+  .why{grid-template-columns:1fr 1fr;gap:14px}
+}
