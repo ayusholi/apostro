@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Blog — additive styles only. Reuses existing tokens (--bg, --gold,
+   --serif, .form/.field/.btn, .section, .section-head, .post/.blog-grid,
+   .crumbs) rather than inventing a second visual language.
+   ========================================================================== */
+
+/* Blog card additions (base .post/.blog-grid live in globals.css) ------------- */
+.post__author { display: flex; align-items: center; gap: 8px; margin-top: -4px; }
+.post__author img { border-radius: 50%; object-fit: cover; }
+.post__author span { font-size: .8rem; color: var(--muted); }
+
+/* Toolbar (search + category + tag) ------------------------------------------- */
+.blog-toolbar {
+  display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px; margin-bottom: 24px;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 24px;
+}
+.blog-toolbar__search { flex: 1 1 240px; min-width: 200px; }
+.blog-toolbar__field { min-width: 180px; }
+.blog-toolbar__actions { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+.blog-toolbar__clear { font-size: .82rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.blog-toolbar__clear:hover { color: var(--gold); }
+.blog-results-count { font-size: .85rem; color: var(--muted); margin-bottom: 24px; }
+
+/* Article hero ------------------------------------------------------------------ */
+.article-hero { padding: 160px 0 0; position: relative; }
+.article-hero .crumbs { text-align: left; }
+.article-hero .crumbs ol { justify-content: flex-start; }
+.article-hero__category {
+  display: inline-flex; color: var(--gold); font-size: .8rem; letter-spacing: .2em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.article-hero h1 { max-width: 20ch; margin-bottom: 24px; }
+.article-hero__byline { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+.article-hero__byline img { border-radius: 50%; object-fit: cover; }
+.article-hero__byline a { color: var(--white); font-weight: 500; }
+.article-hero__byline span { display: block; font-size: .8rem; color: var(--muted); }
+.article-hero__cover { position: relative; aspect-ratio: 21 / 9; max-height: 460px; }
+.article-hero__cover img { object-fit: cover; }
+
+.author-profile-hero { padding-bottom: 64px; }
+.author-profile-hero__row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.author-profile-hero__row img { border-radius: 50%; object-fit: cover; flex: none; }
+.author-profile-hero__row h1 { margin-bottom: 6px; }
+.author-profile-heading { font-size: 1.5rem; margin-bottom: 28px; }
+
+/* Article layout: body + sidebar ------------------------------------------------- */
+.article-layout { display: grid; grid-template-columns: 1fr 280px; gap: 56px; align-items: start; }
+.article-layout__sidebar { position: sticky; top: 100px; }
+
+.article-body { max-width: 70ch; }
+.article-body__disclaimer { font-size: .8rem; color: var(--muted); border-left: 2px solid var(--gold); padding-left: 14px; margin-bottom: 32px; }
+.article-body h2 { font-size: 1.6rem; margin: 40px 0 16px; }
+.article-body h3 { font-size: 1.25rem; margin: 32px 0 14px; }
+.article-body p { margin-bottom: 16px; }
+.article-body ul { display: grid; gap: 10px; margin: 8px 0 20px 4px; }
+.article-body li { position: relative; padding-left: 22px; font-size: .96rem; color: var(--text); }
+.article-body li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.article-body blockquote {
+  border-left: 3px solid var(--gold); padding: 4px 0 4px 22px; margin: 28px 0; font-family: var(--serif);
+  font-size: 1.2rem; color: var(--white);
+}
+.article-body blockquote cite { display: block; margin-top: 8px; font-family: var(--sans); font-size: .8rem; color: var(--muted); font-style: normal; }
+
+.article-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 32px; }
+.article-tags a {
+  font-size: .78rem; color: var(--muted); background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 14px;
+}
+.article-tags a:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Table of contents --------------------------------------------------------------- */
+.toc { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 22px; max-width: 280px; }
+.toc__title { font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.toc ol { display: grid; gap: 10px; list-style: none; }
+.toc a { font-size: .85rem; color: var(--text); display: block; }
+.toc a:hover { color: var(--gold); }
+.toc a[aria-current="location"] { color: var(--gold); font-weight: 500; }
+.toc .toc__sub { padding-left: 16px; }
+
+/* Share buttons ------------------------------------------------------------------- */
+.share-buttons { margin: 32px 0; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.share-buttons__label { display: block; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.share-buttons__row { display: flex; flex-wrap: wrap; gap: 10px; }
+.share-buttons__row a, .share-buttons__row button {
+  font-size: .8rem; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); color: var(--text);
+  background: var(--bg-2); cursor: pointer;
+}
+.share-buttons__row a:hover, .share-buttons__row button:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Author bio card ------------------------------------------------------------------ */
+.author-bio { display: flex; gap: 20px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 28px; margin-top: 32px; }
+.author-bio img { border-radius: 50%; object-fit: cover; flex: none; }
+.author-bio__label { display: block; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.author-bio h3 { font-size: 1.15rem; margin-bottom: 4px; }
+.author-bio h3 a { color: var(--white); }
+.author-bio__role { color: var(--gold); font-size: .82rem; margin-bottom: 10px; }
+.author-bio p:last-child { font-size: .9rem; margin-bottom: 0; }
+
+/* Responsive ------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .article-layout { grid-template-columns: 1fr; }
+  .article-layout__sidebar { position: static; order: -1; }
+  .toc { max-width: 100%; }
+  .article-hero { padding-top: 120px; }
+}
+@media (max-width: 620px) {
+  .blog-toolbar { flex-direction: column; align-items: stretch; }
+  .blog-toolbar__actions { margin-left: 0; justify-content: space-between; }
+  .author-bio { flex-direction: column; }
+}

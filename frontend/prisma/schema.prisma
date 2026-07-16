@@ -1,0 +1,145 @@
+// Forward-compatibility schema — NOT wired up. `prisma` and `@prisma/client`
+// are not installed, and there is no DATABASE_URL configured. This file
+// exists so the eventual Postgres swap (see README.md in this folder) has a
+// concrete, reviewed schema to migrate against on day one, matching the
+// domain entities in src/domain/booking/ and src/domain/reviews/ field-for-field.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Service {
+  slug            String             @id
+  title           String
+  durationMinutes Int
+  solicitors      SolicitorService[]
+  bookings        Booking[]
+  reviews         Review[]
+}
+
+model Office {
+  id         String            @id
+  name       String
+  address    String
+  timeZone   String
+  solicitors SolicitorOffice[]
+  bookings   Booking[]
+}
+
+model Solicitor {
+  slug   String @id
+  name   String
+  image  String
+
+  /// Matches domain/scheduling/workingHours.ts's WorkingHours type exactly:
+  /// { "1": { "start": "09:00", "end": "17:00" }, ... } keyed by day-of-week.
+  workingHours Json
+
+  services SolicitorService[]
+  offices  SolicitorOffice[]
+  bookings Booking[]
+}
+
+/// Many-to-many: which solicitors handle which services.
+model SolicitorService {
+  solicitor     Solicitor @relation(fields: [solicitorSlug], references: [slug], onDelete: Cascade)
+  solicitorSlug String
+  service       Service   @relation(fields: [serviceSlug], references: [slug], onDelete: Cascade)
+  serviceSlug   String
+
+  @@id([solicitorSlug, serviceSlug])
+}
+
+/// Many-to-many: which offices each solicitor works from.
+model SolicitorOffice {
+  solicitor     Solicitor @relation(fields: [solicitorSlug], references: [slug], onDelete: Cascade)
+  solicitorSlug String
+  office        Office    @relation(fields: [officeId], references: [id], onDelete: Cascade)
+  officeId      String
+
+  @@id([solicitorSlug, officeId])
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+}
+
+model Booking {
+  id          String        @id @default(uuid())
+  /// Long random token used in the manage/cancel/reschedule link — never the id.
+  manageToken String        @unique
+  status      BookingStatus @default(CONFIRMED)
+
+  service       Service   @relation(fields: [serviceSlug], references: [slug])
+  serviceSlug   String
+  solicitor     Solicitor @relation(fields: [solicitorSlug], references: [slug])
+  solicitorSlug String
+  office        Office    @relation(fields: [officeId], references: [id])
+  officeId      String
+
+  slotStartUtc    DateTime
+  slotEndUtc      DateTime
+  /// IANA zone the client had selected when booking, so confirmation/reminder emails show the time they expect.
+  displayTimeZone String
+
+  clientName  String
+  clientEmail String
+  clientPhone String
+  clientNotes String @default("")
+
+  createdAt      DateTime  @default(now())
+  cancelledAt    DateTime?
+  reminderSentAt DateTime?
+
+  /// Lightweight audit trail for the one most-recent reschedule (matches domain Booking.rescheduledFrom).
+  rescheduledFromStart DateTime?
+  rescheduledFromEnd   DateTime?
+
+  @@index([solicitorSlug, slotStartUtc])
+}
+
+enum ReviewSource {
+  SITE
+  GOOGLE
+}
+
+/// Matches domain/reviews/Review.ts field-for-field.
+model Review {
+  id           String       @id @default(uuid())
+  authorName   String
+  authorImage  String?
+  rating       Int
+  title        String?
+  body         String
+  service      Service?     @relation(fields: [serviceSlug], references: [slug])
+  serviceSlug  String?
+  source       ReviewSource
+  date         DateTime
+  verified     Boolean      @default(false)
+  helpfulCount Int          @default(0)
+  /// Curated for homepage display via FeaturedReviewsSection — an editorial flag, not derived from rating/date.
+  featured     Boolean      @default(false)
+
+  @@index([source])
+  @@index([rating])
+  @@index([featured])
+}
+
+/// Matches domain/reviews/Review.ts's VideoTestimonial type. videoUrl is
+/// nullable so a testimonial can be scheduled/curated before footage exists —
+/// the UI renders those as an honest "coming soon" card (@see src/data/videoTestimonials.ts).
+model VideoTestimonial {
+  id          String @id @default(uuid())
+  authorName  String
+  role        String
+  posterImage String
+  videoUrl    String?
+  caption     String
+  rating      Int
+}

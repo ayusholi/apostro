@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Solicitor directory — additive styles only. Reuses existing tokens
+   (--bg, --gold, --serif, .t-member, .article-hero, .regulatory-info__grid,
+   .review-grid) rather than inventing a second visual language.
+   ========================================================================== */
+
+/* Team grid card additions (base .t-member lives in globals.css) -------------- */
+.t-member__areas { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.t-member__area {
+  font-size: .68rem; letter-spacing: .04em; color: var(--muted); background: rgba(255, 255, 255, .06);
+  border-radius: 999px; padding: 3px 10px;
+}
+
+/* Profile hero (extends .article-hero from blog.css) --------------------------- */
+.solicitor-hero { padding-bottom: 64px; }
+.solicitor-hero__row { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+.solicitor-hero__photo { border-radius: 20px; object-fit: cover; flex: none; }
+.solicitor-hero__role { color: var(--gold); font-size: .95rem; margin-bottom: 6px; }
+.solicitor-hero__meta { font-size: .85rem; color: var(--muted); margin-bottom: 20px; }
+
+/* Biography + details grid ------------------------------------------------------- */
+.solicitor-bio { max-width: 70ch; margin-bottom: 40px; }
+.solicitor-bio h2 { font-size: 1.5rem; margin-bottom: 14px; }
+.solicitor-details__grid { grid-template-columns: repeat(3, 1fr); }
+.solicitor-details__grid .regulatory-info__card ul { list-style: none; }
+.solicitor-details__grid .regulatory-info__card li { font-size: .88rem; margin-bottom: 4px; }
+
+/* Reviews summary line ------------------------------------------------------------ */
+.solicitor-reviews__summary { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; color: var(--muted); font-size: .9rem; }
+
+/* Responsive ----------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .solicitor-details__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 620px) {
+  .solicitor-details__grid { grid-template-columns: 1fr; }
+  .solicitor-hero__row { flex-direction: column; align-items: flex-start; }
+}

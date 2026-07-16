@@ -1,0 +1,94 @@
+/* ==========================================================================
+   Legal/compliance layer — additive styles only. Reuses existing tokens
+   (--bg, --gold, --serif, .form/.field/.btn, .section, .section-head).
+   ========================================================================== */
+
+/* Legal page body (Privacy/Cookie/Terms/Complaints/Accessibility) --------------- */
+.legal-body { max-width: 72ch; }
+.legal-body__updated { font-size: .82rem; color: var(--gold); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 40px; }
+.legal-body section { margin-bottom: 40px; }
+.legal-body h2 { font-size: 1.5rem; margin-bottom: 14px; }
+.legal-body p { margin-bottom: 12px; }
+.legal-body ul { display: grid; gap: 10px; margin: 12px 0 12px 4px; }
+.legal-body li { position: relative; padding-left: 22px; font-size: .95rem; color: var(--text); }
+.legal-body li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.legal-body a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Form privacy note + marketing opt-in (ContactForm, booking DetailsStep) ------- */
+.form-privacy-note { font-size: .8rem; color: var(--muted); margin-top: -4px; }
+.form-privacy-note a { color: var(--gold); }
+.form-consent { display: flex; align-items: flex-start; gap: 10px; font-size: .85rem; color: var(--muted); cursor: pointer; }
+.form-consent input { margin-top: 3px; flex: none; width: 16px; height: 16px; accent-color: var(--gold); }
+
+/* Regulatory info (About page) -------------------------------------------------- */
+.regulatory-info__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 40px; }
+.regulatory-info__card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 28px; }
+.regulatory-info__card h3 { font-size: 1.15rem; margin-bottom: 12px; }
+.regulatory-info__card p { font-size: .9rem; margin-bottom: 10px; }
+.regulatory-info__card ul { display: grid; gap: 10px; }
+.regulatory-info__card li { font-size: .88rem; color: var(--text); }
+.regulatory-info__card li strong { color: var(--white); }
+.regulatory-info__card a { color: var(--gold); }
+
+/* Trust badges (footer + About) -------------------------------------------------- */
+.trust-badges { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; }
+.trust-badges a {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px;
+  border: 1px solid var(--line); font-size: .78rem; letter-spacing: .04em; color: var(--text); background: var(--bg-2);
+}
+.trust-badges a:hover { border-color: var(--gold); color: var(--gold); }
+.trust-badges a::before { content: "✓"; color: var(--gold); }
+.trust-badges--compact { margin-bottom: 16px; }
+.trust-badges--compact a { font-size: .72rem; padding: 6px 12px; }
+
+/* Footer additions: opening hours + compliance strip ---------------------------- */
+.footer__hours { margin-top: 10px; display: grid; gap: 4px; font-size: .8rem; color: var(--muted); }
+.footer__compliance { padding: 28px 0; border-bottom: 1px solid var(--line); }
+.footer__compliance p { font-size: .78rem; color: var(--muted); line-height: 1.7; max-width: 90ch; }
+.footer__compliance a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+.footer__compliance a:hover { color: var(--gold); }
+.footer__link-button {
+  background: none; border: 0; padding: 0; font: inherit; color: var(--muted); font-size: .85rem;
+  text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.footer__link-button:hover { color: var(--gold); }
+
+/* Cookie consent banner ---------------------------------------------------------- */
+.cookie-banner {
+  position: fixed; left: 20px; right: 20px; bottom: 20px; z-index: 80; max-width: 720px; margin-inline: auto;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 22px 26px;
+  box-shadow: var(--shadow); display: flex; flex-wrap: wrap; align-items: center; gap: 18px;
+}
+.cookie-banner p { flex: 1 1 320px; font-size: .85rem; color: var(--text); margin: 0; }
+.cookie-banner a { color: var(--gold); }
+.cookie-banner__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.cookie-banner__actions .btn { padding: 10px 18px; font-size: .8rem; }
+
+/* Cookie preferences dialog ------------------------------------------------------- */
+.cookie-dialog {
+  border: 1px solid var(--line); border-radius: 16px; padding: 0; background: var(--bg-2); color: var(--text);
+  max-width: min(480px, 92vw); width: 100%;
+}
+.cookie-dialog::backdrop { background: rgba(0, 0, 0, .7); }
+.cookie-dialog__inner { padding: 28px; }
+.cookie-dialog__inner h2 { font-size: 1.3rem; margin-bottom: 10px; }
+.cookie-dialog__intro { font-size: .85rem; color: var(--muted); margin-bottom: 20px; }
+.cookie-dialog__intro a { color: var(--gold); }
+.cookie-dialog__row {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 14px 0;
+  border-top: 1px solid var(--line); cursor: pointer;
+}
+.cookie-dialog__row:first-of-type { cursor: default; }
+.cookie-dialog__row strong { display: block; color: var(--white); font-size: .92rem; margin-bottom: 4px; }
+.cookie-dialog__row p { font-size: .8rem; color: var(--muted); margin: 0; }
+.cookie-dialog__row input[type="checkbox"] { flex: none; width: 18px; height: 18px; margin-top: 2px; accent-color: var(--gold); }
+.cookie-dialog__actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+.cookie-dialog__actions .btn { padding: 10px 20px; font-size: .8rem; }
+
+/* Responsive ---------------------------------------------------------------------- */
+@media (max-width: 700px) {
+  .regulatory-info__grid { grid-template-columns: 1fr; }
+  .cookie-banner { left: 12px; right: 12px; bottom: 12px; padding: 18px; }
+  .cookie-banner__actions { width: 100%; }
+  .cookie-banner__actions .btn { flex: 1; justify-content: center; }
+}

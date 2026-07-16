@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Booking system — additive styles only. Reuses existing tokens (--bg,
+   --gold, --serif, etc. from globals.css) and reuses .form/.field/.btn
+   verbatim for the details step, rather than re-styling a second form look.
+   ========================================================================== */
+
+.booking-shell { padding: 56px 0 96px; }
+.booking-shell h1 { margin-bottom: 8px; }
+.booking-shell > .lede { color: var(--muted); max-width: 60ch; margin-bottom: 40px; }
+
+/* Step indicator ------------------------------------------------------------ */
+.step-indicator { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; list-style: none; padding: 0; }
+.step-indicator li {
+  display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 8px;
+  border: 1px solid var(--line); border-radius: 999px; font-size: .82rem; color: var(--muted);
+  background: var(--bg-2);
+}
+.step-indicator .num {
+  width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-family: var(--serif); background: var(--bg-3); color: var(--muted); flex: none;
+}
+.step-indicator li[data-state="current"] { border-color: var(--gold); color: var(--white); }
+.step-indicator li[data-state="current"] .num { background: var(--gold); color: #1a1207; }
+.step-indicator li[data-state="done"] { color: var(--text); }
+.step-indicator li[data-state="done"] .num { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+.step-indicator button { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; padding: 0; }
+.step-indicator li[data-state="upcoming"] button { cursor: default; }
+
+/* Option cards (service / solicitor / office selection) --------------------- */
+.option-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.option-card {
+  display: flex; flex-direction: column; gap: 10px; text-align: left; width: 100%;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 20px;
+  cursor: pointer; transition: border-color .2s, transform .2s;
+}
+.option-card:hover { border-color: var(--gold); }
+.option-card:disabled { opacity: .45; cursor: not-allowed; }
+.option-card[aria-pressed="true"] { border-color: var(--gold); background: var(--bg-3); }
+.option-card__media { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; background: var(--bg-3); flex: none; }
+.option-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.option-card__title { font-family: var(--serif); font-size: 1.1rem; color: var(--white); }
+.option-card__meta { font-size: .82rem; color: var(--muted); }
+.option-card__check { margin-left: auto; color: var(--gold); font-size: 1.1rem; }
+
+/* Calendar ------------------------------------------------------------------ */
+.calendar { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 20px; max-width: 380px; }
+.calendar__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.calendar__header strong { font-family: var(--serif); font-size: 1.1rem; color: var(--white); }
+.calendar__nav { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; color: var(--text); }
+.calendar__nav:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+.calendar__nav:disabled { opacity: .3; cursor: not-allowed; }
+.calendar__weekdays { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px; }
+.calendar__weekdays span { text-align: center; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.calendar__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.calendar__day {
+  aspect-ratio: 1; border-radius: 8px; border: 1px solid transparent; background: transparent; color: var(--text);
+  font-size: .88rem; display: flex; align-items: center; justify-content: center; position: relative;
+}
+.calendar__day[data-available="true"]:not([aria-disabled="true"]) { cursor: pointer; }
+.calendar__day[data-available="true"]:not([aria-disabled="true"])::after {
+  content: ""; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px; border-radius: 50%; background: var(--gold);
+}
+.calendar__day:hover:not([aria-disabled="true"]) { border-color: var(--gold); }
+.calendar__day[aria-selected="true"] { background: var(--gold); color: #1a1207; font-weight: 600; }
+.calendar__day[aria-selected="true"]::after { background: #1a1207; }
+.calendar__day[aria-disabled="true"] { color: var(--line-2, var(--line)); cursor: not-allowed; }
+.calendar__day[data-today="true"]:not([aria-selected="true"]) { border-color: var(--line-2, var(--line)); }
+
+/* Time slot grid -------------------------------------------------------------- */
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.slot-btn {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 8px;
+  color: var(--text); font-size: .88rem; text-align: center;
+}
+.slot-btn:hover { border-color: var(--gold); }
+.slot-btn[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: #1a1207; font-weight: 600; }
+
+/* Shared layout for datetime step -------------------------------------------- */
+.datetime-layout { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: start; }
+@media (max-width: 760px) { .datetime-layout { grid-template-columns: 1fr; } }
+.datetime-layout__slots h4 { font-family: var(--sans); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin: 0 0 14px; }
+
+/* Booking summary (review step + confirmation/manage page) ------------------- */
+.booking-summary { display: grid; gap: 0; background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 24px; margin: 20px 0; }
+.booking-summary__row { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.booking-summary__row:last-child { border-bottom: 0; }
+.booking-summary__label { font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.booking-summary__value { font-size: .95rem; color: var(--white); text-align: right; }
+
+/* Wizard footer nav ------------------------------------------------------------ */
+.wizard-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; flex-wrap: wrap; }
+.wizard-actions .btn--ghost-nav { background: transparent; border: 1px solid var(--line); color: var(--text); }
+.wizard-actions .btn--ghost-nav:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Honeypot — visually hidden but present for assistive tech to skip cleanly */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* State banner (loading / empty / error / success) ---------------------------- */
+.state-banner { display: flex; gap: 14px; align-items: flex-start; padding: 20px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); }
+.state-banner__icon { width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex: none; font-size: .95rem; }
+.state-banner__title { margin: 0; color: var(--white); font-size: .95rem; font-weight: 600; }
+.state-banner__body { margin-top: 4px; color: var(--muted); font-size: .88rem; }
+.state-banner__action { margin-top: 12px; }
+.state-banner--loading .state-banner__spinner {
+  width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--gold);
+  animation: booking-spin .7s linear infinite; flex: none; margin-top: 3px;
+}
+@media (prefers-reduced-motion: reduce) { .state-banner--loading .state-banner__spinner { animation: none; } }
+@keyframes booking-spin { to { transform: rotate(360deg); } }
+.state-banner--empty .state-banner__icon { background: var(--bg-3); color: var(--muted); }
+.state-banner--error { border-color: color-mix(in srgb, var(--gold) 20%, var(--line)); }
+.state-banner--error .state-banner__icon { background: rgba(201, 112, 95, .15); color: #c9705f; }
+.state-banner--success .state-banner__icon { background: rgba(111, 174, 125, .15); color: #6fae7d; }
+
+/* Manage/confirmation page ------------------------------------------------------ */
+.manage-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+.calendar-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
