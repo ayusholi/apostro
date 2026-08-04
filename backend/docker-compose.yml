@@ -1,0 +1,104 @@
+name: alls-backend
+
+# The full local topology (INFRASTRUCTURE-DESIGN.md §16) — one command
+# gives dev the same service shape as production. `api`/`worker` build the
+# same image and differ only by the `command:` each runs.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: alls
+      POSTGRES_PASSWORD: alls
+      POSTGRES_DB: alls
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U alls -d alls']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Catches all outbound mail locally — nothing is sent (INFRASTRUCTURE-DESIGN.md §11).
+  # Not yet used by any code; started for topology parity with prod.
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - '8025:8025' # web UI
+      - '1025:1025' # SMTP
+
+  # S3-compatible object storage for local dev (ARCHITECTURE.md §7).
+  # Not yet used by any code; started for topology parity with prod.
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: alls
+      MINIO_ROOT_PASSWORD: allsallslocal
+    ports:
+      - '9000:9000' # S3 API
+      - '9001:9001' # console
+    volumes:
+      - minio-data:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      LOG_LEVEL: debug
+      DATABASE_URL: postgresql://alls:alls@postgres:5432/alls?schema=public
+      REDIS_URL: redis://redis:6379
+      CORS_ORIGINS: http://localhost:3000
+      TRUST_PROXY: 'false'
+    ports:
+      - '4000:4000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Same image as `api`; this is the whole "one image, two roles" pattern.
+    command: ['node', 'dist/worker.js']
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
+      DATABASE_URL: postgresql://alls:alls@postgres:5432/alls?schema=public
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  redis-data:
+  minio-data:

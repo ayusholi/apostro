@@ -1,0 +1,155 @@
+// Prisma schema.
+//
+// The full data model is designed in ../DATABASE-DESIGN.md and is added
+// incrementally as each feature module is implemented — per
+// ../FOLDER-STRUCTURE.md, not generated wholesale. This is the first slice:
+// the `identity` schema's auth tables (User, Session, RefreshToken,
+// VerificationToken), for the Authentication module.
+//
+// Deviations from DATABASE-DESIGN.md §2, and why:
+//   - `id` uses Prisma's default `uuid()` (v4), not app-generated UUIDv7.
+//     DATABASE-DESIGN.md §0 calls for v7 for index locality on inserts;
+//     v4 is the pragmatic choice for this pass and is a swap-in-place
+//     change later (same column type, no migration shape change) once a
+//     shared UUIDv7 generator lands.
+//   - `email` is a plain `String @unique`, not `citext`. Case-insensitive
+//     uniqueness is achieved by normalizing to lowercase at the Zod
+//     validation boundary (auth.schema.ts) before every read and write, so
+//     the column already only ever holds lowercase values — moving to a
+//     real `citext` column later is a non-breaking migration.
+//   - `RoleAssignment`/`Role`/`Permission` are out of scope here — that's
+//     the separate Roles & Permissions module (RBAC-DESIGN.md). This slice
+//     only carries what Authentication itself needs.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["identity"]
+}
+
+enum UserStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  DISABLED
+
+  @@schema("identity")
+}
+
+/// Registered account. DATABASE-DESIGN.md §2.1 — the "staff" side of the
+/// two-principal split (AUTH-DESIGN.md §1); this module implements one
+/// principal type, not the Client/magic-link surface.
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  passwordHash String
+  fullName     String
+  status       UserStatus @default(INVITED)
+
+  emailVerifiedAt   DateTime?
+  lastLoginAt       DateTime?
+  passwordChangedAt DateTime?
+
+  sessions           Session[]
+  refreshTokens      RefreshToken[]
+  verificationTokens VerificationToken[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([status])
+  @@schema("identity")
+}
+
+/// One row per login/device (AUTH-DESIGN.md §2.1, §6.5). `id` doubles as
+/// the JWT `sid` claim and the Redis `session:{sid}` revocation-allowlist
+/// key — this table is the durable record behind that key, not a replica
+/// of it.
+model Session {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  rememberMe Boolean @default(false)
+  ipAddress  String?
+  userAgent  String?
+
+  createdAt  DateTime  @default(now())
+  lastSeenAt DateTime  @default(now())
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  revokedReason String?
+
+  refreshTokens RefreshToken[]
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@schema("identity")
+}
+
+/// Opaque, hashed, rotating refresh token (AUTH-DESIGN.md §2.2, §3.2).
+/// `tokenHash` is SHA-256 of the raw token issued to the client — never
+/// store the raw value. `familyId` is shared across every token produced
+/// by rotating from the same original login; presenting an already-
+/// `consumedAt` token is a theft signal that revokes the whole family.
+model RefreshToken {
+  id String @id @default(uuid())
+
+  sessionId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tokenHash String  @unique
+  familyId  String
+  parentId  String?
+
+  consumedAt    DateTime?
+  expiresAt     DateTime
+  revokedAt     DateTime?
+  revokedReason String?
+
+  createdAt DateTime @default(now())
+
+  @@index([familyId])
+  @@index([sessionId])
+  @@index([userId])
+  @@index([expiresAt])
+  @@schema("identity")
+}
+
+enum VerificationPurpose {
+  EMAIL_VERIFY
+  PASSWORD_RESET
+
+  @@schema("identity")
+}
+
+/// Single-use, hashed, purpose-typed token backing both email verification
+/// and password reset (AUTH-DESIGN.md §5 — consolidates what
+/// DATABASE-DESIGN.md §2.1 originally sketched as separate tables; one
+/// expiry/consume mechanism for both). `tokenHash` — never the raw token —
+/// is what's persisted; the raw value only ever exists in the email sent
+/// to the user.
+model VerificationToken {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  purpose   VerificationPurpose
+  tokenHash String              @unique
+
+  expiresAt  DateTime
+  consumedAt DateTime?
+  ipAddress  String?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, purpose])
+  @@schema("identity")
+}

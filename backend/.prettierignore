@@ -1,0 +1,8 @@
+dist
+node_modules
+coverage
+package-lock.json
+
+# Hand-formatted design docs (tables, Mermaid) — don't let a broad
+# `prettier --write .` reformat these.
+*.md

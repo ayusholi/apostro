@@ -6,6 +6,28 @@ Design document. No implementation yet.
 
 ---
 
+> ## ⚙️ Stack decision (supersedes the NestJS framing below)
+>
+> **The canonical framework is Express + TypeScript**, not NestJS. This document was written around NestJS; every *decision* here still holds (they're framework-agnostic — bounded contexts, the `EXCLUDE` constraint, token model, retention, the one-way valve), but wherever it names a **NestJS mechanism**, read the **Express equivalent** below. The Express expression is authoritative and specified in [`FOLDER-STRUCTURE.md`](./FOLDER-STRUCTURE.md), [`AUTH-DESIGN.md`](./AUTH-DESIGN.md), [`RBAC-DESIGN.md`](./RBAC-DESIGN.md), and [`INFRASTRUCTURE-DESIGN.md`](./INFRASTRUCTURE-DESIGN.md).
+>
+> | This doc says (NestJS) | Read instead (Express) | Where |
+> |---|---|---|
+> | Module `providers` array / DI container as composition root | **Manual composition root** — construct singletons once, inject them | INFRA §2 |
+> | `@Injectable()` service | Plain service class/factory; deps passed in via constructor/factory | INFRA §2–§3 |
+> | Guards (`JwtAuthGuard`, `PermissionsGuard`) | **Ordered middleware** — `authenticate → authorize → policies` | AUTH §7, RBAC §8 |
+> | Decorators (`@RequirePermissions`, `@Public`, `@Scope`) | Middleware-factory args / route metadata | RBAC §8.1 |
+> | `ZodValidationPipe` | `validate(schema)` middleware | FOLDER `validation/` |
+> | `AllExceptionsFilter` | `errorHandler` middleware (RFC 9457) | AUTH §7.3 |
+> | `@nestjs/throttler` | Redis-backed rate-limit middleware | INFRA §12 |
+> | `enableVersioning` | Express `Router` mounted at `/api/v1` | API-DESIGN §0.1 |
+> | Terminus health module | Custom `/health/live` + `/health/ready` | INFRA §13 |
+> | `enableShutdownHooks()` | Manual SIGTERM handler | INFRA §17 |
+> | `nestjs-zod` → Swagger | `zod-to-openapi` assembled in `docs/` | INFRA §14 |
+>
+> The two contexts (§2) become the optional `modules/cms` vs `modules/core` grouping in FOLDER-STRUCTURE §7 — same boundary, lighter wiring. `packages/contracts` (§0) still holds; it's plain Zod, framework-independent.
+
+---
+
 ## 0. The decision everything else depends on
 
 Before any of the eighteen sections: **the backend is not greenfield.** The frontend already contains a real, well-built hexagonal core.
@@ -79,73 +101,118 @@ backend/
 ├── src/
 │   ├── main.ts
 │   ├── app.module.ts
-│   ├── config/                  # Zod-validated env, typed ConfigService
-│   ├── common/                  # filters, interceptors, guards, decorators, pipes
-│   ├── domain/                  # ← moved. Pure TS. Zero framework imports.
-│   │   ├── booking/  scheduling/  blog/  reviews/  team/
-│   │   └── matters/  documents/  identity/            (future)
-│   ├── modules/
-│   │   ├── booking/  catalog/  content/  reviews/  enquiries/
-│   │   ├── identity/  portal/  matters/  documents/
-│   │   ├── notifications/  calendar/  payments/  audit/  analytics/
-│   ├── infrastructure/          # prisma, redis, storage, email, sms clients
-│   └── jobs/                    # BullMQ processors
+│   │
+│   ├── contexts/                # the two bounded contexts (see §2)
+│   │   ├── cms/                 #   public-read, editor-written, admin-managed
+│   │   │   ├── catalog/  content/  faq/  reviews/  seo/  media/
+│   │   │   └── _shared/         #   publishing + revalidation events, CMS query ports
+│   │   └── business/            #   authenticated, confidential, audited
+│   │       ├── identity/  clients/  booking/  enquiries/  notifications/  audit/
+│   │       └── (future) portal/  documents/  payments/
+│   │
+│   ├── shared/                  # SHARED KERNEL — pure TS, zero framework, both contexts may import
+│   │   ├── domain/             #   Result<T>, DomainError + codes, value objects, Clock/IdGenerator ports
+│   │   └── kernel/             #   Money, DateRange, Email, Slug, Pagination primitives
+│   │   # contracts/ (Zod → validation + OpenAPI + FE types) lives here or as packages/contracts — §0
+│   │
+│   ├── infrastructure/          # ADAPTERS to external systems, one per concern, each behind a port
+│   │   └── prisma/ redis/ storage/ email/ sms/ calendar/ payments/
+│   │
+│   ├── platform/                # CROSS-CUTTING NestJS wiring (global modules)
+│   │   └── config/ logging/ errors/ security/ health/ queue/ events/
+│   │
+│   └── jobs/                    # BullMQ processors (worker entrypoint)
 ├── test/
 ├── Dockerfile
 └── docker-compose.yml
 ```
 
-Each feature module has the same internal shape — the one the frontend already uses:
+Each **module** (inside a context) has the same internal hexagonal shape — the one the frontend already uses:
 
 ```
-modules/booking/
+contexts/business/booking/       # the "Appointments" capability (entity is Booking — keep the code's language)
 ├── booking.module.ts     # the composition root (this replaces container.ts)
-├── api/                  # controllers, HTTP mapping, Swagger decorators
-├── application/          # use cases
-├── ports/                # interfaces  (moved from application/booking/ports.ts)
+├── api/                  # controllers, HTTP mapping, Swagger decorators — the ONLY web-aware layer
+├── application/          # use cases (one @Injectable class each) + DTOs
+├── domain/              # entities, policies, invariants — ZERO framework imports
+├── ports/                # interfaces  (moved from application/booking/ports.ts) = injection tokens
 └── adapters/             # PrismaBookingRepository, ResendNotificationService, …
 ```
 
 **Why this shape:** it is the shape the codebase already has. `container.ts` says it's "the ONLY file allowed to import both a use case and a concrete adapter" — that is precisely what a NestJS module's `providers` array is. **NestJS's DI container *is* the composition root.** The `deps` object becomes constructor injection; ports become injection tokens. The pattern is unchanged; only the wiring mechanism changes. That's why the use cases move near-verbatim instead of being rewritten.
 
-**The one rule that matters:** `domain/` imports nothing — no NestJS, no Prisma, no Zod. It is pure functions and types. Dependencies point inward: `api → application → ports ← adapters`. If you ever find `@Injectable()` in `domain/`, the boundary has leaked and the unit tests get slow.
+**Domain lives inside its module, not in one top-level `src/domain/`.** A shared domain folder spanning both contexts would be an open invitation to the cross-context imports §2 forbids (a blog entity reaching into a booking rule). Context-specific domain is encapsulated in the module; only *truly* context-free primitives (`Result`, `DomainError`, value objects) go in `shared/domain/`. This is the one deliberate change from the frontend's current centralized `domain/` layout, and it exists to make the CMS↔Business boundary enforceable.
+
+**The one rule that matters:** every `domain/` imports nothing — no NestJS, no Prisma, no Zod. It is pure functions and types. Dependencies point inward: `api → application → ports ← adapters`. If you ever find `@Injectable()` in a `domain/`, the boundary has leaked and the unit tests get slow. Enforce it with ESLint import-boundary rules, not good intentions.
 
 **Use cases as `@Injectable()` classes**, one per use case, constructor-injecting port tokens — rather than keeping the current `createBooking(deps, input)` free-function style. Why: it's the idiom the team will expect, and the conversion is mechanical *because* the deps are already explicit and injected. It costs nothing in testability — you still `new CreateBookingUseCase(fakeRepo, fakeClock)` in a unit test without Nest's harness.
 
 ---
 
-## 2. Module architecture
+## 2. Bounded contexts & module architecture
 
-A **modular monolith**. One deployable API, one deployable worker, hard internal boundaries.
+A **modular monolith** — one deployable API, one deployable worker, hard internal boundaries — organized around **two bounded contexts**, because the brief's "separate business data from CMS content" is, in DDD terms, exactly a two-context split.
 
-**Why not microservices.** A UK law firm's website and portal will not be traffic-bound in the next five years. The constraints here are *correctness* and *compliance*, and distributed systems make both harder: cross-service transactions, eventual consistency in an audit trail, five deploy pipelines. The module boundaries + ports below give you the option to split later at near-zero cost, when a real reason appears (`documents` needing separate scaling or a separate security zone is the likeliest). Build the seam; don't cut it yet.
+**Why not microservices.** A UK law firm's website and portal will not be traffic-bound in the next five years. The constraints here are *correctness* and *compliance*, and distributed systems make both harder: cross-service transactions, eventual consistency in an audit trail, five deploy pipelines. The context boundaries + ports below give you the option to split later at near-zero cost, when a real reason appears (`documents` needing separate scaling or a separate security zone is the likeliest). Build the seam; don't cut it yet.
 
-**Modules and why they're drawn there:**
+### 2.1 The two contexts, and why the split is load-bearing
+
+| | **CMS context** | **Business context** |
+|---|---|---|
+| Data | Public marketing content | Confidential client / PII data |
+| Writes | Rare (editors, via admin panel) | Continuous (bookings, enquiries, staff) |
+| Reads | Massive public read, cacheable/CDN | Authenticated, uncacheable |
+| Consistency | Eventual is fine | Strong (no double-booking) |
+| Breach blast radius | A stale FAQ | A leaked matter — ICO/SRA-reportable |
+
+Making this the **top-level folder boundary** (`contexts/cms` vs `contexts/business`, §1) is deliberate: the directory tree should make the most important boundary the most visible one. A flat `modules/blog, modules/booking, modules/audit` hides the security boundary in alphabetical order.
+
+### 2.2 Module inventory, mapped to contexts
+
+**CMS context** — public-read, editor-written, admin-panel-managed:
 
 | Module | Owns | Boundary rationale |
 |---|---|---|
-| `catalog` | services, solicitors, offices | Read-heavy, public, cacheable. Written only by admin/CMS. |
-| `booking` | bookings, availability | The only module needing strong write consistency. |
-| `content` | blog, FAQs, practice areas, homepage | Editor-written, public-read, triggers ISR revalidation. |
-| `reviews` | reviews, video testimonials | Public read; future client submission. |
-| `enquiries` | contact form submissions | Trivial now; becomes CRM-shaped later. |
-| `identity` | users, roles, sessions, MFA | Security-critical. Isolated so its blast radius is bounded. |
-| `portal` | client-facing views | Different principal, different threat model. |
-| `matters` | cases, assignments | Confidential. Strictest controls. |
-| `documents` | uploads, versions, AV state | Confidential + large binaries + async pipeline. Most likely future split. |
-| `notifications` | email/SMS routing, templates, delivery | Shared by everything. |
-| `calendar` | Google/Outlook sync | Isolated because OAuth tokens are high-value secrets. |
-| `payments` | Stripe integration, receipts | Isolated for PCI scope and SRA client-money rules. |
-| `audit` | append-only audit log | Written by all; readable by few. |
-| `analytics` | aggregates, reporting | Read-only over others' data; never on the hot path. |
+| `catalog` | practice areas (`Service`), `Solicitor`, `Office` | Already in schema. Read-heavy, cacheable. The most-referenced CMS data. |
+| `content` | blog (posts/authors/categories), homepage blocks, values, stats | Editor-written, public-read, triggers ISR revalidation on publish. |
+| `faq` | FAQ entries | Trivial CRUD; separate for its own FAQ-schema surface. |
+| `reviews` | `Review`, `VideoTestimonial` | Already in schema. Public read; future client submission → moderation queue. |
+| `seo` | per-route metadata, JSON-LD source data, overrides | Reads other CMS modules; owns editor overrides. |
+| `media` | media-library image registry, variants, alt text | **Public assets only** — not the confidential document store (future Business module). |
 
-**Rules between modules:**
+**Business context** — authenticated, confidential, audited:
 
-1. **A module owns its tables.** No cross-module Prisma queries. If `booking` needs a solicitor, it asks `catalog`'s service — it does not `prisma.solicitor.findMany()`. This is the seam. Violate it and the future split becomes a rewrite.
-2. **Side effects go through events, not calls.** `booking` must not import `audit` or `notifications`. It emits `BookingConfirmed`; the audit and notification modules subscribe. Why: otherwise every new cross-cutting concern edits every use case, and `createBooking` slowly accumulates six unrelated responsibilities.
-3. **Shared kernel is `domain/` only**, and it's pure.
+| Module | Owns | Boundary rationale |
+|---|---|---|
+| `identity` | staff `User`, `Role`, `Permission`, `Session`, MFA | Security-critical. Isolated so its blast radius is bounded. |
+| `clients` | portal `Client` records | **Separate model from staff `User`** — different threat model, different auth (client magic-link vs staff mandatory-MFA), different lifecycle. |
+| `booking` | `Booking`, availability (the "Appointments" capability) | Already in schema. The only module needing strong write consistency (§6 `EXCLUDE`). |
+| `enquiries` | contact-form submissions | Public-write, staff-read, spam-guarded. Trivial now; becomes CRM-shaped later. |
+| `notifications` | email/SMS routing, templates, delivery tracking | Shared consumer of domain events (§9). |
+| `audit` | append-only audit log | Written by all Business modules; readable by few (§10). |
 
-Global/infrastructure modules: `ConfigModule`, `PrismaModule`, `RedisModule`, `QueueModule`, `StorageModule`, `AuditModule`, `NotificationsModule`.
+**Future modules** slot in without reshaping this: `portal`, `matters` (client case management), `documents`, `payments` → Business context; `analytics` → read-only over both, off the hot path; `calendar`/`sms` → adapters under `infrastructure/` behind existing ports; `ai-assistant` (public FAQ bot) → sits above CMS query ports, RAG over published content only (confidentiality by construction). Each reuses `identity`/`clients` (auth), `StoragePort`, `NotificationPort`, and the event bus — the one-way valve stops any of them coupling to marketing content.
+
+### 2.3 Dependency direction — the one-way valve
+
+The contexts are **not** cleanly separable: a `Booking` references `serviceSlug`/`solicitorSlug`/`officeId`, all CMS-owned. So the rule is not "no references" — it is **directional**:
+
+```
+   BUSINESS  ──reads CMS identities via query port──▶  CMS
+   CMS  ──✗ must NEVER import Business ✗──▶  (a blog post cannot know an appointment exists)
+```
+
+**Three inviolable rules** (this is the seam; breaking them turns a future service-split into a rewrite):
+
+1. **A module owns its tables.** No cross-module Prisma queries. `booking` needing a solicitor asks `catalog`'s query port — never `prisma.solicitor.findMany()`. The FK exists in the DB; *code* access crosses only through the port.
+2. **CMS must never import Business.** Compile-time-enforceable, and it is what keeps CMS publicly cacheable and one-day separately deployable.
+3. **Side effects go through domain events, not calls.** `booking` must not import `audit` or `notifications`. It emits `BookingConfirmed`; audit and notification modules *subscribe*. Otherwise every new cross-cutting concern edits every use case and `createBooking` accumulates six responsibilities. Events are also what make "audit everything" and "an admin panel manages content later" additive — a new consumer is a new listener, not an edit to the emitter (Open/Closed).
+
+### 2.4 Shared kernel & global modules
+
+**Shared kernel** (`shared/`) is the only thing both contexts may import: pure TS, zero framework — `Result<T>`, `DomainError` + stable codes, value objects, and context-free ports (`Clock`, `IdGenerator`, `EventBus`). It grows only by deliberate agreement; it holds primitives and contracts, never business logic. If a rule feels "shareable" between contexts, the boundary is wrong, not the kernel too small.
+
+**Platform (global) modules:** `ConfigModule`, `PrismaModule`, `RedisModule`, `QueueModule`, `StorageModule`, `AuditModule`, `NotificationsModule`, plus logging/errors/security/health/events — see §7-equivalents and §1's `platform/`.
 
 ---
 
@@ -654,7 +721,7 @@ Six things this design corrects. All are in the frontend's booking implementatio
 | 2 | **`EXCLUDE` constraint needs `WHERE status = 'CONFIRMED'`.** As specified, a cancelled booking would block its slot forever. | `prisma/README.md:19` | **High** (if built as written) |
 | 3 | **`manageToken` stored plaintext.** It's a bearer credential; a DB dump is a set of live capability URLs. Hash it. | `schema.prisma:75`, `Booking.ts:8` | **High** |
 | 4 | **Reminder read-modify-write race.** `findDueForReminder` → send → `save` has no claim; two workers both send. Currently masked by single-instance execution — surfaces the moment you scale out. | `use-cases/sendDueReminders.ts:29-43` | **Medium** |
-| 5 | **`renderedAtMs` is client-supplied and unsigned**, so the "too fast" check is trivially bypassed. HMAC-sign it. (Honest heuristic today, but cheap to harden.) | `ports.ts:91`, `HoneypotSpamGuard.ts:24` | **Low** |
-| 6 | **`InMemoryRateLimiter` is per-process** — across N replicas the limit becomes 5N. Already documented; Redis fixes it. | `InMemoryRateLimiter.ts`, `prisma/README.md:60-67` | **Medium** (on scale-out) |
+| 5 | **`renderedAtMs` is client-supplied and unsigned**, so the "too fast" check is trivially bypassed. HMAC-sign it. (Honest heuristic today, but cheap to harden.) | `application/booking/ports.ts`, `infrastructure/booking/security/HoneypotSpamGuard.ts` | **Low** |
+| 6 | **`InMemoryRateLimiter` is per-process** — across N replicas the limit becomes 5N. Already documented; Redis fixes it. | `infrastructure/booking/security/InMemoryRateLimiter.ts`, `prisma/README.md:60-67` | **Medium** (on scale-out) |
 
 None of these are criticisms of the existing work. #4 and #6 are correct choices for a single-instance dev deployment and are documented as such; #5 is explicitly described as a heuristic. They're listed because *scaling out and adding a real database is exactly the moment each one stops being safe* — and that moment is this project.
