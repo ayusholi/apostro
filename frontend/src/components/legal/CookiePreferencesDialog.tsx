@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type { ConsentChoice } from "@/lib/cookies/consent";
 
 /**
@@ -40,7 +41,7 @@ export function CookiePreferencesDialog({
         <h2>Manage Cookie Preferences</h2>
         <p className="cookie-dialog__intro">
           Choose which optional cookies we can use. You can change this at any time — see our{" "}
-          <a href="/legal/cookie-policy">Cookie Policy</a> for what each category actually covers today.
+          <Link href="/legal/cookie-policy">Cookie Policy</Link> for what each category actually covers today.
         </p>
 
         <div className="cookie-dialog__row">

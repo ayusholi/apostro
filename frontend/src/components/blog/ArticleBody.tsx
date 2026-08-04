@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ContentBlock } from "@/domain/blog/Post";
 
 /**
@@ -10,7 +11,7 @@ export function ArticleBody({ body }: { body: ContentBlock[] }) {
     <div className="article-body">
       <p className="article-body__disclaimer">
         This article is for general information only and does not constitute legal advice. See our{" "}
-        <a href="/legal/terms-and-conditions">Terms &amp; Conditions</a>.
+        <Link href="/legal/terms-and-conditions">Terms &amp; Conditions</Link>.
       </p>
 
       {body.map((block, i) => {
