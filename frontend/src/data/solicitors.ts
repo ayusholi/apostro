@@ -28,39 +28,6 @@ const standardWeek: WorkingHours = {
 const scheduling: { slug: string; officeIds: string[]; workingHours: WorkingHours }[] = [
   { slug: "wayne-bell", officeIds: ["london-eye"], workingHours: standardWeek },
   { slug: "anne-key", officeIds: ["london-eye"], workingHours: standardWeek },
-  { slug: "john-doe", officeIds: ["london-eye"], workingHours: standardWeek },
-  {
-    slug: "david-john",
-    officeIds: ["london-eye"],
-    // Half-day Friday.
-    workingHours: { ...standardWeek, 5: { start: "09:00", end: "13:00" } },
-  },
-  { slug: "gacia-smith", officeIds: ["london-eye"], workingHours: standardWeek },
-  { slug: "trevor-king", officeIds: ["london-eye"], workingHours: standardWeek },
-  {
-    slug: "seo-in-guk",
-    officeIds: ["london-eye"],
-    // Later start, later finish.
-    workingHours: {
-      1: { start: "10:00", end: "18:00" },
-      2: { start: "10:00", end: "18:00" },
-      3: { start: "10:00", end: "18:00" },
-      4: { start: "10:00", end: "18:00" },
-      5: { start: "10:00", end: "18:00" },
-    },
-  },
-  {
-    slug: "karina-l",
-    officeIds: ["london-eye"],
-    // Works Tuesday–Saturday instead of the standard week.
-    workingHours: {
-      2: { start: "09:00", end: "17:00" },
-      3: { start: "09:00", end: "17:00" },
-      4: { start: "09:00", end: "17:00" },
-      5: { start: "09:00", end: "17:00" },
-      6: { start: "10:00", end: "14:00" },
-    },
-  },
 ];
 
 export const solicitors: SolicitorData[] = scheduling.map(({ slug, officeIds, workingHours }) => {
