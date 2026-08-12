@@ -12,7 +12,7 @@ export const legalConfig = {
   /** Full registered legal entity trading as the "ALLS" brand. */
   tradingDisclosure: 'ALLS Solicitors Limited (trading as "ALLS")',
   /** Companies House number — 8 digits is the correct shape for an England & Wales Ltd company. */
-  companyNumber: "12345678",
+  companyNumber: "14573886",
   jurisdiction: "England and Wales",
   /** UK VAT number format (GB + 9 digits). Omit this field entirely if the firm is not VAT-registered. */
   vatNumber: "GB000000000",
@@ -20,7 +20,7 @@ export const legalConfig = {
   sra: {
     statement: "Authorised and regulated by the Solicitors Regulation Authority",
     /** SRA ID — the number looked up on the public register at mysra.sra.org.uk. */
-    number: "000000",
+    number: "8015884",
     website: "https://www.sra.org.uk/",
   },
 
@@ -36,8 +36,7 @@ export const legalConfig = {
 
   ico: {
     statement: "Registered with the Information Commissioner's Office",
-    /** ICO register reference — real references start "Z" or "ZA" followed by digits. */
-    registrationNumber: "ZA000000",
+    registrationNumber: "ZC213659",
     website: "https://ico.org.uk/",
   },
 

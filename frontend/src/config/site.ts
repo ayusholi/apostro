@@ -20,34 +20,30 @@ export const siteConfig = {
   // template (US format). Schema/telephone deliberately mirror the on-page
   // value so structured data matches visible content; swap for a real UK
   // number (e.g. +44 20 …) when known.
-  phone: "+1 (555) 123-4567",
-  phoneHref: "tel:+15551234567",
-  phoneE164: "+15551234567",
-  email: "hello@alls.law",
-  emailHref: "mailto:hello@alls.law",
-  address: "London Eye, London",
+  phone: "+44 02071833139",
+  phoneHref: "tel:+4402071833139",
+  phoneE164: "+4402071833139",
+  email: "info@alls-legal.co.uk",
+  emailHref: "mailto:info@alls-legal.co.uk",
+  address: "20 Store Street, London, United Kingdom",
 
   /** Structured postal address for PostalAddress schema (GB conventions). */
   postalAddress: {
-    streetAddress: "London Eye",
-    addressLocality: "London",
+    streetAddress: "20 Store Street, London",
+    addressLocality: "Stratford",
     addressRegion: "London",
-    postalCode: "",
+    postalCode: "E15 1PU",
     addressCountry: "GB",
   },
   /** Coordinates of the stated address (the London Eye) for LocalBusiness geo. */
-  geo: { latitude: 51.5033, longitude: -0.1196 },
-  /** Country served, from the site's "nationwide" positioning, scoped to the UK. */
+  geo: { latitude: 51.5469062, longitude: -0.1191022 },
   areaServed: "United Kingdom",
-  /** LocalBusiness price indicator (GBP). */
   priceRange: "££",
-  /** Derived from the on-page "120+ Expert Attorneys" stat. */
   employeeCountMin: 120,
-  /** Derived from the on-page "25+ Years in Practice" stat (2026 − 25). */
-  foundingYear: 2001,
+  foundingYear: 2026,
 
   officeHours: [
-    { day: "Mon–Fri", hours: "9:00 – 18:00" },
+    { day: "Mon – Fri", hours: "9:00 – 18:00" },
     { day: "Sat", hours: "10:00 – 14:00" },
     { day: "Sun", hours: "Closed" },
   ],

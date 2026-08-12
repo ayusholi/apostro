@@ -7,59 +7,88 @@ import type { Service, ValueItem } from "@/types";
  * fabricated detail page, since only criminal-defense has one to show
  * (@see ServiceCard).
  */
+
 export const services: Service[] = [
   {
-    slug: "criminal-defense",
+    slug: "mediation",
     number: "01",
     icon: "/images/icon-service-1.png",
-    title: "Criminal Defense",
+    title: "Mediation",
     description:
-      "Robust representation from first police interview through trial, protecting your rights and your future.",
-    bullets: ["Case Analysis", "Legal Protection"],
+      "A collaborative approach to resolving disputes, focusing on communication and mutually beneficial solutions.",
+    bullets: ["Mediation Support", "Legal Protection"],
   },
   {
-    slug: "legal-consultation",
+    slug: "civil-litigation",
     number: "02",
     icon: "/images/icon-service-2.png",
-    title: "Legal Consultation",
+    title: "Civil Litigation",
     description:
-      "Clear, practical advice on your options before you commit to any course of action — no jargon, no pressure.",
+      "Strategic representation in civil disputes, from initial consultation to trial advocacy.",
     bullets: ["Initial Assessment", "Tailored Advice"],
   },
   {
-    slug: "mergers-acquisitions",
+    slug: "residential-commercial-conveyance",
     number: "03",
     icon: "/images/icon-service-3.png",
-    title: "Mergers & Acquisitions",
+    title: "Residential & Commercial Conveyance",
     description:
-      "End-to-end deal support, from due diligence to completion, protecting your interests at every stage.",
+      "Efficient, thorough conveyancing and property advice that keeps your transaction moving and your interests protected.",
     bullets: ["Due Diligence", "Deal Structuring"],
   },
   {
-    slug: "family-law",
+    slug: "commercial-lease",
     number: "04",
     icon: "/images/icon-service-1.png",
-    title: "Family Law",
+    title: "Commercial Lease",
     description:
-      "Sensitive, practical guidance through divorce, custody, and financial settlements, with your family's wellbeing front of mind.",
-    bullets: ["Mediation Support", "Child Arrangements"],
+      "Comprehensive advice on commercial lease agreements, ensuring your business interests are protected.",
+
+    bullets: ["Mediation Support", "Legal Protection"],
   },
   {
-    slug: "corporate-law",
+    slug: "divorce",
     number: "05",
     icon: "/images/icon-service-2.png",
-    title: "Corporate Law",
+    title: "Divorce",
     description:
-      "Commercially-minded counsel on formation, governance, and compliance, so you can focus on running your business.",
+      "Sensitive, practical guidance through divorce, custody, and financial settlements, with your family's wellbeing front of mind.",
     bullets: ["Contract Drafting", "Compliance Advice"],
   },
   {
-    slug: "real-estate",
+    slug: "financial-settlements",
     number: "06",
     icon: "/images/icon-service-3.png",
-    title: "Real Estate",
+    title: "Financial Settlements",
     description:
       "Efficient, thorough conveyancing and property advice that keeps your transaction moving and your interests protected.",
+    bullets: ["Conveyancing", "Contract Review"],
+  },
+  {
+    slug: "child-arrangements",
+    number: "07",
+    icon: "/images/icon-service-4.png",
+    title: "Child Arrangements",
+    description:
+      "Comprehensive advice on child custody, access, and support arrangements.",
+    bullets: ["Conveyancing", "Contract Review"],
+  },
+  {
+    slug: "wills-probate",
+    number: "08",
+    icon: "/images/icon-service-5.png",
+    title: "Wills & Probate",
+    description:
+      "Comprehensive estate planning and probate services to ensure your wishes are carried out.",
+    bullets: ["Conveyancing", "Contract Review"],
+  },
+  {
+    slug: "employment-commercial-lease",
+    number: "09",
+    icon: "/images/icon-service-3.png",
+    title: "Employment & Commercial Lease",
+    description:
+      "Comprehensive advice on employment law and commercial lease agreements, ensuring your business interests are protected.",
     bullets: ["Conveyancing", "Contract Review"],
   },
 ];
@@ -71,12 +100,15 @@ export const services: Service[] = [
  * needs to change.
  */
 export const serviceDurationMinutes: Record<string, number> = {
-  "criminal-defense": 45,
-  "legal-consultation": 30,
-  "mergers-acquisitions": 60,
-  "family-law": 45,
-  "corporate-law": 60,
-  "real-estate": 30,
+  "mediation": 45,
+  "civil-litigation": 30,
+  "residential-commercial-conveyance": 60,
+  "commercial-lease": 45,
+  "divorce": 60,
+  "financial-settlements": 30,
+  "child-arrangements": 45,
+  "wills-probate": 30,
+  "employment-commercial-lease": 45,
 };
 
 export type ServiceDetail = {
@@ -87,7 +119,7 @@ export type ServiceDetail = {
 };
 
 export const serviceDetails: Record<string, ServiceDetail> = {
-  "criminal-defense": {
+  "mediation": {
     image: "/images/service-detail-1.jpg",
     heading: "Protecting Your Rights at Every Stage",
     paragraphs: [
