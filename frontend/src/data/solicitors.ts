@@ -10,6 +10,7 @@ export type SolicitorData = {
   workingHours: WorkingHours;
 };
 
+
 const standardWeek: WorkingHours = {
   1: { start: "09:00", end: "17:00" },
   2: { start: "09:00", end: "17:00" },
