@@ -15,7 +15,7 @@ export function Hero() {
         </span>
       </div>
       <div className="hero__statue">
-        <Image src="/images/hero-statue.png" alt="Statue of Lady Justice" width={655} height={900} priority />
+        {/* <Image src="/images/hero-statue.png" alt="Statue of Lady Justice" width={655} height={900} priority /> */}
       </div>
       <Container>
         <div className="hero__split">

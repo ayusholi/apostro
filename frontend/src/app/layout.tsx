@@ -84,7 +84,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* The hero / page-head background is a CSS background-image, which the
             browser can't discover until it parses CSS. Preloading it lets the
             largest above-the-fold paint start immediately, improving LCP. */}
-        <link rel="preload" as="image" href="/images/hero-bg.jpg" fetchPriority="high" />
+        <link rel="preload" as="image" href="/images/hero-banner.jpg" fetchPriority="high" />
       </head>
       <body>
         {/* Keyboard/screen-reader users can jump past the header straight to

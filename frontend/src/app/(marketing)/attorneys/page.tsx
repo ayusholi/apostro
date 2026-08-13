@@ -1,7 +1,7 @@
 import "@/styles/team.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { PageHead } from "@/components/sections/PageHead";
-import { LogoStrip } from "@/components/sections/LogoStrip";
+// import { LogoStrip } from "@/components/sections/LogoStrip";
 import { TeamGrid } from "@/components/sections/TeamGrid";
 import { CtaBanner } from "@/components/sections/CtaBanner";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -34,7 +34,7 @@ export default function AttorneysPage() {
           emphasis="Attorneys"
           description="Meet the solicitors leading our practice across every major area of law."
         />
-        <LogoStrip />
+        {/* <LogoStrip /> */}
         <TeamGrid solicitors={solicitors} />
         <CtaBanner />
       </main>

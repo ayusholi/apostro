@@ -158,7 +158,7 @@ p { color: var(--muted); }
 .hero::before {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(12, 12, 12, .55) 0%, rgba(12, 12, 12, .85) 70%, var(--bg) 100%),
-    url("/images/hero-bg.jpg") center/cover no-repeat;
+    url("/images/hero-banner.jpg") center/cover no-repeat;
   z-index: -1;
 }
 .hero__marquee {
@@ -321,7 +321,7 @@ p { color: var(--muted); }
 .page-head::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background: linear-gradient(180deg, rgba(12, 12, 12, .55), rgba(12, 12, 12, .95)),
-    url("/images/hero-bg.jpg") center/cover no-repeat;
+    url("/images/hero-banner.jpg") center/cover no-repeat;
 }
 .page-head h1 { font-style: italic; }
 .page-head h1 em { color: var(--gold); font-style: normal; }

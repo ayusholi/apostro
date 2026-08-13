@@ -27,8 +27,8 @@ const standardWeek: WorkingHours = {
  * list, instead of being duplicated here.
  */
 const scheduling: { slug: string; officeIds: string[]; workingHours: WorkingHours }[] = [
-  { slug: "wayne-bell", officeIds: ["london-eye"], workingHours: standardWeek },
-  { slug: "anne-key", officeIds: ["london-eye"], workingHours: standardWeek },
+  { slug: "ugochukwu-muoma", officeIds: ["20-store-street"], workingHours: standardWeek },
+  { slug: "osasere-ebosele", officeIds: ["20-store-street"], workingHours: standardWeek },
 ];
 
 export const solicitors: SolicitorData[] = scheduling.map(({ slug, officeIds, workingHours }) => {

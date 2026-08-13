@@ -11,8 +11,10 @@
   border-radius: 999px; padding: 3px 10px;
 }
 
-/* Profile hero (extends .article-hero from blog.css) --------------------------- */
-.solicitor-hero { padding-bottom: 64px; }
+/* Profile hero -----------------------------------------------------------------
+   Attorney pages load this stylesheet independently of blog.css, so reserve
+   space for the fixed header here instead of relying on `.article-hero`. */
+.solicitor-hero { padding: 120px 0 64px; }
 .solicitor-hero__row { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
 .solicitor-hero__photo { border-radius: 20px; object-fit: cover; flex: none; }
 .solicitor-hero__role { color: var(--gold); font-size: .95rem; margin-bottom: 6px; }
@@ -34,5 +36,6 @@
 }
 @media (max-width: 620px) {
   .solicitor-details__grid { grid-template-columns: 1fr; }
+  .solicitor-hero { padding-top: 88px; }
   .solicitor-hero__row { flex-direction: column; align-items: flex-start; }
 }
