@@ -12,7 +12,7 @@ export function WhyChooseUs() {
           center
           eyebrow="Why Choose Us"
           title="Why Trust Our Firm"
-          description="Decades of experience, transparent communication, and a commitment to results clients can measure."
+          description="A modern approach to legal services, built around clear advice, personal attention, and practical solutions."
         />
         <div className="why">
           {stats.map((stat) => (
