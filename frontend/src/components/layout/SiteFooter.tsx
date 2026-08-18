@@ -15,10 +15,12 @@ export function SiteFooter() {
         <div className="footer__top">
           <div className="footer__brand">
             <Link href="/" className="brand">
-              <Image className="brand-logo" src="/brand/logo.png" alt="" width={56} height={56} />
-              <span className="brand-text">{siteConfig.name.toUpperCase()}</span>
+              <Image className="brand-footer-logo" src="/brand/all-solicitors-logo-on-dark.svg" alt="" width={56} height={56} />
+              {/* <span className="brand-text">{siteConfig.name.toUpperCase()}</span> */}
             </Link>
-            <p>Let&apos;s make things happen — contact us today and take the first step toward resolution.</p>
+            <p className="footer__description">
+              Let&apos;s make things happen — contact us today and take the first step toward resolution.
+            </p>
             <div className="footer__social">
               <a href={siteConfig.social.facebook} aria-label="Facebook">
                 f

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect x="3" y="3" width="94" height="94" rx="2" fill="#142238"></rect>
+  <rect x="12.5" y="12.5" width="75" height="75" rx="1" fill="none" stroke="#B08A4A" stroke-width="1.1"></rect>
+  <text x="50" y="52" text-anchor="middle" dominant-baseline="central" font-family="'Cormorant Garamond', Georgia, serif" font-weight="600" font-size="52" letter-spacing="-1" fill="#F7F5F0">AS</text>
+</svg>

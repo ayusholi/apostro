@@ -40,7 +40,7 @@ export function SiteHeader() {
     <header className={isScrolled ? "site-header is-scrolled" : "site-header"}>
       <Container className="nav">
         <Link href="/" className="brand" aria-label={`${siteConfig.name} home`}>
-          <Image className="brand-logo" src="/brand/logo.png" alt="" width={56} height={56} priority />
+          <Image className="brand-logo" src="/brand/all-solicitors-logo.svg" alt="" width={56} height={56} priority />
         </Link>
         <NavBar items={mainNav} />
       </Container>

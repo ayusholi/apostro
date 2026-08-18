@@ -18,7 +18,7 @@ export function WhyChooseUs() {
           {stats.map((stat) => (
             <Reveal className="stat" key={stat.label}>
               <strong>
-                <CountUp target={stat.value} suffix={stat.suffix} />
+                {/* <CountUp target={stat.value} suffix={stat.suffix} /> */}
               </strong>
               <span>{stat.label}</span>
             </Reveal>

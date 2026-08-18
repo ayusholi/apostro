@@ -16,7 +16,7 @@ export const services: Service[] = [
     title: "Mediation",
     description:
       "A collaborative approach to resolving disputes, focusing on communication and mutually beneficial solutions.",
-    bullets: ["Mediation Support", "Legal Protection"],
+    bullets: [],
   },
   {
     slug: "civil-litigation",
@@ -25,7 +25,7 @@ export const services: Service[] = [
     title: "Civil Litigation",
     description:
       "Strategic representation in civil disputes, from initial consultation to trial advocacy.",
-    bullets: ["Initial Assessment", "Tailored Advice"],
+    bullets: [],
   },
   {
     slug: "residential-commercial-conveyance",
@@ -34,7 +34,7 @@ export const services: Service[] = [
     title: "Residential & Commercial Conveyance",
     description:
       "Efficient, thorough conveyancing and property advice that keeps your transaction moving and your interests protected.",
-    bullets: ["Due Diligence", "Deal Structuring"],
+    bullets: [],
   },
   {
     slug: "commercial-lease",
@@ -44,7 +44,7 @@ export const services: Service[] = [
     description:
       "Comprehensive advice on commercial lease agreements, ensuring your business interests are protected.",
 
-    bullets: ["Mediation Support", "Legal Protection"],
+    bullets: [],
   },
   {
     slug: "divorce",
@@ -53,7 +53,7 @@ export const services: Service[] = [
     title: "Divorce",
     description:
       "Sensitive, practical guidance through divorce, custody, and financial settlements, with your family's wellbeing front of mind.",
-    bullets: ["Contract Drafting", "Compliance Advice"],
+    bullets: [],
   },
   {
     slug: "financial-settlements",
@@ -62,25 +62,25 @@ export const services: Service[] = [
     title: "Financial Settlements",
     description:
       "Efficient, thorough conveyancing and property advice that keeps your transaction moving and your interests protected.",
-    bullets: ["Conveyancing", "Contract Review"],
+    bullets: [],
   },
   {
     slug: "child-arrangements",
     number: "07",
-    icon: "/images/icon-service-4.png",
+    icon: "/images/icon-service-1.png",
     title: "Child Arrangements",
     description:
       "Comprehensive advice on child custody, access, and support arrangements.",
-    bullets: ["Conveyancing", "Contract Review"],
+    bullets: [],
   },
   {
     slug: "wills-probate",
     number: "08",
-    icon: "/images/icon-service-5.png",
+    icon: "/images/icon-service-2.png",
     title: "Wills & Probate",
     description:
       "Comprehensive estate planning and probate services to ensure your wishes are carried out.",
-    bullets: ["Conveyancing", "Contract Review"],
+    bullets: [],
   },
   {
     slug: "employment-commercial-lease",
@@ -89,7 +89,7 @@ export const services: Service[] = [
     title: "Employment & Commercial Lease",
     description:
       "Comprehensive advice on employment law and commercial lease agreements, ensuring your business interests are protected.",
-    bullets: ["Conveyancing", "Contract Review"],
+    bullets: [],
   },
 ];
 

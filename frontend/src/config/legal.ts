@@ -46,20 +46,8 @@ export const legalConfig = {
    */
   accreditations: [
     {
-      name: "Lexcel",
-      description: "The Law Society's practice management and client-care accreditation.",
-    },
-    {
-      name: "Conveyancing Quality Scheme",
-      description: "Recognised standard for residential property and conveyancing work.",
-    },
-    {
       name: "Family Law Advanced Scheme",
       description: "Law Society panel membership recognising family law expertise.",
-    },
-    {
-      name: "Criminal Litigation Accreditation",
-      description: "Law Society accreditation for criminal defence practitioners.",
     },
   ],
 

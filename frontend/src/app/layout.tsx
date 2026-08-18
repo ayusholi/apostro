@@ -62,8 +62,8 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: "/" },
   icons: {
-    icon: "/brand/logoku.png",
-    shortcut: "/brand/logoku.png",
+    icon: "/brand/logo.png",
+    shortcut: "/brand/logo.png",
     apple: "/brand/logo.png",
   },
   manifest: "/manifest.webmanifest",

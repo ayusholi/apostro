@@ -52,7 +52,7 @@ export default async function HomePage() {
         <WhyChooseUs />
         <ServicesGrid services={services.slice(0, 3)} />
         <CtaBanner />
-        <FeaturedReviewsSection reviews={featuredReviews} stats={overallStats} />
+        {/* <FeaturedReviewsSection reviews={featuredReviews} stats={overallStats} /> */}
         <FaqSection
           items={homeFaqs}
           description="Common questions about our process, fees, and what to expect when working with ALLS."
