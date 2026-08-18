@@ -8,7 +8,7 @@ export const siteConfig = {
   description:
     "ALLS is a London law firm delivering dependable counsel across criminal defence, corporate, and family law. Serving 45,000+ clients across the United Kingdom.",
   /** Canonical production origin — drives metadataBase, canonicals, sitemap, and schema @ids. */
-  url: "https://alls.law",
+  url: "https://alls-legal.co.uk",
   /** Default social-share image (1200×630), generated into /public. */
   ogImage: "/og-image.jpg",
   /** BCP-47 tag for <html lang>. UK firm → en-GB. */

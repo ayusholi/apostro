@@ -11,7 +11,7 @@ export const solicitors: Solicitor[] = [
     slug: "ugochukwu-muoma",
     name: "Ugochukwu Muoma",
     role: "Solicitor",
-    image: "/images/ugochukwu.jpeg",
+    image: "/images/ugochukwu-muoma.jpeg",
     bio: "Ugochukwu Muoma is a solicitor with over three years’ post-qualification experience, specialising in residential and commercial conveyancing, civil litigation, and probate. He brings strong advocacy and drafting skills, alongside a keen focus on business development and achieving practical outcomes for clients.",
     qualifications: [
       "LLB (Hons), University of Manchester",
@@ -20,7 +20,7 @@ export const solicitors: Solicitor[] = [
     ],
     practiceAreaSlugs: ["mediation", "","civil-litigation", "residential-commercial-conveyance", "commercial-lease", "employment-commercial-lease"],
     languages: ["English", "French"],
-    experienceYears: 22,
+    experienceYears: 10,
     memberships: ["The Law Society of England and Wales", "Criminal Law Solicitors' Association", "Law Society Criminal Litigation Accreditation"],
     email: "ugo@alls-legal.co.uk",
   },

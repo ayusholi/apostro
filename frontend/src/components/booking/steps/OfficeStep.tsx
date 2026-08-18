@@ -24,8 +24,8 @@ export function OfficeStep({
   }
   if (!offices || offices.length === 0) {
     return (
-      <StateBanner variant="empty" title="No office is currently linked to this solicitor">
-        Please call the office directly and we&apos;ll arrange this for you.
+      <StateBanner variant="empty" title="We can offer appointments through calls or email right now">
+        Please mail to us: <a href="mailto:ugo@alls-legal.co.uk">ugo@alls-legal.co.uk</a>
       </StateBanner>
     );
   }
