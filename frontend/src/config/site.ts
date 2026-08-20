@@ -71,7 +71,8 @@ export const mainNav: NavItem[] = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Our Team", href: "/attorneys" },
-  { label: "Reviews", href: "/reviews" },
+  // Temporarily hidden while the client-review content is unavailable.
+  // { label: "Reviews", href: "/reviews" },
   { label: "Insights", href: "/blog" },
   { label: "FAQs", href: "/faq" },
   { label: "Contact", href: "/contact" },

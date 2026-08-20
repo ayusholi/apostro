@@ -1,5 +1,4 @@
 import "@/styles/team.css";
-import "@/styles/reviews.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -7,7 +6,6 @@ import { CtaBanner } from "@/components/sections/CtaBanner";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SolicitorProfileHero } from "@/components/team/SolicitorProfileHero";
 import { SolicitorDetails } from "@/components/team/SolicitorDetails";
-import { SolicitorReviews } from "@/components/team/SolicitorReviews";
 import { RelatedArticles } from "@/components/blog/RelatedArticles";
 import { teamContainer } from "@/infrastructure/teamContainer";
 import { breadcrumbList, solicitorProfileSchema } from "@/lib/seo/schema";
@@ -36,7 +34,7 @@ export default async function SolicitorProfilePage({ params }: { params: Promise
   const profile = await teamContainer.getSolicitorProfile(slug);
   if (!profile) notFound();
 
-  const { solicitor, relatedArticles, reviews, reviewStats } = profile;
+  const { solicitor, relatedArticles } = profile;
   const crumbs = [
     { label: "Home", href: "/" },
     { label: "Attorneys", href: "/attorneys" },
@@ -56,7 +54,7 @@ export default async function SolicitorProfilePage({ params }: { params: Promise
         <SolicitorProfileHero solicitor={solicitor} breadcrumbs={crumbs} />
         <SolicitorDetails solicitor={solicitor} />
         <RelatedArticles posts={relatedArticles} />
-        <SolicitorReviews reviews={reviews} stats={reviewStats} />
+        {/* Client reviews are temporarily disabled. Restore SolicitorReviews here when approved. */}
         <CtaBanner />
       </main>
     </>

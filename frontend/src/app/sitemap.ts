@@ -22,7 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/services"), lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: url("/attorneys"), lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/cases"), lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: url("/reviews"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    // Reviews are temporarily disabled; do not advertise the route to crawlers.
+    // { url: url("/reviews"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: url("/blog"), lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: url("/faq"), lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: url("/contact"), lastModified: now, changeFrequency: "yearly", priority: 0.6 },
