@@ -89,7 +89,7 @@ export function organizationGraph() {
       "@type": "QuantitativeValue",
       minValue: siteConfig.employeeCountMin,
     },
-    areaServed: { "@type": "Country", name: siteConfig.areaServed },
+    areaServed: { "@type": "Place", name: siteConfig.areaServed },
     contactPoint: {
       "@type": "ContactPoint",
       telephone: siteConfig.phoneE164,
@@ -129,7 +129,7 @@ export function organizationGraph() {
       latitude: siteConfig.geo.latitude,
       longitude: siteConfig.geo.longitude,
     },
-    areaServed: { "@type": "Country", name: siteConfig.areaServed },
+    areaServed: { "@type": "Place", name: siteConfig.areaServed },
     openingHoursSpecification: openingHours(),
     parentOrganization: { "@id": ORG_ID },
     hasOfferCatalog: {
@@ -242,7 +242,7 @@ export function serviceSchema(args: { name: string; description: string; path: s
     description: args.description,
     url: abs(args.path),
     provider: { "@id": ORG_ID },
-    areaServed: { "@type": "Country", name: siteConfig.areaServed },
+    areaServed: { "@type": "Place", name: siteConfig.areaServed },
   };
 }
 

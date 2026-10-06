@@ -4,74 +4,40 @@ import type { Service, ValueItem } from "@/types";
 
 export const services: Service[] = [
   {
-    slug: "civil-litigation",
+    slug: "litigation-dispute-resolution",
     number: "01",
     icon: "/images/icon-service-2.png",
-    title: "Civil Litigation",
+    title: "Litigation & Dispute Resolution",
     description:
-      "Strategic representation in civil disputes, from initial consultation to trial advocacy.",
-    bullets: [],
+      "Strategic representation in civil disputes, from initial consultation through to mediation or trial advocacy.",
+    bullets: ["Civil litigation", "Mediation"],
   },
   {
-    slug: "residential-commercial-conveyance",
+    slug: "family-law",
     number: "02",
-    icon: "/images/icon-service-3.png",
-    title: "Residential & Commercial Conveyancing",
-    description:
-      "Efficient, thorough conveyancing and property advice that keeps your transaction moving and your interests protected.",
-    bullets: [],
-  },
-  {
-    slug: "commercial-lease",
-    number: "03",
     icon: "/images/icon-service-1.png",
-    title: "Commercial Leases",
+    title: "Family Law",
     description:
-      "Comprehensive advice on commercial lease agreements, ensuring your business interests are protected.",
-
-    bullets: [],
+      "Sensitive, practical guidance through divorce, financial settlements, and child arrangements, with your family's wellbeing front of mind.",
+    bullets: ["Divorce", "Financial settlements", "Child arrangements"],
   },
   {
-    slug: "divorce",
+    slug: "real-estate",
+    number: "03",
+    icon: "/images/icon-service-3.png",
+    title: "Real Estate",
+    description:
+      "Efficient, thorough conveyancing and commercial lease advice that keeps your transaction moving and your interests protected.",
+    bullets: ["Residential conveyancing", "Commercial leases"],
+  },
+  {
+    slug: "private-client",
     number: "04",
     icon: "/images/icon-service-2.png",
-    title: "Divorce",
+    title: "Private Client",
     description:
-      "Sensitive, practical guidance through divorce, custody, and financial settlements, with your family's wellbeing front of mind.",
-    bullets: [],
-  },
-  {
-    slug: "financial-settlements",
-    number: "05",
-    icon: "/images/icon-service-3.png",
-    title: "Financial Settlement",
-    description: "Clear advice on financial arrangements and settlements following relationship breakdown.",
-    bullets: [],
-  },
-  {
-    slug: "child-arrangements",
-    number: "06",
-    icon: "/images/icon-service-1.png",
-    title: "Child Arrangement",
-    description:
-      "Comprehensive advice on child custody, access, and support arrangements.",
-    bullets: [],
-  },
-  {
-    slug: "wills",
-    number: "07",
-    icon: "/images/icon-service-2.png",
-    title: "Wills",
-    description: "Practical advice on preparing wills and planning for the future.",
-    bullets: [],
-  },
-  {
-    slug: "probate",
-    number: "08",
-    icon: "/images/icon-service-3.png",
-    title: "Probate",
-    description: "Support with estate administration and the probate process after a bereavement.",
-    bullets: [],
+      "Practical advice on wills, probate, and trusts — planning for the future and supporting estate administration after a bereavement.",
+    bullets: ["Wills", "Probate", "Trusts"],
   },
 ];
 

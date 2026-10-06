@@ -15,9 +15,6 @@ export function generateStaticParams() {
   return Object.keys(serviceDetails).map((slug) => ({ slug }));
 }
 
-const detailDescription =
-  "Focused, evidence-led criminal defence from intake through verdict — protecting your rights at every stage.";
-
 // Dynamic, per-record metadata: title, description, canonical, and social tags
 // all resolve from the requested slug's data.
 export async function generateMetadata({
@@ -31,7 +28,7 @@ export async function generateMetadata({
   if (!service || !detail) return {};
   return buildMetadata({
     title: service.title,
-    description: detailDescription,
+    description: service.description,
     path: `/services/${slug}`,
   });
 }
@@ -50,6 +47,12 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     { label: service.title },
   ];
 
+  // PageHead renders the last word emphasised (gold) and the rest in white —
+  // derived from the service title rather than hardcoded per-page.
+  const titleWords = service.title.split(" ");
+  const emphasis = titleWords.at(-1)!;
+  const headTitle = titleWords.slice(0, -1).join(" ");
+
   return (
     <>
       <JsonLd
@@ -61,7 +64,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           ]),
           serviceSchema({
             name: service.title,
-            description: detailDescription,
+            description: service.description,
             path: `/services/${slug}`,
           }),
         ]}
@@ -70,9 +73,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       <main id="main">
         <PageHead
           breadcrumbs={crumbs}
-          title="Criminal"
-          emphasis="Defense"
-          description="A focused, evidence-led defense strategy from intake through verdict."
+          title={headTitle}
+          emphasis={emphasis}
+          description={service.description}
         />
         <LogoStrip />
         <ServiceDetail detail={detail} />

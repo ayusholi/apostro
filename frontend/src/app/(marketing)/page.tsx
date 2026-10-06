@@ -37,7 +37,7 @@ export default function HomePage() {
         </h1>
         <Hero />
         <LogoStrip />
-        <AboutBlock eyebrow="About Us" values={valuesHome} bigTitle="About ALLS" animateBadge />
+        <AboutBlock eyebrow="About Us" values={valuesHome} bigTitle="About ALLS" />
         <WhyChooseUs />
         <ServicesGrid services={services.slice(0, 3)} />
         <CtaBanner />

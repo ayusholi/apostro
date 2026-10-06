@@ -1,35 +1,15 @@
 import type { Author } from "@/domain/blog/Post";
 
 /**
- * Reuses the same names/photos as the firm's solicitor directory (@see
- * src/data/team/solicitors.ts) for narrative consistency — partners writing
- * the firm's own blog is realistic — but is a standalone record set, not an
- * import, so the blog domain doesn't take a compile-time dependency on the
- * team directory.
+ * Empty until real authors are confirmed. The previous seed data (Wayne
+ * Bell, Anne Key, John Doe) were fictional template placeholders — not
+ * people who work at the firm — with public, indexable profile pages and
+ * "Partner" titles that don't match the firm's actual Director/Solicitor
+ * structure. Removed rather than relabelled, since the underlying people
+ * don't exist. Add Ugochukwu/Osasere (or real guest authors) here once
+ * articles are ready to publish.
  */
-export const authors: Author[] = [
-  {
-    slug: "wayne-bell",
-    name: "Wayne Bell",
-    role: "Senior Partner, Criminal Defense",
-    image: "/images/person-1.jpg",
-    bio: "Wayne has spent over 20 years defending clients in the Crown Court, with a particular focus on cases involving disputed evidence.",
-  },
-  {
-    slug: "anne-key",
-    name: "Anne Key",
-    role: "Partner, Family Law",
-    image: "/images/person-2.jpg",
-    bio: "Anne leads the family law team, specialising in resolving disputes over children and finances without unnecessary court conflict.",
-  },
-  {
-    slug: "john-doe",
-    name: "John Doe",
-    role: "Partner, Corporate & Commercial",
-    image: "/images/person-3.jpg",
-    bio: "John advises founders and growing businesses on structuring, contracts, and the legal side of raising investment.",
-  },
-];
+export const authors: Author[] = [];
 
 export function getAuthorBySlug(slug: string): Author | undefined {
   return authors.find((a) => a.slug === slug);

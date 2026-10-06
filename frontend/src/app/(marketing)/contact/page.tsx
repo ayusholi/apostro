@@ -13,7 +13,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata = buildMetadata({
   title: "Contact",
-  description: "Get in touch with ALLS — confidential consultations, response within 24 hours.",
+  description: "Get in touch with A.L.L. Solicitors in Stratford, East London — free initial consultation, response within 24 hours.",
   path: "/contact",
 });
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { siteConfig } from "@/config/site";
 import { cancelBookingAction, getAvailabilityAction, rescheduleBookingAction } from "@/actions/booking";
 import type { BookingSummary } from "@/application/booking/dto";
 import { buildGoogleCalendarLink, buildOutlookCalendarLink } from "@/domain/scheduling/calendarLinks";
@@ -52,7 +53,7 @@ function summaryRows(summary: BookingSummary) {
 function downloadIcs(summary: BookingSummary) {
   const content = buildIcsEvent(
     {
-      uid: `${summary.id}@alls.law`,
+      uid: `${summary.id}@alls-legal.co.uk`,
       startUtc: summary.slotStartUtc,
       endUtc: summary.slotEndUtc,
       summary: `${summary.serviceTitle} consultation — ALLS`,
@@ -61,7 +62,7 @@ function downloadIcs(summary: BookingSummary) {
       sequence: 0,
       status: "CONFIRMED",
     },
-    "hello@alls.law",
+    siteConfig.email,
   );
   const blob = new Blob([content], { type: "text/calendar" });
   const url = URL.createObjectURL(blob);

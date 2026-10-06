@@ -17,7 +17,7 @@ import type { BlogFilter } from "@/domain/blog/query";
 
 export const metadata = buildMetadata({
   title: "Blog",
-  description: "Legal guides and insights from the team at ALLS — criminal defence, family law, corporate, and property.",
+  description: "Legal guides and insights from A.L.L. Solicitors — litigation, family law, real estate, and private client matters.",
   path: "/blog",
 });
 

@@ -209,7 +209,7 @@ export const reviews: Review[] = [
     authorName: "Isabelle Moreau",
     authorImage: "/images/person-8.jpg",
     rating: 5,
-    body: "ALLS restructured our shareholder agreement ahead of a funding round. Caught two ambiguities our previous counsel had missed entirely.",
+    body: "ALLS restructured our shareholder agreement ahead of a funding round. Caught two ambiguities our previous solicitors had missed entirely.",
     serviceSlug: "corporate-law",
     solicitorSlug: "john-doe",
     source: "site",

@@ -4,21 +4,41 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { submitContactEnquiryAction } from "@/actions/contact";
 
-/**
- * The source has no backend — script.js just prevents the default submit,
- * shows a status message, and resets the form. This mirrors that exactly
- * rather than wiring up a Server Action for a form that has nowhere to send
- * its data.
- */
 export function ContactForm() {
   const { ref, isVisible } = useScrollReveal<HTMLFormElement>();
   const [status, setStatus] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [renderedAtMs] = useState(() => Date.now());
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("Thanks — we'll reach out within 24 hours.");
-    e.currentTarget.reset();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setIsSubmitting(true);
+    setStatus("");
+
+    const result = await submitContactEnquiryAction({
+      firstName: String(data.get("firstName") ?? ""),
+      lastName: String(data.get("lastName") ?? ""),
+      email: String(data.get("email") ?? ""),
+      phone: String(data.get("phone") ?? ""),
+      service: String(data.get("service") ?? ""),
+      message: String(data.get("message") ?? ""),
+      marketingOptIn: data.get("marketingOptIn") === "on",
+      spam: { honeypot, renderedAtMs },
+    });
+
+    setIsSubmitting(false);
+    if (result.ok) {
+      setStatus("Thanks — we'll reach out within 24 hours.");
+      form.reset();
+      setHoneypot("");
+    } else {
+      setStatus(result.error.message);
+    }
   }
 
   return (
@@ -28,6 +48,12 @@ export function ContactForm() {
       ref={ref}
       onSubmit={handleSubmit}
     >
+      {/* Honeypot: real users never see this field; any value submitted here is treated as spam server-side. */}
+      <div className="hp-field" aria-hidden="true">
+        <label htmlFor="company">Company</label>
+        <input id="company" name="company" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+      </div>
+
       {/* autocomplete tokens let browsers/password managers fill fields, and
           inputMode brings up the right mobile keyboard — both UX + a11y wins. */}
       <div className="row">
@@ -53,10 +79,10 @@ export function ContactForm() {
       <div className="field">
         <label htmlFor="sv">Service</label>
         <select id="sv" name="service">
-          <option>Criminal Defense</option>
-          <option>Legal Consultation</option>
-          <option>Mergers &amp; Acquisitions</option>
+          <option>Litigation &amp; Dispute Resolution</option>
           <option>Family Law</option>
+          <option>Real Estate</option>
+          <option>Private Client</option>
           <option>Other</option>
         </select>
       </div>
@@ -78,8 +104,8 @@ export function ContactForm() {
         <span>Yes, I&apos;d like to receive occasional legal updates from ALLS by email. You can unsubscribe at any time.</span>
       </label>
 
-      <Button type="submit" variant="gold" arrow>
-        Send Message
+      <Button type="submit" variant="gold" arrow disabled={isSubmitting}>
+        {isSubmitting ? "Sending…" : "Send Message"}
       </Button>
       <p className="form-status" role="status">
         {status}

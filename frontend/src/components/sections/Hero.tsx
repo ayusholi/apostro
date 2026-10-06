@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
@@ -8,10 +7,10 @@ export function Hero() {
     <section className="hero">
       <div className="hero__marquee" aria-hidden="true">
         <span>
-          Reliable Legal Experts <i className="dot"></i> Trusted Counsel <i className="dot"></i>
+          Reliable Legal Experts <i className="dot"></i> Trusted Solicitors <i className="dot"></i>
         </span>
         <span>
-          Reliable Legal Experts <i className="dot"></i> Trusted Counsel <i className="dot"></i>
+          Reliable Legal Experts <i className="dot"></i> Trusted Solicitors <i className="dot"></i>
         </span>
       </div>
       <div className="hero__statue">
@@ -31,7 +30,7 @@ export function Hero() {
             {/* h2 (not h3) so the homepage heading order is h1 → h2 with no
                 skipped levels; .hero__split h2 keeps the original 1.5rem size. */}
             <h2>Explore Our Law Practice</h2>
-            <p>9 practice areas, one dedicated team.</p>
+            <p>4 practice areas, one dedicated team.</p>
             <Button href="/services" variant="icon" arrow={false} aria-label="See services" style={{ marginTop: 14 }}>
               ↗
             </Button>

@@ -42,7 +42,7 @@ export function RegulatoryInfoSection() {
               {legalConfig.tradingDisclosure}, company number {legalConfig.companyNumber}, registered in{" "}
               {legalConfig.jurisdiction}.
             </p>
-            <p>Registered office: {siteConfig.address}. VAT number: {legalConfig.vatNumber}.</p>
+            <p>Registered office: {siteConfig.address}.</p>
           </Reveal>
 
           <Reveal className="regulatory-info__card">

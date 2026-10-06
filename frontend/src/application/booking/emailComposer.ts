@@ -28,7 +28,7 @@ function whenLine(slot: TimeSlot, timeZone: string): string {
 function icsAttachment(ctx: BookingEmailContext, status: "CONFIRMED" | "CANCELLED", sequence: number) {
   const content = buildIcsEvent(
     {
-      uid: `${ctx.booking.id}@alls.law`,
+      uid: `${ctx.booking.id}@alls-legal.co.uk`,
       startUtc: ctx.booking.slot.startUtc,
       endUtc: ctx.booking.slot.endUtc,
       summary: `${ctx.service.title} consultation — ${siteConfig.name}`,

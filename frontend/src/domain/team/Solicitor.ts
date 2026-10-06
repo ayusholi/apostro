@@ -7,7 +7,7 @@
 export type Solicitor = {
   slug: string;
   name: string;
-  /** Job title shown on the profile, e.g. "Senior Partner, Criminal Defense". */
+  /** Job title shown on the profile, e.g. "Director / Solicitor — COFA". */
   role: string;
   image: string;
   bio: string;

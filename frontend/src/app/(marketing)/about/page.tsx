@@ -15,7 +15,7 @@ import { valuesAbout } from "@/data/values";
 
 export const metadata = buildMetadata({
   title: "About Us",
-  description: "Learn about ALLS' mission, vision, and the solicitors behind our 25-year track record.",
+  description: "Learn about A.L.L. Solicitors' mission, vision, and the Directors behind our Stratford, East London practice.",
   path: "/about",
 });
 
@@ -31,7 +31,7 @@ export default function AboutPage() {
           breadcrumbs={crumbs}
           title="About"
           emphasis="Us"
-          description="Two decades of results-driven advocacy, built on transparent communication and a genuine commitment to every client we represent."
+          description="A boutique East London practice built on transparent communication and a genuine commitment to every client we represent."
         />
         <LogoStrip />
         <AboutBlock eyebrow="About ALLS" values={valuesAbout} />

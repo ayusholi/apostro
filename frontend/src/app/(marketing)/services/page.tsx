@@ -12,7 +12,7 @@ import { testimonialsServices } from "@/data/testimonials";
 
 export const metadata = buildMetadata({
   title: "Services",
-  description: "ALLS' full-service legal practice: criminal defence, corporate, family, and more.",
+  description: "A.L.L. Solicitors' practice areas: litigation & dispute resolution, family law, real estate, and private client — serving East London.",
   path: "/services",
 });
 
@@ -33,7 +33,7 @@ export default function ServicesPage() {
           breadcrumbs={crumbs}
           title="Our"
           emphasis="Services"
-          description="Full-service legal representation across six core practice areas, delivered with the same rigour and care regardless of the size of your matter."
+          description="Full-service legal representation across four core practice areas, delivered with the same rigour and care regardless of the size of your matter."
         />
         <LogoStrip />
         <ServicesGrid services={services} />

@@ -10,12 +10,13 @@
  */
 export const legalConfig = {
   /** Full registered legal entity trading as the "ALLS" brand. */
-  tradingDisclosure: "Assured Legal Limited trading as ALL Solicitors",
+  tradingDisclosure: "Assured Legal Limited trading as A.L.L. Solicitors",
   /** Companies House number — 8 digits is the correct shape for an England & Wales Ltd company. */
   companyNumber: "14573886",
   jurisdiction: "England and Wales",
-  /** UK VAT number format (GB + 9 digits). Omit this field entirely if the firm is not VAT-registered. */
-  vatNumber: "GB000000000",
+  // VAT number intentionally omitted — not yet confirmed whether the firm is
+  // VAT-registered. Add it back (format: GB + 9 digits) once known; never
+  // ship a placeholder VAT number, since that's a specific regulatory claim.
 
   sra: {
     statement: "Authorised and regulated by the Solicitors Regulation Authority",

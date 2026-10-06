@@ -10,12 +10,12 @@ export const faqs: Faq[] = [
   {
     question: "How are your fees structured?",
     answer:
-      "Most engagements use a flat fee or capped hourly rate. We agree on scope and pricing before work begins.",
+      "Depending on the matter, we offer fixed-fee packages, hourly rates, or retainers. We agree on scope and pricing before work begins.",
   },
   {
-    question: "Do you handle cases outside of your state?",
+    question: "Do you offer a free initial consultation?",
     answer:
-      "Yes — through our nationwide partner network we can co-counsel matters in any U.S. jurisdiction.",
+      "Yes — we offer a free initial consultation so we can understand your situation and explain how we can help before you commit to anything.",
   },
   {
     question: "What documents should I bring?",

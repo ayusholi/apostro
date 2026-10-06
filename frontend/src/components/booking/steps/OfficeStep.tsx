@@ -25,7 +25,7 @@ export function OfficeStep({
   if (!offices || offices.length === 0) {
     return (
       <StateBanner variant="empty" title="We can offer appointments through calls or email right now">
-        Please mail to us: <a href="mailto:ugo@alls-legal.co.uk">ugo@alls-legal.co.uk</a>
+        Please mail to us: <a href="mailto:info@alls-legal.co.uk">info@alls-legal.co.uk</a>
       </StateBanner>
     );
   }

@@ -8,10 +8,10 @@ const hasPublishedArticles = posts.some(isPublished);
 export const siteConfig = {
   name: "ALLS",
   /** Full legal entity name for Organization.legalName — @see src/config/legal.ts for the rest of the regulatory detail. */
-  legalName: "Assured Legal Limited trading as ALL Solicitors",
+  legalName: "Assured Legal Limited trading as A.L.L. Solicitors",
   tagline: "Solicitors & Legal Services",
   description:
-    "ALLS is a London law firm delivering dependable legal services across criminal defence, corporate, and family law. Serving 45,000+ clients across the United Kingdom.",
+    "A.L.L. Solicitors (ALLS) is a boutique solicitors' firm based in Stratford, serving individuals and SMEs across East London — litigation & dispute resolution, family law, real estate, and private client matters.",
   /** Canonical production origin — drives metadataBase, canonicals, sitemap, and schema @ids. */
   url: "https://alls-legal.co.uk",
   /** Default social-share image (1200×630), generated into /public. */
@@ -21,16 +21,15 @@ export const siteConfig = {
   /** Open Graph locale (underscore form). */
   locale: "en_GB",
 
-  // Contact — the visible phone is a placeholder carried over from the source
-  // template (US format). Schema/telephone deliberately mirror the on-page
-  // value so structured data matches visible content; swap for a real UK
-  // number (e.g. +44 20 …) when known.
-  phone: "+44 02071833139",
-  phoneHref: "tel:+4402071833139",
-  phoneE164: "+4402071833139",
+  // Contact — real UK number, confirmed by the client (020 7183 3139). The
+  // leading 0 is dropped for the +44 E.164 forms; phone/phoneHref/phoneE164
+  // deliberately mirror each other so structured data matches visible content.
+  phone: "020 7183 3139",
+  phoneHref: "tel:+442071833139",
+  phoneE164: "+442071833139",
   email: "info@alls-legal.co.uk",
   emailHref: "mailto:info@alls-legal.co.uk",
-  address: "20 Store Street, London, United Kingdom",
+  address: "20 Store Street, Stratford, London E15 1PU",
 
   /** Structured postal address for PostalAddress schema (GB conventions). */
   postalAddress: {
@@ -40,11 +39,12 @@ export const siteConfig = {
     postalCode: "E15 1PU",
     addressCountry: "GB",
   },
-  /** Coordinates of the stated address (the London Eye) for LocalBusiness geo. */
-  geo: { latitude: 51.5469062, longitude: -0.1191022 },
-  areaServed: "United Kingdom",
+  /** Approximate coordinates for E15 1PU (Stratford) — refine with an exact rooftop geocode when available. */
+  geo: { latitude: 51.5413, longitude: -0.0033 },
+  areaServed: "Newham and Hackney, East London",
   priceRange: "££",
-  employeeCountMin: 120,
+  /** Two Directors/Solicitors today — a boutique firm, not the inherited template's placeholder headcount. */
+  employeeCountMin: 2,
   foundingYear: 2026,
 
   officeHours: [

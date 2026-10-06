@@ -14,7 +14,7 @@ import { useDetectedTimeZone } from "./useDetectedTimeZone";
 
 type AvailabilityData = { slots: string[]; officeTimeZone: string; durationMinutes: number };
 
-export const WIZARD_STEPS = ["Service", "Solicitor", "Office", "Date & time", "Your details", "Review"] as const;
+export const WIZARD_STEPS = ["Service", "Solicitor", "Appointment", "Date & time", "Your details", "Review"] as const;
 export type WizardStepIndex = 0 | 1 | 2 | 3 | 4 | 5;
 
 type AsyncState<T> = { status: "idle" | "loading" | "error" | "success"; data: T | null; error: string | null };

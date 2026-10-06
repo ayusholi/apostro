@@ -32,9 +32,8 @@ export type Testimonial = {
 };
 
 export type Stat = {
-  value: number;
-  suffix: string;
-  label: string;
+  title: string;
+  description: string;
 };
 
 export type ValueItem = {

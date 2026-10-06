@@ -1,7 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { Reveal } from "@/components/ui/Reveal";
-import { CountUp } from "@/components/ui/CountUp";
 import { stats } from "@/data/stats";
 
 export function WhyChooseUs() {
@@ -16,11 +15,9 @@ export function WhyChooseUs() {
         />
         <div className="why">
           {stats.map((stat) => (
-            <Reveal className="stat" key={stat.label}>
-              <strong>
-                {/* <CountUp target={stat.value} suffix={stat.suffix} /> */}
-              </strong>
-              <span>{stat.label}</span>
+            <Reveal className="stat" key={stat.title}>
+              <strong>{stat.title}</strong>
+              <span>{stat.description}</span>
             </Reveal>
           ))}
         </div>

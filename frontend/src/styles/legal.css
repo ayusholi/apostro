@@ -3,7 +3,7 @@
    (--bg, --gold, --serif, .form/.field/.btn, .section, .section-head).
    ========================================================================== */
 
-/* Legal page body (Privacy/Cookie/Terms/Complaints/Accessibility) --------------- */
+/* Legal page body (Privacy/Cookie/Terms/Complaints) --------------- */
 .legal-body { max-width: 72ch; }
 .legal-body__updated { font-size: .82rem; color: var(--gold); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 40px; }
 .legal-body section { margin-bottom: 40px; }
