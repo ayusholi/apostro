@@ -30,6 +30,6 @@ export const faqs: Faq[] = [
   {
     question: "Is my information kept confidential?",
     answer:
-      "Always. Attorney–client privilege protects every conversation from the moment we engage.",
+      "Always. Your communications with us are generally confidential, subject to limited legal exceptions.",
   },
 ];

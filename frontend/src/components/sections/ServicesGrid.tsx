@@ -11,7 +11,7 @@ export function ServicesGrid({ services }: { services: Service[] }) {
           center
           eyebrow="Services"
           title="Our Legal Services"
-          description="Tailored counsel across every practice area, delivered by attorneys you can trust."
+          description="Tailored legal services across every practice area, delivered by solicitors you can trust."
         />
         <div className="services-grid">
           {services.map((service) => (

@@ -11,9 +11,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { getServiceBySlug, serviceDetails } from "@/data/services";
 
 export function generateStaticParams() {
-  // Only "criminal-defense" ships full detail content in the source
-  // (single-services.html) — every "Learn More" link across all six service
-  // cards points to it verbatim, so no other slug needs a page yet.
+  // Only service slugs with published detail content receive a static page.
   return Object.keys(serviceDetails).map((slug) => ({ slug }));
 }
 
@@ -29,7 +27,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
-  if (!service) return {};
+  const detail = serviceDetails[slug];
+  if (!service || !detail) return {};
   return buildMetadata({
     title: service.title,
     description: detailDescription,
@@ -44,8 +43,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
   if (!service || !detail) notFound();
 
-  // Accurate 3-level trail (Home › Services › Criminal Defence) drives both the
-  // visible breadcrumb and the BreadcrumbList schema from one source.
+  // The page only renders for services with a catalog entry and detail content.
   const crumbs = [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },

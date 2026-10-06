@@ -2,7 +2,7 @@ import type { Review } from "@/domain/reviews/Review";
 
 /**
  * Seed content for the reviews page. Site-sourced reviews reuse the firm's
- * stock client photos (as testimonials.ts and attorneys.ts already do).
+ * stock client photos (as testimonials.ts and solicitors.ts already do).
  * Google-sourced reviews intentionally omit a photo — ReviewCard renders an
  * initials avatar for those, matching how a real Google review looks and
  * avoiding implying a specific photographed person left it.

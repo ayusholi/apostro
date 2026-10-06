@@ -178,15 +178,7 @@ export function faqPage(faqs: Faq[]) {
   };
 }
 
-/**
- * Solicitors as an ItemList of Person entities, one per team member, each
- * linking through to their own profile page.
- *
- * Note: schema.org's `Attorney` type is a subtype of LocalBusiness/LegalService
- * — it models a *law practice*, not an individual lawyer, and is effectively
- * superseded by LegalService. Individual solicitors are therefore correctly
- * modelled as `Person` with a `jobTitle` and `worksFor` pointing at the firm.
- */
+/** Directory of individual solicitors as Person entities linking to their profiles. */
 export function solicitorList(solicitors: Solicitor[]) {
   return {
     "@context": "https://schema.org",
@@ -201,7 +193,7 @@ export function solicitorList(solicitors: Solicitor[]) {
         jobTitle: solicitor.role,
         image: abs(solicitor.image),
         worksFor: { "@id": ORG_ID },
-        url: abs(`/attorneys/${solicitor.slug}`),
+        url: abs(`/solicitors/${solicitor.slug}`),
       },
     })),
   };
@@ -212,8 +204,8 @@ export function solicitorProfileSchema(solicitor: Solicitor) {
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    "@id": `${abs(`/attorneys/${solicitor.slug}`)}#profilepage`,
-    url: abs(`/attorneys/${solicitor.slug}`),
+    "@id": `${abs(`/solicitors/${solicitor.slug}`)}#profilepage`,
+    url: abs(`/solicitors/${solicitor.slug}`),
     name: solicitor.name,
     mainEntity: {
       "@type": "Person",

@@ -19,7 +19,7 @@ export function ServiceCard({ service }: { service: Service }) {
       </ul>
       <Link
         className="more"
-        href={service.slug === "criminal-defense" ? "/services/criminal-defense" : "/services"}
+        href="/services"
         aria-label={`Learn more about ${service.title}`}
       >
         Learn More →

@@ -45,7 +45,7 @@ export default function ContactPage() {
                 <Eyebrow>Contact Form</Eyebrow>
                 <h2>Start Your Legal Journey</h2>
                 <p>
-                  Tell us briefly about your matter and we&apos;ll route you to the right attorney within one business
+                  Tell us briefly about your matter and we&apos;ll route you to the right solicitor within one business
                   day.
                 </p>
                 <div className="contact-office">

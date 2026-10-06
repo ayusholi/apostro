@@ -3,7 +3,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { SolicitorCard } from "@/components/team/SolicitorCard";
 import type { Solicitor } from "@/domain/team/Solicitor";
 
-/** attorneys.html renders this with no heading at all; the About page passes one. */
+/** solicitors.html renders this with no heading at all; the About page passes one. */
 export function TeamGrid({
   solicitors,
   heading,

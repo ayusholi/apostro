@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ALLS — Solicitors & Legal Counsel
+   ALLS — Solicitors & Legal Services
    Ported verbatim from the static template. Same tokens, same selectors,
    same layout math. Fonts are swapped for next/font CSS variables; every
    other rule is unchanged so spacing/colour/type/animation stay pixel-exact.
@@ -283,7 +283,7 @@ p { color: var(--muted); }
 .faq-item__a { max-height: 0; overflow: hidden; transition: max-height .35s ease; padding: 0 26px; }
 .faq-item__a p { padding-bottom: 22px; font-size: .95rem; }
 
-/* Attorneys / Team ---------------------------------------------------------- */
+/* solicitors / Team ---------------------------------------------------------- */
 .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .t-member { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 3 / 4; background: var(--bg-2); }
 .t-member img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
@@ -443,7 +443,7 @@ p { color: var(--muted); }
   .why { grid-template-columns: 1fr; gap: 12px; }
 }
 
-/* Touch-input fallback — attorney-card social icons are only reachable via
+/* Touch-input fallback — solicitor-card social icons are only reachable via
    :hover/:focus-within, which touch devices have no equivalent for. This
    doesn't change how anything looks on a device that can hover; it only
    ensures the same content is reachable on one that can't. */

@@ -1,4 +1,5 @@
 import "@/styles/blog.css";
+import { redirect } from "next/navigation";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { PageHead } from "@/components/sections/PageHead";
 import { LogoStrip } from "@/components/sections/LogoStrip";
@@ -34,6 +35,10 @@ function parsePage(raw?: string): number {
 type SearchParams = { q?: string; category?: string; tag?: string; page?: string };
 
 export default async function BlogPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  // No published articles right now — send visitors home rather than showing an empty listing.
+  const allPosts = await blogContainer.listAllPosts();
+  if (allPosts.length === 0) redirect("/");
+
   const rawParams = await searchParams;
 
   const filter: BlogFilter = {

@@ -10,19 +10,19 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { solicitors } from "@/data/team/solicitors";
 
 export const metadata = buildMetadata({
-  title: "Attorneys",
+  title: "solicitors",
   description: "Meet the solicitors leading ALLS' practice across every major area of law.",
-  path: "/attorneys",
+  path: "/solicitors",
 });
 
-const crumbs = [{ label: "Home", href: "/" }, { label: "Attorneys" }];
+const crumbs = [{ label: "Home", href: "/" }, { label: "solicitors" }];
 
-export default function AttorneysPage() {
+export default function solicitorsPage() {
   return (
     <>
       <JsonLd
         data={[
-          breadcrumbList([{ name: "Home", path: "/" }, { name: "Attorneys" }]),
+          breadcrumbList([{ name: "Home", path: "/" }, { name: "solicitors" }]),
           solicitorList(solicitors),
         ]}
       />
@@ -31,7 +31,7 @@ export default function AttorneysPage() {
         <PageHead
           breadcrumbs={crumbs}
           title="Our"
-          emphasis="Attorneys"
+          emphasis="solicitors"
           description="Meet the solicitors leading our practice across every major area of law."
         />
         {/* <LogoStrip /> */}

@@ -10,7 +10,7 @@
  */
 export const legalConfig = {
   /** Full registered legal entity trading as the "ALLS" brand. */
-  tradingDisclosure: 'ALLS Solicitors Limited (trading as "ALLS")',
+  tradingDisclosure: "Assured Legal Limited trading as ALL Solicitors",
   /** Companies House number — 8 digits is the correct shape for an England & Wales Ltd company. */
   companyNumber: "14573886",
   jurisdiction: "England and Wales",

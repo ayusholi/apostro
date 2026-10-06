@@ -1,10 +1,9 @@
 import type { ValueItem } from "@/types";
 
-/** Home page "About" section — 3 items. */
+/** Home page "About" section — Mission and Vision. */
 export const valuesHome: ValueItem[] = [
   { number: "01", title: "Our Mission", description: "Dedicated representation grounded in research, preparation, and a relentless focus on outcomes." },
   { number: "02", title: "Our Vision", description: "To remain the most trusted firm clients turn to in moments that matter most." },
-  { number: "03", title: "Strategic Approach", description: "Client-focused, evidence-led, and proven across courtrooms and boardrooms alike." },
 ];
 
 /** About page — 4 items (a genuinely different, longer list than the home page's). */

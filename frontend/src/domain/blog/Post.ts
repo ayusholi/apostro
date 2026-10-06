@@ -28,8 +28,15 @@ export type Post = {
   publishedAt: string;
   /** ISO 8601 date — only set once an already-published article is edited. */
   updatedAt?: string;
+  /** Defaults to true when absent — set false to unpublish without deleting the entry. */
+  published?: boolean;
   body: ContentBlock[];
 };
+
+/** Single source of truth for "is this post visible" — repository, sitemap, and nav all check this. */
+export function isPublished(post: Post): boolean {
+  return post.published !== false;
+}
 
 export type Category = {
   slug: string;

@@ -21,7 +21,7 @@ export function SolicitorDetails({ solicitor }: { solicitor: Solicitor }) {
                 const service = getServiceBySlug(slug);
                 return service ? (
                   <li key={slug}>
-                    <Link href={`/services/${slug}`}>{service.title}</Link>
+                    <Link href="/services">{service.title}</Link>
                   </li>
                 ) : null;
               })}

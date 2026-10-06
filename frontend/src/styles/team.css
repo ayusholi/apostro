@@ -12,7 +12,7 @@
 }
 
 /* Profile hero -----------------------------------------------------------------
-   Attorney pages load this stylesheet independently of blog.css, so reserve
+   solicitor pages load this stylesheet independently of blog.css, so reserve
    space for the fixed header here instead of relying on `.article-hero`. */
 .solicitor-hero { padding: 120px 0 64px; }
 .solicitor-hero__row { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }

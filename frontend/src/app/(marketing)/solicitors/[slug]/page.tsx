@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return buildMetadata({
     title: profile.solicitor.name,
     description: profile.solicitor.bio,
-    path: `/attorneys/${slug}`,
+    path: `/solicitors/${slug}`,
     images: [{ url: profile.solicitor.image, width: 1200, height: 630, alt: profile.solicitor.name }],
   });
 }
@@ -37,7 +37,7 @@ export default async function SolicitorProfilePage({ params }: { params: Promise
   const { solicitor, relatedArticles } = profile;
   const crumbs = [
     { label: "Home", href: "/" },
-    { label: "Attorneys", href: "/attorneys" },
+    { label: "solicitors", href: "/solicitors" },
     { label: solicitor.name },
   ];
 
@@ -45,7 +45,7 @@ export default async function SolicitorProfilePage({ params }: { params: Promise
     <>
       <JsonLd
         data={[
-          breadcrumbList([{ name: "Home", path: "/" }, { name: "Attorneys", path: "/attorneys" }, { name: solicitor.name }]),
+          breadcrumbList([{ name: "Home", path: "/" }, { name: "solicitors", path: "/solicitors" }, { name: solicitor.name }]),
           solicitorProfileSchema(solicitor),
         ]}
       />

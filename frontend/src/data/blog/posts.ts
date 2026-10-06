@@ -5,6 +5,10 @@ import type { Post } from "@/domain/blog/Post";
  * @see domain/blog/Post.ts for why. This is standalone seed data today;
  * swap StaticPostRepository for a CMS-backed one per blog/README.md and
  * this file becomes fixtures/a migration source.
+ *
+ * All entries below are unpublished (published: false) pending an
+ * originality review — several read as copied from other sources. Kept in
+ * place rather than deleted so they can be edited and republished later.
  */
 export const posts: Post[] = [
   {
@@ -16,6 +20,7 @@ export const posts: Post[] = [
     tags: ["hiring-a-lawyer", "legal-advice"],
     authorSlug: "john-doe",
     publishedAt: "2026-06-20",
+    published: false,
     body: [
       { type: "paragraph", text: "Most people only think seriously about hiring a solicitor once a problem has already become urgent — a letter has arrived, a hearing date has been set, or a deal is about to fall through. By then, some of the easiest opportunities to protect your position have already passed." },
       { type: "heading", level: 2, id: "why-representation-matters", text: "Why representation matters more than it seems" },
@@ -42,6 +47,7 @@ export const posts: Post[] = [
     tags: ["court-process", "criminal-defense", "evidence"],
     authorSlug: "wayne-bell",
     publishedAt: "2026-06-05",
+    published: false,
     body: [
       { type: "paragraph", text: "Very few people have been inside a courtroom before their own case brings them there, and the unfamiliarity often causes more stress than the legal issues themselves. Knowing roughly what happens, and when, makes the process considerably less daunting." },
       { type: "heading", level: 2, id: "before-the-hearing", text: "Before the hearing" },
@@ -69,6 +75,7 @@ export const posts: Post[] = [
     tags: ["hiring-a-lawyer", "legal-guides"],
     authorSlug: "john-doe",
     publishedAt: "2026-05-22",
+    published: false,
     body: [
       { type: "paragraph", text: "Choosing a solicitor is a bit like choosing a surgeon: qualifications matter, but so does fit, communication style, and whether you trust the person to tell you things you don't want to hear." },
       { type: "heading", level: 2, id: "check-regulation-and-specialism", text: "Check regulation and specialism" },
@@ -94,6 +101,7 @@ export const posts: Post[] = [
     tags: ["contracts", "small-business", "compliance"],
     authorSlug: "john-doe",
     publishedAt: "2026-05-02",
+    published: false,
     body: [
       { type: "paragraph", text: "Templates found online are a reasonable starting point, but they're written for nobody's business in particular. The gaps only tend to matter once a relationship with a supplier or client goes wrong — which is exactly when a contract needs to hold up." },
       { type: "heading", level: 2, id: "vague-scope", text: "Vague scope of work" },
@@ -118,6 +126,7 @@ export const posts: Post[] = [
     tags: ["divorce", "custody", "children"],
     authorSlug: "anne-key",
     publishedAt: "2026-04-18",
+    published: false,
     body: [
       { type: "paragraph", text: "\"Custody\" isn't actually the legal term used in England and Wales anymore — the law now talks about \"child arrangements\", reflecting a shift toward focusing on the child's life day to day rather than which parent \"wins\"." },
       { type: "heading", level: 2, id: "the-childs-welfare", text: "The child's welfare comes first" },
@@ -142,6 +151,7 @@ export const posts: Post[] = [
     tags: ["conveyancing", "first-time-buyers", "property"],
     authorSlug: "john-doe",
     publishedAt: "2026-03-30",
+    published: false,
     body: [
       { type: "paragraph", text: "Conveyancing is the legal process of transferring property ownership. For first-time buyers, it's often the least understood part of buying a home — mainly because it happens almost entirely on paper, out of view, between offer and completion." },
       { type: "heading", level: 2, id: "what-a-conveyancer-does", text: "What a conveyancer actually does" },
@@ -167,6 +177,7 @@ export const posts: Post[] = [
     tags: ["criminal-defense", "arrest", "rights"],
     authorSlug: "wayne-bell",
     publishedAt: "2026-03-10",
+    published: false,
     body: [
       { type: "paragraph", text: "An arrest is often the most frightening part of any criminal matter, partly because it happens suddenly and partly because people rarely know what rights apply until they need them." },
       { type: "heading", level: 2, id: "the-right-to-a-solicitor", text: "The right to a solicitor" },

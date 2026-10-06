@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig, footerLegalNav } from "@/config/site";
 import { serviceDetails } from "@/data/services";
 import { posts } from "@/data/blog/posts";
+import { isPublished } from "@/domain/blog/Post";
 import { authors } from "@/data/blog/authors";
 import { solicitors } from "@/data/team/solicitors";
 
@@ -15,16 +16,20 @@ import { solicitors } from "@/data/team/solicitors";
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const url = (path: string) => `${siteConfig.url}${path}`;
+  const publishedPosts = posts.filter(isPublished);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: url("/"), lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: url("/about"), lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/services"), lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: url("/attorneys"), lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: url("/solicitors"), lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/cases"), lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     // Reviews are temporarily disabled; do not advertise the route to crawlers.
     // { url: url("/reviews"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: url("/blog"), lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    // /blog redirects to home while there are no published articles — don't advertise it.
+    ...(publishedPosts.length > 0
+      ? [{ url: url("/blog"), lastModified: now, changeFrequency: "weekly" as const, priority: 0.7 }]
+      : []),
     { url: url("/faq"), lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: url("/contact"), lastModified: now, changeFrequency: "yearly", priority: 0.6 },
   ];
@@ -45,7 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
-  const articleRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
+  const articleRoutes: MetadataRoute.Sitemap = publishedPosts.map((post) => ({
     url: url(`/blog/${post.slug}`),
     lastModified: post.updatedAt ?? post.publishedAt,
     changeFrequency: "monthly",
@@ -60,7 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const solicitorRoutes: MetadataRoute.Sitemap = solicitors.map((solicitor) => ({
-    url: url(`/attorneys/${solicitor.slug}`),
+    url: url(`/solicitors/${solicitor.slug}`),
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.6,

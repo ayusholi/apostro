@@ -1,12 +1,17 @@
 import type { NavItem } from "@/types";
+import { posts } from "@/data/blog/posts";
+import { isPublished } from "@/domain/blog/Post";
+
+/** No published articles right now (all unpublished pending originality review) — hide blog nav links until one goes live. */
+const hasPublishedArticles = posts.some(isPublished);
 
 export const siteConfig = {
   name: "ALLS",
   /** Full legal entity name for Organization.legalName — @see src/config/legal.ts for the rest of the regulatory detail. */
-  legalName: "ALLS Solicitors Limited",
-  tagline: "Solicitors & Legal Counsel",
+  legalName: "Assured Legal Limited trading as ALL Solicitors",
+  tagline: "Solicitors & Legal Services",
   description:
-    "ALLS is a London law firm delivering dependable counsel across criminal defence, corporate, and family law. Serving 45,000+ clients across the United Kingdom.",
+    "ALLS is a London law firm delivering dependable legal services across criminal defence, corporate, and family law. Serving 45,000+ clients across the United Kingdom.",
   /** Canonical production origin — drives metadataBase, canonicals, sitemap, and schema @ids. */
   url: "https://alls-legal.co.uk",
   /** Default social-share image (1200×630), generated into /public. */
@@ -70,10 +75,10 @@ export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
-  { label: "Our Team", href: "/attorneys" },
+  { label: "Our Team", href: "/solicitors" },
   // Temporarily hidden while the client-review content is unavailable.
   // { label: "Reviews", href: "/reviews" },
-  { label: "Insights", href: "/blog" },
+  ...(hasPublishedArticles ? [{ label: "Insights", href: "/blog" }] : []),
   { label: "FAQs", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];
@@ -86,10 +91,10 @@ export const footerNav: NavItem[] = [
 ];
 
 export const footerQuickLinks: NavItem[] = [
-  { label: "Attorneys", href: "/attorneys" },
+  { label: "Solicitors", href: "/solicitors"},
   { label: "Cases", href: "/cases" },
   { label: "FAQs", href: "/faq" },
-  { label: "Blog", href: "/blog" },
+  ...(hasPublishedArticles ? [{ label: "Blog", href: "/blog" }] : []),
 ];
 
 export const footerLegalNav: NavItem[] = [
@@ -97,5 +102,4 @@ export const footerLegalNav: NavItem[] = [
   { label: "Cookie Policy", href: "/legal/cookie-policy" },
   { label: "Terms & Conditions", href: "/legal/terms-and-conditions" },
   { label: "Complaints Procedure", href: "/legal/complaints-procedure" },
-  { label: "Accessibility Statement", href: "/legal/accessibility-statement" },
 ];

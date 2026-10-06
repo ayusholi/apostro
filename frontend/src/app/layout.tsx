@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "corporate law",
     "family law",
     "legal services",
-    "attorneys",
+    "solicitors",
     "legal consultation",
   ],
   // Default social tags — every content page overrides these via buildMetadata,

@@ -15,7 +15,7 @@ import { valuesAbout } from "@/data/values";
 
 export const metadata = buildMetadata({
   title: "About Us",
-  description: "Learn about ALLS' mission, vision, and the attorneys behind our 25-year track record.",
+  description: "Learn about ALLS' mission, vision, and the solicitors behind our 25-year track record.",
   path: "/about",
 });
 
@@ -41,8 +41,8 @@ export default function AboutPage() {
           solicitors={solicitors.slice(0, 4)}
           heading={{
             eyebrow: "Expert Team",
-            title: "Experienced Attorneys",
-            description: "Meet the attorneys leading our practice across every major area of law.",
+            title: "Experienced Solicitors",
+            description: "Meet the solicitors leading our practice across every major area of law.",
           }}
         />
         <RegulatoryInfoSection />

@@ -29,7 +29,7 @@ export function AboutBlock({
         {bigTitle && <h2 className="bigtitle">{bigTitle}</h2>}
         <div className="about-grid">
           <Reveal className="about-grid__media">
-            <Image src="/images/clients-served.jpg" alt="Attorneys reviewing a case file" fill sizes="(max-width: 1024px) 100vw, 50vw" />
+            <Image src="/images/clients-served.jpg" alt="Solicitors reviewing a case file" fill sizes="(max-width: 1024px) 100vw, 50vw" />
             <div className="about-grid__badge">
               <strong>{animateBadge ? <CountUp target={45} suffix="K+" /> : "45K+"}</strong>
               <span>Clients Served</span>
