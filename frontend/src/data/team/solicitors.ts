@@ -28,7 +28,7 @@ export const solicitors: Solicitor[] = [
     slug: "osasere-ebosele",
     name: "Osasere Ebosele",
     role: "Director / Solicitor — COLP",
-    image: "/images/person-2.jpg",
+    image: "/images/osasereebosele.jpg",
     bio: "Osasere Ebosele is a Director and solicitor with over three years’ post-qualification experience, specialising in family law, private client matters, and immigration. She is recognised for her strong negotiation and client-management skills, supported by extensive regulatory knowledge and a client-focused approach.",
     qualifications: [
       "LLB (Hons), University of Bristol",
