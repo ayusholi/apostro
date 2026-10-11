@@ -10,7 +10,9 @@ export function SolicitorDetails({ solicitor }: { solicitor: Solicitor }) {
       <Container>
         <div className="solicitor-bio">
           <h2>Biography</h2>
-          <p>{solicitor.bio}</p>
+          {solicitor.bio.split(/\n\s*\n/).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </div>
 
         <div className="regulatory-info__grid solicitor-details__grid">

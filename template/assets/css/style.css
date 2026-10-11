@@ -206,7 +206,7 @@ p{color:var(--muted)}
 .faq-item__a{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 26px}
 .faq-item__a p{padding-bottom:22px;font-size:.95rem}
 
-/* Attorneys / Team ---------------------------------------------------------- */
+/* solicitors / Team ---------------------------------------------------------- */
 .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
 .t-member{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:3/4;background:var(--bg-2)}
 .t-member img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
