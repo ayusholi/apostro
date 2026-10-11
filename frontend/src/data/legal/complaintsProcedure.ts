@@ -6,13 +6,13 @@ export const complaintsProcedureSections: LegalSection[] = [
   {
     heading: "Our commitment",
     paragraphs: [
-      "We're committed to providing a high-quality service to every client. If something goes wrong, we want to know about it so we can put it right — this page explains how to raise a concern and what happens next.",
+      "We're committed to providing a high-quality service to every client. If something goes wrong, we want to know about it so we can put it right, this page explains how to raise a concern and what happens next.",
     ],
   },
   {
     heading: "How to make a complaint",
     paragraphs: [
-      `In the first instance, please raise your concern with the solicitor handling your matter — many issues are resolved quickly this way. If you'd prefer not to, or aren't satisfied after doing so, you can make a formal complaint in writing to one of our Directors at ${siteConfig.email} or by post to ${siteConfig.address}.`,
+      `In the first instance, please raise your concern with the solicitor handling your matter, many issues are resolved quickly this way. If you'd prefer not to, or aren't satisfied after doing so, you can make a formal complaint in writing to one of our Directors at ${siteConfig.email} or by post to ${siteConfig.address}.`,
       "Please include your name, matter reference (if you have one), and as much detail as possible about what happened and what outcome you're looking for.",
     ],
   },
@@ -29,7 +29,7 @@ export const complaintsProcedureSections: LegalSection[] = [
   {
     heading: "If you're not satisfied with our response",
     paragraphs: [
-      `If you remain unhappy after receiving our final response — or if 8 weeks have passed since you first complained and we haven't resolved it — you can ask the ${legalConfig.legalOmbudsman.name} to look into your complaint, independently and free of charge.`,
+      `If you remain unhappy after receiving our final response, or if 8 weeks have passed since you first complained and we haven't resolved it, you can ask the ${legalConfig.legalOmbudsman.name} to look into your complaint, independently and free of charge.`,
     ],
     list: [
       "Normally, you'll need to refer your complaint to the Legal Ombudsman within 1 year of the date of our final response letter.",
@@ -40,7 +40,7 @@ export const complaintsProcedureSections: LegalSection[] = [
   {
     heading: "Concerns about professional conduct",
     paragraphs: [
-      `The Legal Ombudsman deals with service complaints — for example, delay, poor communication, or billing concerns. If your concern is instead about our professional conduct or integrity (for example, dishonesty or discrimination), you can raise it directly with our regulator, the Solicitors Regulation Authority, at ${legalConfig.sra.website}.`,
+      `The Legal Ombudsman deals with service complaints, for example, delay, poor communication, or billing concerns. If your concern is instead about our professional conduct or integrity (for example, dishonesty or discrimination), you can raise it directly with our regulator, the Solicitors Regulation Authority, at ${legalConfig.sra.website}.`,
     ],
   },
   {

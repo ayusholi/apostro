@@ -54,7 +54,7 @@ export const legalConfig = {
 
   memberships: [
     "The Law Society of England and Wales",
-    "Solicitors Regulation Authority — regulated firm",
+    "Solicitors Regulation Authority, regulated firm",
     "Legal Ombudsman scheme member",
   ],
 } as const;

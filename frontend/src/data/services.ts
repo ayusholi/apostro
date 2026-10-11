@@ -9,8 +9,8 @@ export const services: Service[] = [
     icon: "/images/icon-service-2.png",
     title: "Litigation & Dispute Resolution",
     description:
-      "Strategic representation in civil disputes, from initial consultation through to mediation or trial advocacy.",
-    bullets: ["Civil litigation", "Mediation"],
+      "Strategic representation in civil disputes, from initial consultation through to dispute resolution or trial advocacy.",
+    bullets: ["Litigation", "Dispute Resolution", "Probate"],
   },
   {
     slug: "family-law",
@@ -25,10 +25,10 @@ export const services: Service[] = [
     slug: "real-estate",
     number: "03",
     icon: "/images/icon-service-3.png",
-    title: "Real Estate",
+    title: "Property Conveyance",
     description:
       "Efficient, thorough conveyancing and commercial lease advice that keeps your transaction moving and your interests protected.",
-    bullets: ["Residential conveyancing", "Commercial leases"],
+    bullets: ["Residential", "Commercial", "Leases"],
   },
   {
     slug: "private-client",
@@ -36,7 +36,7 @@ export const services: Service[] = [
     icon: "/images/icon-service-2.png",
     title: "Private Client",
     description:
-      "Practical advice on wills, probate, and trusts — planning for the future and supporting estate administration after a bereavement.",
+      "Practical advice on wills, probate, and trusts, planning for the future and supporting estate administration after a bereavement.",
     bullets: ["Wills", "Probate", "Trusts"],
   },
 ];

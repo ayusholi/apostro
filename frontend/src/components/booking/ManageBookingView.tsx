@@ -30,7 +30,7 @@ function summaryRows(summary: BookingSummary) {
       <div className="booking-summary__row">
         <span className="booking-summary__label">Office</span>
         <span className="booking-summary__value">
-          {summary.officeName} — {summary.officeAddress}
+          {summary.officeName}, {summary.officeAddress}
         </span>
       </div>
       <div className="booking-summary__row">
@@ -56,7 +56,7 @@ function downloadIcs(summary: BookingSummary) {
       uid: `${summary.id}@alls-legal.co.uk`,
       startUtc: summary.slotStartUtc,
       endUtc: summary.slotEndUtc,
-      summary: `${summary.serviceTitle} consultation — ALLS`,
+      summary: `${summary.serviceTitle} consultation | ALLS`,
       description: `Consultation with ${summary.solicitorName} at ${summary.officeName}.`,
       location: summary.officeAddress,
       sequence: 0,
@@ -82,14 +82,14 @@ export function ManageBookingView({ initial, justConfirmed }: { initial: Booking
   });
 
   const googleLink = buildGoogleCalendarLink({
-    title: `${summary.serviceTitle} consultation — ALLS`,
+    title: `${summary.serviceTitle} consultation | ALLS`,
     details: `Consultation with ${summary.solicitorName}.`,
     location: summary.officeAddress,
     startUtc: summary.slotStartUtc,
     endUtc: summary.slotEndUtc,
   });
   const outlookLink = buildOutlookCalendarLink({
-    title: `${summary.serviceTitle} consultation — ALLS`,
+    title: `${summary.serviceTitle} consultation | ALLS`,
     details: `Consultation with ${summary.solicitorName}.`,
     location: summary.officeAddress,
     startUtc: summary.slotStartUtc,

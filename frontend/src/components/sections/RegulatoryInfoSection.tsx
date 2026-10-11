@@ -30,7 +30,7 @@ export function RegulatoryInfoSection() {
             <ul>
               {legalConfig.accreditations.map((accreditation) => (
                 <li key={accreditation.name}>
-                  <strong>{accreditation.name}</strong> — {accreditation.description}
+                  <strong>{accreditation.name}</strong> - {accreditation.description}
                 </li>
               ))}
             </ul>

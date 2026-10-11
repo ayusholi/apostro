@@ -14,9 +14,9 @@ export const cookiePolicySections: LegalSection[] = [
       "We group cookies into three categories, matching the choices in our cookie banner. Being specific about what's actually in use (rather than a generic list) is the whole point of this page:",
     ],
     list: [
-      "Strictly necessary — always on, can't be switched off. Today, this is limited to one browser storage entry that remembers your cookie preference choice itself, so we don't ask again every visit.",
-      "Analytics/performance — off by default. We do not currently run any analytics service (e.g. Google Analytics) on this site. This category exists so that if we add one in future, it activates only for visitors who've actively opted in via the cookie banner — never retroactively and never by default.",
-      "Marketing/advertising — off by default. We do not currently run any advertising or retargeting pixels. Same commitment as above: this category is reserved, not silently in use.",
+      "Strictly necessary - always on, can't be switched off. Today, this is limited to one browser storage entry that remembers your cookie preference choice itself, so we don't ask again every visit.",
+      "Analytics/performance - off by default. We do not currently run any analytics service (e.g. Google Analytics) on this site. This category exists so that if we add one in future, it activates only for visitors who've actively opted in via the cookie banner - never retroactively and never by default.",
+      "Marketing/advertising - off by default. We do not currently run any advertising or retargeting pixels. Same commitment as above: this category is reserved, not silently in use.",
     ],
   },
   {

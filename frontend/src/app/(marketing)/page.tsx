@@ -33,7 +33,7 @@ export default function HomePage() {
             is a decorative aria-hidden marquee, so without this the page would
             have no H1 for search engines or screen readers. */}
         <h1 className="sr-only">
-          ALLS — Reliable Legal Experts &amp; Trusted Solicitors in London
+          ALLS | Reliable Legal Experts &amp; Trusted Solicitors in London
         </h1>
         <Hero />
         <LogoStrip />

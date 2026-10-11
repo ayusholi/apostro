@@ -33,7 +33,7 @@ export function ContactForm() {
 
     setIsSubmitting(false);
     if (result.ok) {
-      setStatus("Thanks — we'll reach out within 24 hours.");
+      setStatus("Thanks, we'll reach out within 24 hours.");
       form.reset();
       setHoneypot("");
     } else {
@@ -81,7 +81,7 @@ export function ContactForm() {
         <select id="sv" name="service">
           <option>Litigation &amp; Dispute Resolution</option>
           <option>Family Law</option>
-          <option>Real Estate</option>
+          <option>Property Conveyance</option>
           <option>Private Client</option>
           <option>Other</option>
         </select>

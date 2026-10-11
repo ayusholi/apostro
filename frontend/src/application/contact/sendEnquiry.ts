@@ -44,7 +44,7 @@ export async function sendEnquiry(deps: SendEnquiryDeps, rawInput: unknown, ipAd
     now,
   );
   if (!spamResult.allowed) {
-    const message = spamResult.reason === "rate_limited" ? "Too many messages sent — please try again later." : "Submission rejected.";
+    const message = spamResult.reason === "rate_limited" ? "Too many messages sent, please try again later." : "Submission rejected.";
     return fail(spamResult.reason.toUpperCase(), message);
   }
 

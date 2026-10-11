@@ -16,7 +16,7 @@ export const valuesAbout: ValueItem[] = [
   { number: "02", title: "Our Vision", description: VISION },
   { number: "03", title: "Professionalism", description: "Every matter is handled with the diligence and discretion clients have a right to expect from their solicitor." },
   { number: "04", title: "Client-Centric Service", description: "We shape our advice and availability around what actually works for you, not the other way around." },
-  { number: "05", title: "Integrity and Transparency", description: "Clear fees, honest timelines, and advice you can rely on — even when it isn't what you hoped to hear." },
+  { number: "05", title: "Integrity and Transparency", description: "Clear fees, honest timelines, and advice you can rely on, even when it isn't what you hoped to hear." },
   { number: "06", title: "Innovation and Efficiency", description: "A modern legal practice that uses technology to work faster without cutting corners." },
   { number: "07", title: "Diversity and Inclusion", description: "A firm and a client base that reflect the community we're part of in East London." },
 ];

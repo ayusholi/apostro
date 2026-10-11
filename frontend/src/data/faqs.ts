@@ -15,12 +15,12 @@ export const faqs: Faq[] = [
   {
     question: "Do you offer a free initial consultation?",
     answer:
-      "Yes — we offer a free initial consultation so we can understand your situation and explain how we can help before you commit to anything.",
+      "Yes, we offer a free initial consultation so we can understand your situation and explain how we can help before you commit to anything.",
   },
   {
     question: "What documents should I bring?",
     answer:
-      "Anything relevant to your matter — contracts, correspondence, filings, photos. We'll send a checklist after intake.",
+      "Anything relevant to your matter, contracts, correspondence, filings, photos. We'll send a checklist after intake.",
   },
   {
     question: "How long does a typical case take?",

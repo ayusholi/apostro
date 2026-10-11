@@ -18,7 +18,7 @@ function VideoCard({ testimonial, onPlay }: { testimonial: VideoTestimonial; onP
         aria-label={
           playable
             ? `Play video testimonial from ${testimonial.authorName}`
-            : `Video testimonial from ${testimonial.authorName} — coming soon`
+            : `Video testimonial from ${testimonial.authorName}, coming soon`
         }
       >
         <Image src={testimonial.posterImage} alt="" width={360} height={240} />

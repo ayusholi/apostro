@@ -20,7 +20,7 @@ export function CookieConsentBanner() {
   return (
     <aside className="cookie-banner" role="region" aria-label="Cookie consent">
       <p>
-        We use strictly necessary cookies to run this site, and — only with your consent — analytics cookies to
+        We use strictly necessary cookies to run this site, and, only with your consent, analytics cookies to
         understand how it&apos;s used. See our <Link href="/legal/cookie-policy">Cookie Policy</Link>.
       </p>
       <div className="cookie-banner__actions">

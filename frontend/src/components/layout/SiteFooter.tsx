@@ -19,7 +19,7 @@ export function SiteFooter() {
               {/* <span className="brand-text">{siteConfig.name.toUpperCase()}</span> */}
             </Link>
             <p className="footer__description">
-              Let&apos;s make things happen — contact us today and take the first step toward resolution.
+              Let&apos;s make things happen, contact us today and take the first step toward resolution.
             </p>
             <div className="footer__social">
               <a href={siteConfig.social.facebook} aria-label="Facebook">
@@ -83,7 +83,7 @@ export function SiteFooter() {
           <p>
             {legalConfig.tradingDisclosure} is registered in {legalConfig.jurisdiction}, company no.{" "}
             {legalConfig.companyNumber}. Registered office: {siteConfig.address}. {legalConfig.sra.statement} (SRA No.{" "}
-            {legalConfig.sra.number}) — you can check this on the{" "}
+            {legalConfig.sra.number}), you can check this on the{" "}
             <a href={legalConfig.sra.website} target="_blank" rel="noopener noreferrer">
               SRA register
             </a>
@@ -97,7 +97,7 @@ export function SiteFooter() {
           </span>
           <CookiePreferencesLink />
           <span>
-            {siteConfig.name} — {siteConfig.tagline}
+            {siteConfig.name} | {siteConfig.tagline}
           </span>
         </div>
       </Container>

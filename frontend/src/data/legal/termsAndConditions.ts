@@ -13,21 +13,21 @@ export const termsAndConditionsSections: LegalSection[] = [
   {
     heading: "This site is not legal advice",
     paragraphs: [
-      "Nothing on this site — including our services pages, blog, FAQs, and case studies — constitutes legal advice, and no solicitor-client relationship is formed by browsing the site, reading its content, or submitting an enquiry through it.",
+      "Nothing on this site, including our services pages, blog, FAQs, and case studies, constitutes legal advice, and no solicitor-client relationship is formed by browsing the site, reading its content, or submitting an enquiry through it.",
       "A solicitor-client relationship, and the duties that come with it, begins only once we've confirmed in writing that we're acting for you, run the required conflict and identity checks, and agreed terms of engagement.",
     ],
   },
   {
     heading: "Enquiries and bookings",
     paragraphs: [
-      "Submitting an enquiry or booking a consultation does not guarantee we can act for you — we may decline any matter, including for conflict-of-interest reasons, before an engagement is confirmed.",
+      "Submitting an enquiry or booking a consultation does not guarantee we can act for you, we may decline any matter, including for conflict-of-interest reasons, before an engagement is confirmed.",
       "Consultation bookings are subject to the cancellation and rescheduling terms shown at the time of booking and in your confirmation email.",
     ],
   },
   {
     heading: "Intellectual property",
     paragraphs: [
-      `All content on this site — text, graphics, logos, and design — belongs to ${siteConfig.name} or its licensors, unless stated otherwise. You may view and print pages for your own personal, non-commercial reference, but may not republish, redistribute, or reproduce any part of this site without our written permission.`,
+      `All content on this site, text, graphics, logos, and design, belongs to ${siteConfig.name} or its licensors, unless stated otherwise. You may view and print pages for your own personal, non-commercial reference, but may not republish, redistribute, or reproduce any part of this site without our written permission.`,
     ],
   },
   {

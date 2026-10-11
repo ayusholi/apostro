@@ -31,7 +31,7 @@ function icsAttachment(ctx: BookingEmailContext, status: "CONFIRMED" | "CANCELLE
       uid: `${ctx.booking.id}@alls-legal.co.uk`,
       startUtc: ctx.booking.slot.startUtc,
       endUtc: ctx.booking.slot.endUtc,
-      summary: `${ctx.service.title} consultation — ${siteConfig.name}`,
+      summary: `${ctx.service.title} consultation | ${siteConfig.name}`,
       description: `Consultation with ${ctx.solicitor.name} at ${ctx.office.name}. Manage this booking: ${manageUrl(ctx.booking.manageToken)}`,
       location: ctx.office.address,
       sequence,
@@ -74,7 +74,7 @@ function detailRows(ctx: BookingEmailContext): string {
     ${row("When", whenLine(ctx.booking.slot, ctx.booking.displayTimeZone))}
     ${row("Service", ctx.service.title)}
     ${row("Solicitor", ctx.solicitor.name)}
-    ${row("Office", `${ctx.office.name} — ${ctx.office.address}`)}
+    ${row("Office", `${ctx.office.name}, ${ctx.office.address}`)}
   </table>`;
 }
 
@@ -84,14 +84,14 @@ function ctaButton(href: string, label: string): string {
 
 export function composeConfirmationEmail(ctx: BookingEmailContext): EmailMessage {
   const google = buildGoogleCalendarLink({
-    title: `${ctx.service.title} consultation — ${siteConfig.name}`,
+    title: `${ctx.service.title} consultation | ${siteConfig.name}`,
     details: `Consultation with ${ctx.solicitor.name}.`,
     location: ctx.office.address,
     startUtc: ctx.booking.slot.startUtc,
     endUtc: ctx.booking.slot.endUtc,
   });
   const outlook = buildOutlookCalendarLink({
-    title: `${ctx.service.title} consultation — ${siteConfig.name}`,
+    title: `${ctx.service.title} consultation | ${siteConfig.name}`,
     details: `Consultation with ${ctx.solicitor.name}.`,
     location: ctx.office.address,
     startUtc: ctx.booking.slot.startUtc,
@@ -110,7 +110,7 @@ export function composeConfirmationEmail(ctx: BookingEmailContext): EmailMessage
     to: ctx.booking.client.email,
     subject: `Confirmed: ${ctx.service.title} consultation with ${ctx.solicitor.name}`,
     html,
-    text: `Your consultation is confirmed.\n\nWhen: ${whenLine(ctx.booking.slot, ctx.booking.displayTimeZone)}\nService: ${ctx.service.title}\nSolicitor: ${ctx.solicitor.name}\nOffice: ${ctx.office.name} — ${ctx.office.address}\n\nManage or cancel: ${manageUrl(ctx.booking.manageToken)}\nAdd to Google Calendar: ${google}\nAdd to Outlook: ${outlook}`,
+    text: `Your consultation is confirmed.\n\nWhen: ${whenLine(ctx.booking.slot, ctx.booking.displayTimeZone)}\nService: ${ctx.service.title}\nSolicitor: ${ctx.solicitor.name}\nOffice: ${ctx.office.name}, ${ctx.office.address}\n\nManage or cancel: ${manageUrl(ctx.booking.manageToken)}\nAdd to Google Calendar: ${google}\nAdd to Outlook: ${outlook}`,
     attachments: [icsAttachment(ctx, "CONFIRMED", 0)],
   };
 }
@@ -127,7 +127,7 @@ export function composeReminderEmail(ctx: BookingEmailContext): EmailMessage {
     to: ctx.booking.client.email,
     subject: `Reminder: ${ctx.service.title} consultation tomorrow`,
     html,
-    text: `Reminder: your consultation is coming up.\n\nWhen: ${whenLine(ctx.booking.slot, ctx.booking.displayTimeZone)}\nService: ${ctx.service.title}\nSolicitor: ${ctx.solicitor.name}\nOffice: ${ctx.office.name} — ${ctx.office.address}\n\nManage or cancel: ${manageUrl(ctx.booking.manageToken)}`,
+    text: `Reminder: your consultation is coming up.\n\nWhen: ${whenLine(ctx.booking.slot, ctx.booking.displayTimeZone)}\nService: ${ctx.service.title}\nSolicitor: ${ctx.solicitor.name}\nOffice: ${ctx.office.name}, ${ctx.office.address}\n\nManage or cancel: ${manageUrl(ctx.booking.manageToken)}`,
     attachments: [icsAttachment(ctx, "CONFIRMED", 0)],
   };
 }
@@ -151,7 +151,7 @@ export function composeCancellationEmail(ctx: BookingEmailContext): EmailMessage
 
 export function composeRescheduleEmail(ctx: BookingEmailContext, previousSlot: TimeSlot): EmailMessage {
   const google = buildGoogleCalendarLink({
-    title: `${ctx.service.title} consultation — ${siteConfig.name}`,
+    title: `${ctx.service.title} consultation | ${siteConfig.name}`,
     details: `Consultation with ${ctx.solicitor.name}.`,
     location: ctx.office.address,
     startUtc: ctx.booking.slot.startUtc,

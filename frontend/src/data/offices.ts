@@ -15,7 +15,7 @@ export type OfficeData = {
 export const offices: OfficeData[] = [
   {
     id: "20-store-street",
-    name: `${siteConfig.name} — Stratford`,
+    name: `${siteConfig.name} - Stratford`,
     address: siteConfig.address,
     timeZone: "Europe/London",
   },

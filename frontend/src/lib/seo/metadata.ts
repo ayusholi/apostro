@@ -19,7 +19,7 @@ const defaultOgImage: OgImage = {
   url: siteConfig.ogImage,
   width: 1200,
   height: 630,
-  alt: `${siteConfig.name} — ${siteConfig.tagline}`,
+  alt: `${siteConfig.name} | ${siteConfig.tagline}`,
 };
 
 /**
@@ -41,7 +41,7 @@ export function buildMetadata({
 }: BuildMetadataArgs): Metadata {
   const desc = description ?? siteConfig.description;
   const ogImages = images ?? [defaultOgImage];
-  const absoluteTitle = title ? `${title} — ${siteConfig.name}` : `${siteConfig.name} — ${siteConfig.tagline}`;
+  const absoluteTitle = title ? `${title} | ${siteConfig.name}` : `${siteConfig.name} | ${siteConfig.tagline}`;
 
   return {
     title,

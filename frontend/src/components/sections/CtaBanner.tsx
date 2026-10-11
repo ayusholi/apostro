@@ -14,7 +14,7 @@ export function CtaBanner() {
               <Eyebrow>Protect Your Rights Today</Eyebrow>
               <h2>Schedule a confidential consultation</h2>
               <p>
-                Speak directly with a qualified solicitor about your situation — no jargon, no obligation, and
+                Speak directly with a qualified solicitor about your situation, no jargon, no obligation, and
                 everything you share stays strictly confidential.
               </p>
             </div>

@@ -8,7 +8,7 @@ export function OverallRatingSummary({ stats }: { stats: RatingStats }) {
   return (
     <div className="rating-summary" aria-label="Overall rating summary">
       <div className="rating-summary__headline">
-        <span className="rating-summary__average">{stats.count ? stats.average.toFixed(1) : "—"}</span>
+        <span className="rating-summary__average">{stats.count ? stats.average.toFixed(1) : "-"}</span>
         <div>
           <StarRating rating={stats.average} size="lg" />
           <p>Based on {stats.count} review{stats.count === 1 ? "" : "s"}</p>

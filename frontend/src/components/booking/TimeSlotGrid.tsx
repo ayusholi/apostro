@@ -17,7 +17,7 @@ export function TimeSlotGrid({
   if (slots.length === 0) {
     return (
       <StateBanner variant="empty" title="No times available that day">
-        Try another date on the calendar — solicitors&apos; schedules vary day to day.
+        Try another date on the calendar, solicitors&apos; schedules vary day to day.
       </StateBanner>
     );
   }

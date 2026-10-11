@@ -12,7 +12,7 @@ import { testimonialsServices } from "@/data/testimonials";
 
 export const metadata = buildMetadata({
   title: "Services",
-  description: "A.L.L. Solicitors' practice areas: litigation & dispute resolution, family law, real estate, and private client — serving East London.",
+  description: "A.L.L. Solicitors' practice areas: litigation & dispute resolution, family law, property conveyance, and private client serving East London.",
   path: "/services",
 });
 

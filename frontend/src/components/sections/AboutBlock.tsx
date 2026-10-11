@@ -30,7 +30,7 @@ export function AboutBlock({
             <Eyebrow>{eyebrow}</Eyebrow>
             <h2>Delivering Results with Integrity</h2>
             <p>
-              A boutique firm built around partner-level attention — combining rigorous legal expertise with genuine
+              A boutique firm built around partner-level attention, combining rigorous legal expertise with genuine
               care for every client, communicating in plain English, keeping you informed at each step, and pursuing
               the outcome that matters most to you.
             </p>

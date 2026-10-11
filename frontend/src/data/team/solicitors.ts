@@ -10,9 +10,9 @@ export const solicitors: Solicitor[] = [
   {
     slug: "ugochukwu-muoma",
     name: "Ugochukwu Muoma",
-    role: "Director / Solicitor — COFA",
+    role: "Director / Solicitor, COFA",
     image: "/images/ugochukwu-muoma.jpeg",
-    bio: `Ugochukwu Muoma is a Director and solicitor with over three years’ post-qualification experience, specialising in residential and commercial conveyancing, civil litigation, and probate.
+    bio: `Ugochukwu Muoma is a Director and solicitor with over three years’ post-qualification experience, specialising in residential and commercial conveyancing, litigation, and probate.
 
 He brings strong advocacy and drafting skills, alongside a keen focus on business development and achieving practical outcomes for clients.`,
     qualifications: [
@@ -29,7 +29,7 @@ He brings strong advocacy and drafting skills, alongside a keen focus on busines
   {
     slug: "osasere-ebosele",
     name: "Osasere Ebosele",
-    role: "Director / Solicitor — COLP",
+    role: "Director / Solicitor, COLP",
     image: "/images/osasereebosele.jpg",
     bio: `I am a Solicitor of England and Wales, and since qualifying in 2022 I have focused my practice on Family Law and Private Client matters. My work centres on guiding clients through sensitive and often emotional situations with clarity, empathy, and practical legal support.
 

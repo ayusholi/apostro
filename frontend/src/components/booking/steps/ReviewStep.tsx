@@ -43,7 +43,7 @@ export function ReviewStep({
         <div className="booking-summary__row">
           <span className="booking-summary__label">Office</span>
           <span className="booking-summary__value">
-            {office.name} — {office.address}
+            {office.name}, {office.address}
           </span>
         </div>
         <div className="booking-summary__row">

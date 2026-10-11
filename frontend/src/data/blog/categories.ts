@@ -9,17 +9,17 @@ export const categories: Category[] = [
   {
     slug: "family-law",
     name: "Family Law",
-    description: "Divorce, custody, and other family matters — what to expect and how to prepare.",
+    description: "Divorce, custody, and other family matters, what to expect and how to prepare.",
   },
   {
     slug: "corporate-law",
     name: "Corporate & Commercial",
-    description: "Practical guidance for founders and businesses — contracts, structuring, and compliance.",
+    description: "Practical guidance for founders and businesses, contracts, structuring, and compliance.",
   },
   {
     slug: "real-estate",
     name: "Property & Conveyancing",
-    description: "Buying, selling, and leasing property — process, pitfalls, and paperwork.",
+    description: "Buying, selling, and leasing property, process, pitfalls, and paperwork.",
   },
   {
     slug: "legal-guides",

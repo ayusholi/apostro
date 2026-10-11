@@ -22,10 +22,10 @@ export const posts: Post[] = [
     publishedAt: "2026-06-20",
     published: false,
     body: [
-      { type: "paragraph", text: "Most people only think seriously about hiring a solicitor once a problem has already become urgent — a letter has arrived, a hearing date has been set, or a deal is about to fall through. By then, some of the easiest opportunities to protect your position have already passed." },
+      { type: "paragraph", text: "Most people only think seriously about hiring a solicitor once a problem has already become urgent, a letter has arrived, a hearing date has been set, or a deal is about to fall through. By then, some of the easiest opportunities to protect your position have already passed." },
       { type: "heading", level: 2, id: "why-representation-matters", text: "Why representation matters more than it seems" },
       { type: "paragraph", text: "Legal systems run on procedure as much as on substance. Missing a deadline, using the wrong form, or saying the wrong thing in an early conversation can weaken a case that was otherwise strong. A solicitor's job is partly to know the law, and partly to know exactly which procedural steps protect you at each stage." },
-      { type: "paragraph", text: "This is true whether you're defending a criminal charge, negotiating a commercial contract, or going through a divorce — the stakes and subject matter differ, but the value of experienced representation follows the same pattern." },
+      { type: "paragraph", text: "This is true whether you're defending a criminal charge, negotiating a commercial contract, or going through a divorce, the stakes and subject matter differ, but the value of experienced representation follows the same pattern." },
       { type: "heading", level: 2, id: "what-good-representation-looks-like", text: "What good representation actually looks like" },
       { type: "list", items: [
         "Someone who explains your realistic options, not just the best-case outcome",
@@ -51,11 +51,11 @@ export const posts: Post[] = [
     body: [
       { type: "paragraph", text: "Very few people have been inside a courtroom before their own case brings them there, and the unfamiliarity often causes more stress than the legal issues themselves. Knowing roughly what happens, and when, makes the process considerably less daunting." },
       { type: "heading", level: 2, id: "before-the-hearing", text: "Before the hearing" },
-      { type: "paragraph", text: "Your solicitor will have reviewed the evidence against you, advised you on your plea, and — where relevant — gathered evidence in your defence. Most of the substantive work in a criminal case happens well before anyone sets foot in a courtroom." },
+      { type: "paragraph", text: "Your solicitor will have reviewed the evidence against you, advised you on your plea, and, where relevant, gathered evidence in your defence. Most of the substantive work in a criminal case happens well before anyone sets foot in a courtroom." },
       { type: "heading", level: 2, id: "the-first-hearing", text: "The first hearing" },
-      { type: "paragraph", text: "For most cases, the first hearing is procedural: confirming your plea, setting a timetable, and — in more serious matters — deciding whether the case should be sent to the Crown Court. It's rarely where the substance of the case is argued." },
+      { type: "paragraph", text: "For most cases, the first hearing is procedural: confirming your plea, setting a timetable, and, in more serious matters, deciding whether the case should be sent to the Crown Court. It's rarely where the substance of the case is argued." },
       { type: "heading", level: 3, id: "entering-a-plea", text: "Entering a plea" },
-      { type: "paragraph", text: "Your solicitor will advise you on plea based on the strength of the evidence and your own account of events — this is one of the most consequential decisions in the whole process, and not one to make without advice." },
+      { type: "paragraph", text: "Your solicitor will advise you on plea based on the strength of the evidence and your own account of events, this is one of the most consequential decisions in the whole process, and not one to make without advice." },
       { type: "heading", level: 2, id: "trial", text: "If the case goes to trial" },
       { type: "list", items: [
         "The prosecution presents its evidence and witnesses first",
@@ -63,7 +63,7 @@ export const posts: Post[] = [
         "Your defence case is then presented, if you choose to give one",
         "Closing speeches are made before the verdict",
       ] },
-      { type: "paragraph", text: "Throughout, your legal team's role is to make sure the prosecution actually proves its case to the required standard — not to prove your innocence, which the law doesn't require you to do." },
+      { type: "paragraph", text: "Throughout, your legal team's role is to make sure the prosecution actually proves its case to the required standard, not to prove your innocence, which the law doesn't require you to do." },
     ],
   },
   {
@@ -79,7 +79,7 @@ export const posts: Post[] = [
     body: [
       { type: "paragraph", text: "Choosing a solicitor is a bit like choosing a surgeon: qualifications matter, but so does fit, communication style, and whether you trust the person to tell you things you don't want to hear." },
       { type: "heading", level: 2, id: "check-regulation-and-specialism", text: "Check regulation and specialism" },
-      { type: "paragraph", text: "In England and Wales, any solicitor should be authorised and regulated by the Solicitors Regulation Authority — you can verify this yourself on the SRA's public register. Beyond that baseline, look for genuine experience in the specific area of law your matter falls under, not just general practice." },
+      { type: "paragraph", text: "In England and Wales, any solicitor should be authorised and regulated by the Solicitors Regulation Authority, you can verify this yourself on the SRA's public register. Beyond that baseline, look for genuine experience in the specific area of law your matter falls under, not just general practice." },
       { type: "heading", level: 2, id: "questions-to-ask", text: "Questions worth asking at the first meeting" },
       { type: "list", items: [
         "Have you handled cases like mine before, and what were the outcomes?",
@@ -88,14 +88,14 @@ export const posts: Post[] = [
         "How often will I get updates, and how quickly do you respond?",
       ] },
       { type: "heading", level: 2, id: "warning-signs", text: "Warning signs" },
-      { type: "paragraph", text: "Be cautious of guarantees of a specific outcome — no honest solicitor can promise how a court or the other side will act. Vague fee estimates, reluctance to put terms in writing, and pressure to sign immediately are all reasons to pause." },
+      { type: "paragraph", text: "Be cautious of guarantees of a specific outcome, no honest solicitor can promise how a court or the other side will act. Vague fee estimates, reluctance to put terms in writing, and pressure to sign immediately are all reasons to pause." },
       { type: "quote", text: "A good solicitor tells you the odds. A bad one tells you what you want to hear.", attribution: "A useful test either way." },
     ],
   },
   {
     slug: "common-contract-mistakes-small-businesses-make",
     title: "Common Contract Mistakes Small Businesses Make",
-    excerpt: "The recurring gaps we see in commercial contracts drafted without legal advice — and how to avoid them.",
+    excerpt: "The recurring gaps we see in commercial contracts drafted without legal advice, and how to avoid them.",
     coverImage: "/images/case-4.jpg",
     categorySlug: "corporate-law",
     tags: ["contracts", "small-business", "compliance"],
@@ -103,9 +103,9 @@ export const posts: Post[] = [
     publishedAt: "2026-05-02",
     published: false,
     body: [
-      { type: "paragraph", text: "Templates found online are a reasonable starting point, but they're written for nobody's business in particular. The gaps only tend to matter once a relationship with a supplier or client goes wrong — which is exactly when a contract needs to hold up." },
+      { type: "paragraph", text: "Templates found online are a reasonable starting point, but they're written for nobody's business in particular. The gaps only tend to matter once a relationship with a supplier or client goes wrong, which is exactly when a contract needs to hold up." },
       { type: "heading", level: 2, id: "vague-scope", text: "Vague scope of work" },
-      { type: "paragraph", text: "\"Marketing services\" or \"consulting support\" sound reasonable until a dispute arises over what was actually promised. Specific, itemised scope — even if it takes longer to draft — is what actually gets enforced." },
+      { type: "paragraph", text: "\"Marketing services\" or \"consulting support\" sound reasonable until a dispute arises over what was actually promised. Specific, itemised scope, even if it takes longer to draft, is what actually gets enforced." },
       { type: "heading", level: 2, id: "missing-termination-terms", text: "Missing or one-sided termination terms" },
       { type: "paragraph", text: "Contracts are often drafted assuming the relationship will go well. Notice periods, what happens to part-finished work, and who owns what on exit are exactly the details that matter most when it doesn't." },
       { type: "heading", level: 2, id: "ip-ownership", text: "Unclear intellectual property ownership" },
@@ -114,7 +114,7 @@ export const posts: Post[] = [
         "Does a departing employee's work automatically belong to the business?",
         "Are third-party licences (fonts, code libraries, stock imagery) properly cleared?",
       ] },
-      { type: "paragraph", text: "Getting a solicitor to review — or draft — your standard contracts once is typically far cheaper than resolving a dispute that a clearer clause would have prevented." },
+      { type: "paragraph", text: "Getting a solicitor to review, or draft, your standard contracts once is typically far cheaper than resolving a dispute that a clearer clause would have prevented." },
     ],
   },
   {
@@ -128,15 +128,15 @@ export const posts: Post[] = [
     publishedAt: "2026-04-18",
     published: false,
     body: [
-      { type: "paragraph", text: "\"Custody\" isn't actually the legal term used in England and Wales anymore — the law now talks about \"child arrangements\", reflecting a shift toward focusing on the child's life day to day rather than which parent \"wins\"." },
+      { type: "paragraph", text: "\"Custody\" isn't actually the legal term used in England and Wales anymore, the law now talks about \"child arrangements\", reflecting a shift toward focusing on the child's life day to day rather than which parent \"wins\"." },
       { type: "heading", level: 2, id: "the-childs-welfare", text: "The child's welfare comes first" },
-      { type: "paragraph", text: "Courts apply what's called the welfare checklist — a set of factors including the child's own wishes (weighted by age and maturity), their physical and emotional needs, and any risk of harm. The starting assumption is that involvement from both parents benefits the child, unless there's a good reason otherwise." },
+      { type: "paragraph", text: "Courts apply what's called the welfare checklist, a set of factors including the child's own wishes (weighted by age and maturity), their physical and emotional needs, and any risk of harm. The starting assumption is that involvement from both parents benefits the child, unless there's a good reason otherwise." },
       { type: "heading", level: 2, id: "reaching-agreement-without-court", text: "Reaching agreement without court" },
-      { type: "paragraph", text: "Most arrangements are agreed between parents directly, often with mediation, rather than decided by a judge. This tends to produce arrangements that actually work day to day, since the parents themselves shaped them." },
+      { type: "paragraph", text: "Most arrangements are agreed between parents directly, often with dispute resolution, rather than decided by a judge. This tends to produce arrangements that actually work day to day, since the parents themselves shaped them." },
       { type: "list", items: [
-        "Mediation — a neutral third party helps both parents reach agreement",
-        "Solicitor-led negotiation — each parent has separate representation",
-        "Court application — only where agreement genuinely can't be reached",
+        "Mediation - a neutral third party helps both parents reach agreement",
+        "Solicitor-led negotiation, each parent has separate representation",
+        "Court application - only where agreement genuinely can't be reached",
       ] },
       { type: "heading", level: 2, id: "keeping-it-child-centred", text: "Keeping it child-centred" },
       { type: "paragraph", text: "It's easy, understandably, for arrangements to become entangled with the emotions of the separation itself. The arrangements that hold up best over time are the ones judged by one question: what does the child actually need here, day to day?" },
@@ -145,7 +145,7 @@ export const posts: Post[] = [
   {
     slug: "first-time-buyers-guide-to-conveyancing",
     title: "What Every First-Time Buyer Should Know About Conveyancing",
-    excerpt: "The legal steps between having an offer accepted and actually owning the property — and where delays usually happen.",
+    excerpt: "The legal steps between having an offer accepted and actually owning the property, and where delays usually happen.",
     coverImage: "/images/case-6.jpg",
     categorySlug: "real-estate",
     tags: ["conveyancing", "first-time-buyers", "property"],
@@ -153,7 +153,7 @@ export const posts: Post[] = [
     publishedAt: "2026-03-30",
     published: false,
     body: [
-      { type: "paragraph", text: "Conveyancing is the legal process of transferring property ownership. For first-time buyers, it's often the least understood part of buying a home — mainly because it happens almost entirely on paper, out of view, between offer and completion." },
+      { type: "paragraph", text: "Conveyancing is the legal process of transferring property ownership. For first-time buyers, it's often the least understood part of buying a home, mainly because it happens almost entirely on paper, out of view, between offer and completion." },
       { type: "heading", level: 2, id: "what-a-conveyancer-does", text: "What a conveyancer actually does" },
       { type: "list", items: [
         "Checks the legal title to the property, and raises queries with the seller's solicitor",
@@ -162,10 +162,10 @@ export const posts: Post[] = [
         "Registers you as the new owner with HM Land Registry",
       ] },
       { type: "heading", level: 2, id: "exchange-vs-completion", text: "Exchange vs. completion" },
-      { type: "paragraph", text: "Exchange of contracts is the point at which the sale becomes legally binding on both sides — before this, either party can generally walk away. Completion, usually days or weeks later, is when money moves and you actually get the keys." },
+      { type: "paragraph", text: "Exchange of contracts is the point at which the sale becomes legally binding on both sides, before this, either party can generally walk away. Completion, usually days or weeks later, is when money moves and you actually get the keys." },
       { type: "heading", level: 2, id: "where-delays-happen", text: "Where delays usually happen" },
-      { type: "paragraph", text: "Chains — where your seller is simultaneously buying somewhere else, and so on down the line — are the most common source of delay, since everyone's completion date has to line up. Slow searches and last-minute mortgage queries are the other usual culprits." },
-      { type: "quote", text: "The best way to avoid conveyancing stress is to instruct a solicitor early and respond to their requests quickly — most delays come from the client's side, not the legal work itself." },
+      { type: "paragraph", text: "Chains, where your seller is simultaneously buying somewhere else, and so on down the line, are the most common source of delay, since everyone's completion date has to line up. Slow searches and last-minute mortgage queries are the other usual culprits." },
+      { type: "quote", text: "The best way to avoid conveyancing stress is to instruct a solicitor early and respond to their requests quickly, most delays come from the client's side, not the legal work itself." },
     ],
   },
   {
@@ -181,9 +181,9 @@ export const posts: Post[] = [
     body: [
       { type: "paragraph", text: "An arrest is often the most frightening part of any criminal matter, partly because it happens suddenly and partly because people rarely know what rights apply until they need them." },
       { type: "heading", level: 2, id: "the-right-to-a-solicitor", text: "The right to a solicitor" },
-      { type: "paragraph", text: "You are entitled to free and independent legal advice at the police station, at any hour, whether or not you can otherwise afford a solicitor. This applies before and during any police interview — you do not have to answer questions before your solicitor arrives." },
+      { type: "paragraph", text: "You are entitled to free and independent legal advice at the police station, at any hour, whether or not you can otherwise afford a solicitor. This applies before and during any police interview, you do not have to answer questions before your solicitor arrives." },
       { type: "heading", level: 2, id: "the-right-to-silence", text: "The right to silence, and its limits" },
-      { type: "paragraph", text: "You have the right not to answer questions. However, in England and Wales, a court or jury may — in some circumstances — draw an adverse inference from your silence if you later rely on a fact in court that you didn't mention when questioned. This is exactly the kind of nuance a solicitor advises on before you're interviewed, not after." },
+      { type: "paragraph", text: "You have the right not to answer questions. However, in England and Wales, a court or jury may, in some circumstances, draw an adverse inference from your silence if you later rely on a fact in court that you didn't mention when questioned. This is exactly the kind of nuance a solicitor advises on before you're interviewed, not after." },
       { type: "heading", level: 2, id: "what-happens-at-the-station", text: "What happens at the station" },
       { type: "list", items: [
         "You're booked in by the custody sergeant, who explains your rights",

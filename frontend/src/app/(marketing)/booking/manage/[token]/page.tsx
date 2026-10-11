@@ -11,7 +11,7 @@ import { bookingContainer } from "@/infrastructure/container";
 // and is reachable only by an unguessable token — it must never be indexed
 // or appear in the sitemap.
 export const metadata: Metadata = {
-  title: "Manage Your Booking — ALLS",
+  title: "Manage Your Booking | ALLS Legal",
   robots: { index: false, follow: false },
 };
 
