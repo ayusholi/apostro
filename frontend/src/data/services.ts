@@ -10,7 +10,7 @@ export const services: Service[] = [
     title: "Civil Litigation and Dispute Resolution",
     description:
       "Strategic representation in civil disputes, from initial consultation through to dispute resolution or trial advocacy.",
-    bullets: ["General litigation", "Dispute Resolution"],
+    bullets: ["General Litigation", "Dispute Resolution"],
   },
   {
     slug: "family-law",

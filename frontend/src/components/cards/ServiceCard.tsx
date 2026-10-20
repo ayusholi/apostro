@@ -19,10 +19,10 @@ export function ServiceCard({ service }: { service: Service }) {
       </ul>
       <Link
         className="more"
-        href="/services"
-        aria-label={`Learn more about ${service.title}`}
+        href="/book"
+        aria-label={`Book an appointment for ${service.title}`}
       >
-        Learn More →
+        Book Appointment →
       </Link>
     </Reveal>
   );

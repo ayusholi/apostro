@@ -29,6 +29,7 @@ export const siteConfig = {
   phoneE164: "+442071833139",
   email: "info@alls-legal.co.uk",
   emailHref: "mailto:info@alls-legal.co.uk",
+  complaintsEmail: "complaints@alls-legal.co.uk",
   address: "20 Store Street, Stratford, London E15 1PU",
 
   /** Structured postal address for PostalAddress schema (GB conventions). */

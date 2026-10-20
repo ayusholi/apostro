@@ -12,7 +12,7 @@ export const complaintsProcedureSections: LegalSection[] = [
   {
     heading: "How to make a complaint",
     paragraphs: [
-      `In the first instance, please raise your concern with the solicitor handling your matter, many issues are resolved quickly this way. If you'd prefer not to, or aren't satisfied after doing so, you can make a formal complaint in writing to one of our Directors at ${siteConfig.email} or by post to ${siteConfig.address}.`,
+      `In the first instance, please raise your concern with the solicitor handling your matter, many issues are resolved quickly this way. If you'd prefer not to, or aren't satisfied after doing so, you can make a formal complaint in writing to one of our Directors at ${siteConfig.complaintsEmail} or by post to ${siteConfig.address}.`,
       "Please include your name, matter reference (if you have one), and as much detail as possible about what happened and what outcome you're looking for.",
     ],
   },
