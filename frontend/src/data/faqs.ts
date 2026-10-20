@@ -20,7 +20,7 @@ export const faqs: Faq[] = [
   {
     question: "What documents should I bring?",
     answer:
-      "Anything relevant to your matter, contracts, correspondence, filings, photos. We'll send a checklist after intake.",
+      "Anything relevant to your matter, such as contracts, correspondence, filings, and photos. We'll send a checklist after intake.",
   },
   {
     question: "How long does a typical case take?",

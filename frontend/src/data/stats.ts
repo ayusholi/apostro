@@ -5,7 +5,7 @@ export const stats: Stat[] = [
   { title: "Partner-Led Service", description: "Direct access to a Director-level solicitor on your matter, not a junior handling it alone." },
   { title: "Competitive Pricing", description: "Fixed-fee packages, hourly rates, or retainers, agreed upfront, with no hidden costs." },
   { title: "Faster Turnaround", description: "A boutique firm's focus, without the delays of a larger practice's case load." },
-  { title: "Specialist Expertise", description: "Deep experience across litigation, family law, property conveyance, and private client matters." },
+  { title: "Specialist Expertise", description: "Deep experience across civil litigation, family law, property conveyance, and private client matters." },
   { title: "Modern, Tech-Enabled Working", description: "A secure client portal and encrypted communications, so your matter moves without unnecessary paperwork." },
 ];
 

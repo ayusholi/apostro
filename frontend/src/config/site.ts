@@ -11,7 +11,7 @@ export const siteConfig = {
   legalName: "Assured Legal Limited trading as A.L.L. Solicitors",
   tagline: "Solicitors & Legal Services",
   description:
-    "A.L.L. Solicitors (ALLS) is a boutique solicitors' firm based in Stratford, serving individuals and SMEs across East London, litigation & dispute resolution, family law, property conveyance, and private client matters.",
+    "A.L.L. Solicitors (ALLS) is a boutique solicitors' firm based in Stratford, serving individuals and SMEs across East London in civil litigation and dispute resolution, family law, property conveyance, and private client matters.",
   /** Canonical production origin — drives metadataBase, canonicals, sitemap, and schema @ids. */
   url: "https://alls-legal.co.uk",
   /** Default social-share image (1200×630), generated into /public. */

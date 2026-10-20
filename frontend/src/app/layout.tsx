@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "solicitors East London",
     "solicitors Newham",
     "solicitors Hackney",
-    "litigation and dispute resolution",
+    "civil litigation and dispute resolution",
     "family law solicitors",
     "property conveyance conveyancing solicitors",
     "wills and probate solicitors",

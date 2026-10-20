@@ -3,16 +3,14 @@ import { PageHead } from "@/components/sections/PageHead";
 import { LogoStrip } from "@/components/sections/LogoStrip";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { CtaBanner } from "@/components/sections/CtaBanner";
-import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbList, serviceItemList } from "@/lib/seo/schema";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { services } from "@/data/services";
-import { testimonialsServices } from "@/data/testimonials";
 
 export const metadata = buildMetadata({
   title: "Services",
-  description: "A.L.L. Solicitors' practice areas: litigation & dispute resolution, family law, property conveyance, and private client serving East London.",
+  description: "A.L.L. Solicitors' practice areas: civil litigation and dispute resolution, family law, property conveyance, and private client matters in East London.",
   path: "/services",
 });
 
@@ -38,7 +36,7 @@ export default function ServicesPage() {
         <LogoStrip />
         <ServicesGrid services={services} />
         <CtaBanner />
-        <TestimonialsSection testimonials={testimonialsServices} />
+        {/* Testimonials are temporarily removed. Restore TestimonialsSection here when reviews return. */}
       </main>
     </>
   );

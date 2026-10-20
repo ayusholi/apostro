@@ -7,10 +7,10 @@ export const services: Service[] = [
     slug: "litigation-dispute-resolution",
     number: "01",
     icon: "/images/icon-service-2.png",
-    title: "Litigation & Dispute Resolution",
+    title: "Civil Litigation and Dispute Resolution",
     description:
       "Strategic representation in civil disputes, from initial consultation through to dispute resolution or trial advocacy.",
-    bullets: ["Litigation", "Dispute Resolution", "Probate"],
+    bullets: ["General litigation", "Dispute Resolution"],
   },
   {
     slug: "family-law",
@@ -36,7 +36,7 @@ export const services: Service[] = [
     icon: "/images/icon-service-2.png",
     title: "Private Client",
     description:
-      "Practical advice on wills, probate, and trusts, planning for the future and supporting estate administration after a bereavement.",
+      "Practical advice on wills, probate, and trusts, helping you plan for the future and supporting estate administration after a bereavement.",
     bullets: ["Wills", "Probate", "Trusts"],
   },
 ];

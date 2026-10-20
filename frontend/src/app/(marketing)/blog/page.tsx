@@ -17,7 +17,7 @@ import type { BlogFilter } from "@/domain/blog/query";
 
 export const metadata = buildMetadata({
   title: "Blog",
-  description: "Legal guides and insights from A.L.L. Solicitors | litigation, family law, property conveyance, and private client matters.",
+  description: "Legal guides and insights from A.L.L. Solicitors on civil litigation, family law, property conveyance, and private client matters.",
   path: "/blog",
 });
 

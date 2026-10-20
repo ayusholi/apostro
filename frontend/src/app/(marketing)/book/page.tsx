@@ -12,7 +12,7 @@ import { getSolicitorBySlug } from "@/data/team/solicitors";
 
 export const metadata = buildMetadata({
   title: "Book a Consultation",
-  description: "Book a confidential consultation with an ALLS solicitor, choose your service, solicitor, office, and a time that works for you.",
+  description: "Book a confidential consultation with an ALLS solicitor. Choose your service, solicitor, office, and a time that works for you.",
   path: "/book",
 });
 

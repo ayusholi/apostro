@@ -79,7 +79,7 @@ export function ContactForm() {
       <div className="field">
         <label htmlFor="sv">Service</label>
         <select id="sv" name="service">
-          <option>Litigation &amp; Dispute Resolution</option>
+          <option>Civil Litigation and Dispute Resolution</option>
           <option>Family Law</option>
           <option>Property Conveyance</option>
           <option>Private Client</option>
