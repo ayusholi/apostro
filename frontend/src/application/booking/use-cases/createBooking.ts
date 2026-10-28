@@ -96,9 +96,11 @@ export async function createBooking(
     // Notification failures must never undo an already-persisted booking —
     // the appointment is real even if the confirmation email bounces. Log
     // and move on; a production deploy would also push this to error
-    // tracking (Sentry, etc.) rather than just console.error.
+    // tracking (Sentry, etc.) rather than just console.error. Awaited (not
+    // fire-and-forget) because on serverless the function can be frozen as
+    // soon as the response is returned, dropping in-flight sends.
     const emailCtx = { booking, service: ctx.service, solicitor: ctx.solicitor, office: ctx.office };
-    void Promise.all([
+    await Promise.all([
       deps.notifications.send(composeConfirmationEmail(emailCtx)),
       deps.notifications.send(composeAdminNewBookingEmail(emailCtx)),
     ]).catch((err) => console.error("[booking] notification failed for", booking.id, err));

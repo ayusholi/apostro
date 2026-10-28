@@ -65,7 +65,7 @@ export async function rescheduleBooking(
     if (!updated) throw new BookingNotFoundError();
 
     const emailCtx = { booking: updated, service: ctx.service, solicitor: ctx.solicitor, office: ctx.office };
-    void Promise.all([
+    await Promise.all([
       deps.notifications.send(composeRescheduleEmail(emailCtx, previousSlot)),
       deps.notifications.send(composeAdminRescheduleEmail(emailCtx, previousSlot)),
     ]).catch((err) => console.error("[booking] reschedule notification failed for", updated.id, err));

@@ -2,11 +2,8 @@ import type { EmailMessage, NotificationService } from "@/application/booking/po
 
 /**
  * Development adapter — logs a readable summary instead of sending real
- * email. Swap for production by implementing the same `NotificationService`
- * interface against Resend (recommended: first-class Next.js support, simple
- * API) — see /prisma/README.md "Swapping adapters" for the full checklist.
- * Every use case in application/booking already codes only against this
- * interface, so that swap never touches booking logic.
+ * email. Used whenever RESEND_API_KEY is unset; with it set,
+ * createNotificationService returns ResendNotificationService instead.
  */
 export class ConsoleNotificationService implements NotificationService {
   async send(message: EmailMessage): Promise<void> {

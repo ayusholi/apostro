@@ -75,6 +75,7 @@ export type EmailMessage = {
   subject: string;
   html: string;
   text: string;
+  replyTo?: string;
   attachments?: EmailAttachment[];
 };
 

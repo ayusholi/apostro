@@ -4,6 +4,7 @@ import { buildGoogleCalendarLink, buildOutlookCalendarLink } from "@/domain/sche
 import { buildIcsEvent } from "@/domain/scheduling/ics";
 import { formatInTimeZone, timeZoneAbbreviation } from "@/domain/scheduling/timezone";
 import { siteConfig } from "@/config/site";
+import { adminNotificationEmail } from "@/config/email";
 import type { BookableService, EmailMessage, Office, Solicitor } from "./ports";
 
 export type BookingEmailContext = {
@@ -12,6 +13,11 @@ export type BookingEmailContext = {
   solicitor: Solicitor;
   office: Office;
 };
+
+/** Client-typed fields go into HTML email bodies — escape them so a name or note can't inject markup/links. */
+function escapeHtml(value: string): string {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
 
 function whenLine(slot: TimeSlot, timeZone: string): string {
   const formatted = formatInTimeZone(slot.startUtc, timeZone, {
@@ -100,7 +106,7 @@ export function composeConfirmationEmail(ctx: BookingEmailContext): EmailMessage
   const html = shell(
     "Booking confirmed",
     `<h1 style="font-size:22px;margin:0 0 6px;">Your consultation is confirmed</h1>
-     <p style="font-family:Arial,sans-serif;font-size:14px;color:#4d4a41;margin:0 0 4px;">Hi ${ctx.booking.client.name}, thanks for booking with ${siteConfig.name}.</p>
+     <p style="font-family:Arial,sans-serif;font-size:14px;color:#4d4a41;margin:0 0 4px;">Hi ${escapeHtml(ctx.booking.client.name)}, thanks for booking with ${siteConfig.name}.</p>
      ${detailRows(ctx)}
      <div>${ctaButton(google, "Add to Google Calendar")}${ctaButton(outlook, "Add to Outlook")}</div>
      <p style="font-family:Arial,sans-serif;font-size:13px;color:#7c7768;margin-top:20px;">A calendar file is attached to this email for Apple Calendar and other apps.</p>
@@ -119,7 +125,7 @@ export function composeReminderEmail(ctx: BookingEmailContext): EmailMessage {
   const html = shell(
     "Appointment reminder",
     `<h1 style="font-size:22px;margin:0 0 6px;">Reminder: your consultation is coming up</h1>
-     <p style="font-family:Arial,sans-serif;font-size:14px;color:#4d4a41;margin:0 0 4px;">Hi ${ctx.booking.client.name}, this is a reminder of your upcoming appointment.</p>
+     <p style="font-family:Arial,sans-serif;font-size:14px;color:#4d4a41;margin:0 0 4px;">Hi ${escapeHtml(ctx.booking.client.name)}, this is a reminder of your upcoming appointment.</p>
      ${detailRows(ctx)}
      <p style="font-family:Arial,sans-serif;font-size:13px;margin-top:16px;">Need to change plans? <a href="${manageUrl(ctx.booking.manageToken)}" style="color:#97701f;">Manage or cancel your booking</a>.</p>`,
   );
@@ -136,7 +142,7 @@ export function composeCancellationEmail(ctx: BookingEmailContext): EmailMessage
   const html = shell(
     "Booking cancelled",
     `<h1 style="font-size:22px;margin:0 0 6px;">Your consultation has been cancelled</h1>
-     <p style="font-family:Arial,sans-serif;font-size:14px;color:#4d4a41;margin:0 0 4px;">Hi ${ctx.booking.client.name}, the appointment below has been cancelled as requested.</p>
+     <p style="font-family:Arial,sans-serif;font-size:14px;color:#4d4a41;margin:0 0 4px;">Hi ${escapeHtml(ctx.booking.client.name)}, the appointment below has been cancelled as requested.</p>
      ${detailRows(ctx)}
      <p style="font-family:Arial,sans-serif;font-size:13px;margin-top:16px;">Changed your mind? <a href="${siteConfig.url}/book" style="color:#97701f;">Book a new consultation</a>.</p>`,
   );
@@ -160,7 +166,7 @@ export function composeRescheduleEmail(ctx: BookingEmailContext, previousSlot: T
   const html = shell(
     "Booking rescheduled",
     `<h1 style="font-size:22px;margin:0 0 6px;">Your consultation has been rescheduled</h1>
-     <p style="font-family:Arial,sans-serif;font-size:14px;color:#4d4a41;margin:0 0 4px;">Hi ${ctx.booking.client.name}, your new appointment time is confirmed below.</p>
+     <p style="font-family:Arial,sans-serif;font-size:14px;color:#4d4a41;margin:0 0 4px;">Hi ${escapeHtml(ctx.booking.client.name)}, your new appointment time is confirmed below.</p>
      <p style="font-family:Arial,sans-serif;font-size:13px;color:#a5402e;text-decoration:line-through;margin:12px 0 0;">Previously: ${whenLine(previousSlot, ctx.booking.displayTimeZone)}</p>
      ${detailRows(ctx)}
      <div>${ctaButton(google, "Update Google Calendar")}</div>
@@ -182,12 +188,13 @@ function adminEmail(subject: string, bodyLines: string[], ctx: BookingEmailConte
      ${detailRows(ctx)}
      <table role="presentation" width="100%" style="margin-top:14px;">
        <tr><td style="padding:4px 0;font-family:Arial,sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7c7768;width:110px;">Client</td>
-           <td style="padding:4px 0;font-family:Arial,sans-serif;font-size:14px;">${ctx.booking.client.name} · ${ctx.booking.client.email} · ${ctx.booking.client.phone}</td></tr>
-       ${ctx.booking.client.notes ? `<tr><td style="padding:4px 0;font-family:Arial,sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7c7768;">Notes</td><td style="padding:4px 0;font-family:Arial,sans-serif;font-size:14px;">${ctx.booking.client.notes}</td></tr>` : ""}
+           <td style="padding:4px 0;font-family:Arial,sans-serif;font-size:14px;">${escapeHtml(ctx.booking.client.name)} · ${escapeHtml(ctx.booking.client.email)} · ${escapeHtml(ctx.booking.client.phone)}</td></tr>
+       ${ctx.booking.client.notes ? `<tr><td style="padding:4px 0;font-family:Arial,sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7c7768;">Notes</td><td style="padding:4px 0;font-family:Arial,sans-serif;font-size:14px;">${escapeHtml(ctx.booking.client.notes)}</td></tr>` : ""}
      </table>`,
   );
   return {
-    to: siteConfig.email,
+    to: adminNotificationEmail,
+    replyTo: ctx.booking.client.email,
     subject: `[Booking] ${subject}: ${ctx.booking.client.name}`,
     html,
     text: [subject, ...bodyLines].join("\n"),

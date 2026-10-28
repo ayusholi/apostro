@@ -15,7 +15,7 @@ import { StaticServiceRepository } from "./booking/memory/StaticServiceRepositor
 import { StaticSolicitorRepository } from "./booking/memory/StaticSolicitorRepository";
 import { StaticOfficeRepository } from "./booking/memory/StaticOfficeRepository";
 import { InMemoryBookingRepository } from "./booking/memory/InMemoryBookingRepository";
-import { ConsoleNotificationService } from "./booking/notifications/ConsoleNotificationService";
+import { createNotificationService } from "./booking/notifications/createNotificationService";
 import { HoneypotSpamGuard } from "./booking/security/HoneypotSpamGuard";
 import { SystemClock } from "./booking/system/SystemClock";
 import { CryptoIdGenerator } from "./booking/system/CryptoIdGenerator";
@@ -32,7 +32,7 @@ const services = new StaticServiceRepository();
 const solicitors = new StaticSolicitorRepository();
 const offices = new StaticOfficeRepository();
 const bookings = new InMemoryBookingRepository();
-const notifications = new ConsoleNotificationService();
+const notifications = createNotificationService();
 const spamGuard = new HoneypotSpamGuard();
 const clock = new SystemClock();
 const ids = new CryptoIdGenerator();

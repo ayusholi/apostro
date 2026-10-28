@@ -1,5 +1,5 @@
 import type { Clock, EmailMessage, NotificationService, SpamGuard } from "@/application/booking/ports";
-import { siteConfig } from "@/config/site";
+import { adminNotificationEmail } from "@/config/email";
 import { contactEnquirySchema, zodFieldErrors } from "./validation";
 import { fail, ok, type ContactEnquiryInput, type Result } from "./dto";
 
@@ -8,6 +8,10 @@ export type SendEnquiryDeps = {
   spamGuard: SpamGuard;
   clock: Clock;
 };
+
+function escapeHtml(value: string): string {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
 
 function composeEnquiryEmail(input: ContactEnquiryInput): EmailMessage {
   const name = `${input.firstName} ${input.lastName}`;
@@ -24,10 +28,11 @@ function composeEnquiryEmail(input: ContactEnquiryInput): EmailMessage {
   ].filter((line): line is string => line !== null);
 
   return {
-    to: siteConfig.email,
+    to: adminNotificationEmail,
+    replyTo: input.email,
     subject: `New enquiry from ${name}`,
     text: lines.join("\n"),
-    html: lines.map((line) => `<p>${line}</p>`).join(""),
+    html: lines.map((line) => `<p>${escapeHtml(line)}</p>`).join(""),
   };
 }
 

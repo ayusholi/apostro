@@ -43,7 +43,7 @@ export async function cancelBooking(deps: CancelBookingDeps, token: string): Pro
     });
 
     const emailCtx = { booking, service: ctx.service, solicitor: ctx.solicitor, office: ctx.office };
-    void Promise.all([
+    await Promise.all([
       deps.notifications.send(composeCancellationEmail(emailCtx)),
       deps.notifications.send(composeAdminCancellationEmail(emailCtx)),
     ]).catch((err) => console.error("[booking] cancellation notification failed for", booking.id, err));
