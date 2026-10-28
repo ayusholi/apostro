@@ -8,29 +8,27 @@ import type { Solicitor } from "@/domain/team/Solicitor";
  */
 export const solicitors: Solicitor[] = [
   {
-    slug: "ugochukwu-muoma",
-    name: "Ugochukwu Muoma",
-    role: "Director / Solicitor, COFA",
-    image: "/images/ugochukwu-muoma.jpeg",
-    bio: `Ugochukwu Muoma is a Director and solicitor with over three years’ post-qualification experience, specialising in residential and commercial conveyancing, litigation, and probate.
+    slug: "ugo-muoma",
+    name: "Ugo Muoma",
+    role: "Solicitor",
+    image: "/images/ugo-muoma.jpeg",
+    bio: `Ugo Muoma is a Director and solicitor with over three years’ post-qualification experience, specialising in residential and commercial conveyancing, litigation, and probate.
 
 He brings strong advocacy and drafting skills, alongside a keen focus on business development and achieving practical outcomes for clients.`,
     qualifications: [
-      "LLB (Hons), University of Manchester",
-      "Legal Practice Course, BPP Law School",
       "Solicitor of England and Wales",
     ],
     practiceAreaSlugs: ["litigation-dispute-resolution", "real-estate", "private-client"],
-    languages: ["English", "French"],
+    languages: ["English"],
     experienceYears: 3,
     memberships: ["The Law Society of England and Wales", "Law Society Conveyancing Quality Scheme"],
     email: "info@alls-legal.co.uk",
   },
   {
-    slug: "osasere-ebosele",
-    name: "Osasere Ebosele",
-    role: "Director / Solicitor, COLP",
-    image: "/images/osasereebosele.jpg",
+    slug: "osas-ebosele",
+    name: "Osas Ebosele",
+    role: "Solicitor",
+    image: "/images/osasebosele.jpg",
     bio: `I am a Solicitor of England and Wales, and since qualifying in 2022 I have focused my practice on Family Law and Private Client matters. My work centres on guiding clients through sensitive and often emotional situations with clarity, empathy, and practical legal support.
 
 My approach is always client‑focused, ensuring that the service I provide is tailored to each person’s unique needs and firmly aligned with their best interests.
@@ -43,7 +41,6 @@ As a Resolution member, I am committed to resolving disputes amicably wherever p
 
 Outside of work, I enjoy spending quality time with my family and I’m a keen sports enthusiast. I am also passionate about community service and support charitable initiatives that help meet the needs of people through non‑governmental organisations.`,
     qualifications: [
-      "LLB (Hons), University of Bristol",
       "Legal Practice Course, University of Law",
       "Solicitor of England and Wales",
     ],

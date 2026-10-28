@@ -6,7 +6,7 @@ import type { Author } from "@/domain/blog/Post";
  * people who work at the firm — with public, indexable profile pages and
  * "Partner" titles that don't match the firm's actual Director/Solicitor
  * structure. Removed rather than relabelled, since the underlying people
- * don't exist. Add Ugochukwu/Osasere (or real guest authors) here once
+ * don't exist. Add Ugo/Osas (or real guest authors) here once
  * articles are ready to publish.
  */
 export const authors: Author[] = [];
