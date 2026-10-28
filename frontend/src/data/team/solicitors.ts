@@ -16,6 +16,7 @@ export const solicitors: Solicitor[] = [
 
 He brings strong advocacy and drafting skills, alongside a keen focus on business development and achieving practical outcomes for clients.`,
     qualifications: [
+      "LLB (Hons)",
       "Solicitor of England and Wales",
     ],
     practiceAreaSlugs: ["litigation-dispute-resolution", "real-estate", "private-client"],
@@ -41,7 +42,7 @@ As a Resolution member, I am committed to resolving disputes amicably wherever p
 
 Outside of work, I enjoy spending quality time with my family and I’m a keen sports enthusiast. I am also passionate about community service and support charitable initiatives that help meet the needs of people through non‑governmental organisations.`,
     qualifications: [
-      "Legal Practice Course, University of Law",
+      "LLB (Hons)",
       "Solicitor of England and Wales",
     ],
     practiceAreaSlugs: ["family-law", "private-client"],
