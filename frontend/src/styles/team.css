@@ -4,13 +4,6 @@
    .review-grid) rather than inventing a second visual language.
    ========================================================================== */
 
-/* Team grid card additions (base .t-member lives in globals.css) -------------- */
-.t-member__areas { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.t-member__area {
-  font-size: .68rem; letter-spacing: .04em; color: var(--muted); background: rgba(255, 255, 255, .06);
-  border-radius: 999px; padding: 3px 10px;
-}
-
 /* Profile hero -----------------------------------------------------------------
    solicitor pages load this stylesheet independently of blog.css, so reserve
    space for the fixed header here instead of relying on `.article-hero`. */

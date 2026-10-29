@@ -12,16 +12,16 @@ export const solicitors: Solicitor[] = [
     name: "Ugo Muoma",
     role: "Solicitor",
     image: "/images/ugo-muoma.jpeg",
-    bio: `Ugo Muoma is a Director and solicitor with over three years’ post-qualification experience, specialising in residential and commercial conveyancing, litigation, and probate.
+    bio: `Ugo Muoma is a Director and solicitor with over four years’ post-qualification experience, specialising in residential and commercial conveyancing, litigation, and probate.
 
 He brings strong advocacy and drafting skills, alongside a keen focus on business development and achieving practical outcomes for clients.`,
     qualifications: [
       "LLB (Hons)",
       "Solicitor of England and Wales",
     ],
-    practiceAreaSlugs: ["litigation-dispute-resolution", "real-estate", "private-client"],
+    practiceAreaSlugs: ["litigation-dispute-resolution", "real-estate", "corporate-practice"],
     languages: ["English"],
-    experienceYears: 3,
+    experienceYears: 4,
     memberships: ["The Law Society of England and Wales", "Law Society Conveyancing Quality Scheme"],
     email: "info@alls-legal.co.uk",
   },
@@ -47,7 +47,7 @@ Outside of work, I enjoy spending quality time with my family and I’m a keen s
     ],
     practiceAreaSlugs: ["family-law", "private-client"],
     languages: ["English"],
-    experienceYears: 3,
+    experienceYears: 4,
     memberships: ["The Law Society of England and Wales", "Resolution (family law)", "Law Society Family Law Advanced Scheme"],
     email: "info@alls-legal.co.uk",
   },

@@ -24,7 +24,7 @@ export function ServiceStep({
             onClick={() => onSelect(service.slug)}
           >
             <span className="option-card__title">{service.title}</span>
-            <span className="option-card__meta">{service.durationMinutes}-minute consultation</span>
+            <span className="option-card__meta">{service.durationMinutes}-minute phone consultation</span>
           </button>
         ))}
       </div>

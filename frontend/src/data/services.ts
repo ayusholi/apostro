@@ -39,6 +39,15 @@ export const services: Service[] = [
       "Practical advice on wills, probate, and trusts, helping you plan for the future and supporting estate administration after a bereavement.",
     bullets: ["Wills", "Probate", "Trusts"],
   },
+  {
+    slug: "corporate-practice",
+    number: "05",
+    icon: "/images/icon-service-3.png",
+    title: "Corporate Practice",
+    description:
+      "Practical corporate legal support for non-listed companies, helping your business operate and grow with confidence.",
+    bullets: ["Corporate work for non-listed companies"],
+  },
 ];
 
 /**
