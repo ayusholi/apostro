@@ -29,7 +29,7 @@ He brings strong advocacy and drafting skills, alongside a keen focus on busines
     slug: "osas-ebosele",
     name: "Osas Ebosele",
     role: "Solicitor",
-    image: "/images/osasebosele.jpg",
+    image: "/images/osasebosele.jpeg",
     bio: `I am a Solicitor of England and Wales, and since qualifying in 2022 I have focused my practice on Family Law and Private Client matters. My work centres on guiding clients through sensitive and often emotional situations with clarity, empathy, and practical legal support.
 
 My approach is always client‑focused, ensuring that the service I provide is tailored to each person’s unique needs and firmly aligned with their best interests.
