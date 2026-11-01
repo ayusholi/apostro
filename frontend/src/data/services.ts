@@ -19,7 +19,7 @@ export const services: Service[] = [
     title: "Family Law",
     description:
       "Sensitive, practical guidance through divorce, financial settlements, and child arrangements, with your family's wellbeing front of mind.",
-    bullets: ["Divorce", "Financial settlements", "Child arrangements"],
+    bullets: ["Divorce", "Financial settlements", "Child arrangements", "Pre-nuptial Agreement", "Cohabitation Agreement"],
   },
   {
     slug: "real-estate",
@@ -37,7 +37,7 @@ export const services: Service[] = [
     title: "Private Client",
     description:
       "Practical advice on wills, probate, and trusts, helping you plan for the future and supporting estate administration after a bereavement.",
-    bullets: ["Wills", "Probate", "Trusts"],
+    bullets: ["Wills", "Probate", "Trusts", "Lasting Power of Attorney"],
   },
   {
     slug: "corporate-practice",

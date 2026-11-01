@@ -13,7 +13,7 @@ export function SolicitorCard({ solicitor }: { solicitor: Solicitor }) {
         <h4>
           <Link href={`/solicitors/${solicitor.slug}`}>{solicitor.name}</Link>
         </h4>
-        <span>{solicitor.role}</span>
+        <span>{solicitor.role} (2022)</span>
       </div>
     </Reveal>
   );

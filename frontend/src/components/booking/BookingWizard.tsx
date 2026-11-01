@@ -81,7 +81,8 @@ export function BookingWizard({ services }: { services: BookableService[] }) {
             onSelectSlot={wizard.selectSlot}
           />
           <div className="wizard-actions">
-            <BackButton onClick={() => wizard.goToStep(2)} />
+            {/* Solicitor/Appointment steps hidden: go back to Service. Restore to goToStep(2). */}
+            <BackButton onClick={() => wizard.goToStep(0)} />
             {wizard.selectedSlotStartUtc && (
               <button type="button" className="btn btn--gold" onClick={() => wizard.goToStep(4)}>
                 Continue <span className="arrow">↗</span>

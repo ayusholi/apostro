@@ -23,9 +23,9 @@ export function SolicitorProfileHero({ solicitor, breadcrumbs }: { solicitor: So
           <Image src={solicitor.image} alt={solicitor.name} width={140} height={140} className="solicitor-hero__photo" />
           <div>
             <h1>{solicitor.name}</h1>
-            <p className="solicitor-hero__role">{solicitor.role}</p>
+            <p className="solicitor-hero__role">{solicitor.role} (2022)</p>
             <p className="solicitor-hero__meta">
-              {solicitor.experienceYears} years of experience · {solicitor.languages.join(", ")}
+              {solicitor.languages.join(", ")}
             </p>
             <Button href={`/book?solicitor=${solicitor.slug}`} variant="gold" arrow>
               Book a Consultation

@@ -15,6 +15,8 @@ import { useDetectedTimeZone } from "./useDetectedTimeZone";
 type AvailabilityData = { slots: string[]; officeTimeZone: string; durationMinutes: number };
 
 export const WIZARD_STEPS = ["Service", "Solicitor", "Appointment", "Date & time", "Your details", "Review"] as const;
+/** Steps temporarily hidden from the flow (1 = Solicitor, 2 = Appointment). Set to [] and restore the commented block in selectService to bring them back. */
+export const HIDDEN_STEPS: number[] = [1, 2];
 export type WizardStepIndex = 0 | 1 | 2 | 3 | 4 | 5;
 
 type AsyncState<T> = { status: "idle" | "loading" | "error" | "success"; data: T | null; error: string | null };
@@ -99,9 +101,26 @@ export function useBookingWizard(initialServices: BookableService[]) {
     try {
       const solicitors = await listSolicitorsForServiceAction(slug);
       setSolicitorsState({ status: "success", data: solicitors, error: null });
+
+      // Solicitor and Appointment steps are temporarily hidden: auto-assign the first
+      // available solicitor and office, then go straight to Date & time.
+      // To restore the steps, delete this block and re-enable the setStep(1) below.
+      const first = solicitors[0];
+      if (first) {
+        setSolicitorSlug(first.slug);
+        setOfficesState({ status: "loading", data: null, error: null });
+        const offices = await listOfficesForSolicitorAction(first.slug);
+        setOfficesState({ status: "success", data: offices, error: null });
+        if (offices[0]) {
+          setOfficeId(offices[0].id);
+          setStep(3);
+          return;
+        }
+      }
     } catch {
       setSolicitorsState({ status: "error", data: null, error: "Couldn't load solicitors. Please try again." });
     }
+    // Fallback (and original behaviour when the steps are visible): show the Solicitor step.
     setStep(1);
   }, []);
 
