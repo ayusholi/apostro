@@ -1,0 +1,102 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+.pnpm-store/
+.yarn/
+
+# Package manager files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+!.env.*.example
+backend/.env
+backend/.env.*
+frontend/.env
+frontend/.env.*
+
+# Build output
+dist/
+build/
+out/
+coverage/
+.nyc_output/
+.next/
+.nuxt/
+.cache/
+.vite/
+backend/dist/
+backend/build/
+backend/coverage/
+frontend/dist/
+frontend/build/
+frontend/out/
+frontend/coverage/
+frontend/.next/
+frontend/.nuxt/
+frontend/.vite/
+
+# Framework and tool caches
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+.parcel-cache/
+.turbo/
+.svelte-kit/
+
+# Logs
+logs/
+*.log
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
+
+# Runtime data and databases
+*.pid
+*.seed
+*.pid.lock
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Docker
+*.local.yml
+*.local.yaml
+.dockerignore
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Operating systems
+.DS_Store
+Thumbs.db
+Desktop.ini
+.AppleDouble
+.LSOverride
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Uploads and local storage
+uploads/
+backend/uploads/
+storage/
+backend/storage/
