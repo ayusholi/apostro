@@ -11,6 +11,7 @@ const EXPECTED: Record<FirmRole, FirmPermission[]> = {
   OWNER: [...FIRM_PERMISSIONS],
   ADMIN: FIRM_PERMISSIONS.filter((p) => p !== 'firm:manage'),
   FEE_EARNER: [
+    'member:read',
     'client:read',
     'client:write',
     'matter:read',
@@ -21,6 +22,7 @@ const EXPECTED: Record<FirmRole, FirmPermission[]> = {
     'conversation:write',
   ],
   SUPPORT: [
+    'member:read',
     'client:read',
     'matter:read',
     'task:read',

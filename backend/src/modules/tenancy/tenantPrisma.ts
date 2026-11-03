@@ -24,6 +24,7 @@ import type { TenantContext } from './tenancy.types';
 /** Prisma model names that carry a required `firmId`. */
 export const TENANT_MODELS: ReadonlySet<string> = new Set([
   'FirmMembership',
+  'FirmInvitation',
   'Client',
   'Matter',
   'MatterClient',
@@ -56,6 +57,14 @@ const UNIQUE_OPERATIONS = new Set([
 ]);
 
 const CREATE_OPERATIONS = new Set(['create', 'createMany', 'createManyAndReturn']);
+
+/**
+ * Append-only platform tables a tenant transaction may write to, so the
+ * record commits or rolls back with the change it describes. Rows are
+ * stamped with the tenant's firmId; reading or changing them through this
+ * client is still refused.
+ */
+const APPEND_ONLY_MODELS: ReadonlySet<string> = new Set(['AuditEvent']);
 
 /** Thrown for a query the scoping layer can't prove is tenant-safe. A programming error → 500. */
 export class TenantScopeError extends Error {
@@ -98,6 +107,11 @@ export function scopeArgs(
   args: unknown,
   firmId: string,
 ): unknown {
+  if (model && APPEND_ONLY_MODELS.has(model) && operation === 'create') {
+    const input = isRecord(args) ? args : {};
+    return { ...input, data: withFirmData(input.data, firmId, model) };
+  }
+
   if (!model || !TENANT_MODELS.has(model)) {
     throw new TenantScopeError(
       `${model ?? 'raw'}.${operation}: not a tenant-owned model — use the base client deliberately.`,

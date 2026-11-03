@@ -6,6 +6,15 @@ import {
   listMatterTasksQuerySchema,
   matterIdParamSchema,
 } from '../modules/matters/matters.schema';
+import { createFirmSchema } from '../modules/firms/firms.schema';
+import {
+  acceptInvitationSchema,
+  createInvitationSchema,
+  invitationIdParamSchema,
+  listMembersQuerySchema,
+  membershipIdParamSchema,
+  updateMemberSchema,
+} from '../modules/members/members.schema';
 import { registry } from './registry';
 
 /**
@@ -167,4 +176,116 @@ registry.registerPath({
   security,
   request: { params: firmIdParam.merge(taskIdParamSchema) },
   responses: { 200: json('The updated task.', objectResponse('Task')), ...tenantErrors },
+});
+
+const jsonBody = (schema: z.ZodTypeAny) => ({
+  required: true,
+  content: { 'application/json': { schema } },
+});
+
+registry.registerPath({
+  method: 'post',
+  path: '/firms',
+  tags: ['Tenancy'],
+  summary: 'Create a firm. The caller becomes its first OWNER.',
+  security,
+  request: { body: jsonBody(createFirmSchema) },
+  responses: {
+    201: json('The firm and the caller’s owner membership.', objectResponse('Firm')),
+    401: tenantErrors[401],
+    409: problem('SLUG_TAKEN — the handle is already in use.'),
+  },
+});
+
+registry.registerPath({
+  method: 'get',
+  path: '/firms/{firmId}/members',
+  tags: ['Members'],
+  summary: 'List members (removed hidden unless asked for). Requires member:read.',
+  security,
+  request: { params: firmIdParam, query: listMembersQuerySchema },
+  responses: { 200: json('Members.', listResponse('MemberList')), ...tenantErrors },
+});
+
+registry.registerPath({
+  method: 'patch',
+  path: '/firms/{firmId}/members/{membershipId}',
+  tags: ['Members'],
+  summary:
+    'Change a member’s role or suspend/reactivate them. Requires member:manage; only owners touch owners; not your own membership.',
+  security,
+  request: {
+    params: firmIdParam.merge(membershipIdParamSchema),
+    body: jsonBody(updateMemberSchema),
+  },
+  responses: {
+    200: json('The updated member.', objectResponse('Member')),
+    ...tenantErrors,
+    409: problem('LAST_OWNER — the firm would be left without an active owner.'),
+  },
+});
+
+registry.registerPath({
+  method: 'delete',
+  path: '/firms/{firmId}/members/{membershipId}',
+  tags: ['Members'],
+  summary: 'Remove a member (soft; access ends immediately). Requires member:manage.',
+  security,
+  request: { params: firmIdParam.merge(membershipIdParamSchema) },
+  responses: {
+    204: { description: 'Removed.' },
+    ...tenantErrors,
+    409: problem('LAST_OWNER — the firm would be left without an active owner.'),
+  },
+});
+
+registry.registerPath({
+  method: 'get',
+  path: '/firms/{firmId}/invitations',
+  tags: ['Members'],
+  summary: 'Pending, unexpired invitations. Requires member:manage.',
+  security,
+  request: { params: firmIdParam },
+  responses: { 200: json('Invitations.', listResponse('InvitationList')), ...tenantErrors },
+});
+
+registry.registerPath({
+  method: 'post',
+  path: '/firms/{firmId}/invitations',
+  tags: ['Members'],
+  summary:
+    'Invite an email with a role (7-day link, emailed). Re-inviting revokes the previous link. Requires member:manage.',
+  security,
+  request: { params: firmIdParam, body: jsonBody(createInvitationSchema) },
+  responses: {
+    201: json('The invitation (never the token).', objectResponse('Invitation')),
+    ...tenantErrors,
+    409: problem('ALREADY_MEMBER.'),
+  },
+});
+
+registry.registerPath({
+  method: 'delete',
+  path: '/firms/{firmId}/invitations/{invitationId}',
+  tags: ['Members'],
+  summary: 'Revoke a pending invitation. Requires member:manage.',
+  security,
+  request: { params: firmIdParam.merge(invitationIdParamSchema) },
+  responses: { 204: { description: 'Revoked.' }, ...tenantErrors },
+});
+
+registry.registerPath({
+  method: 'post',
+  path: '/invitations/accept',
+  tags: ['Members'],
+  summary: 'Accept an invitation as the signed-in user, whose email must match.',
+  security,
+  request: { body: jsonBody(acceptInvitationSchema) },
+  responses: {
+    200: json('The firm and the new membership.', objectResponse('AcceptedInvitation')),
+    400: problem('INVALID_OR_EXPIRED_TOKEN.'),
+    401: tenantErrors[401],
+    403: problem('INVITATION_EMAIL_MISMATCH.'),
+    409: problem('ALREADY_MEMBER.'),
+  },
 });

@@ -1,13 +1,16 @@
 # Roadmap
 
-_Planning stages, not commitments. Order may change as the product is validated. Last updated: 2026-11-02._
+_Planning stages, not commitments. Order may change as the product is validated. Last updated: 2026-11-03._
 
 ## Stage 1 — Foundation  ✅ **complete (2026-11-03), pending first CI run**
 Project structure, tenant model, database setup, security boundaries, documentation and tests.
 - Done: tenancy schema + migration; tenant context, scoped client, composite FKs; firm permissions; minimal client/matter/task endpoints; audit writer; unit tests; ADRs and docs; dev seed; compose test database.
 - Verified 2026-11-03: integration suite (30 tests) and migration against real Postgres + Redis; dev-database seed and API smoke test; CI workflow and tenant OpenAPI added. Remaining: confirm the CI workflow passes on GitHub.
 
-## Stage 2 — Identity and onboarding
+## Stage 2 — Identity and onboarding  ← **current (in progress)**
+- Done 2026-11-03: firm creation (`POST /firms`, caller becomes OWNER); invitations (create, list, revoke, accept; hashed single-use 7-day tokens); membership management (list, role change, suspend/reactivate, soft remove) with owner rules, last-owner protection under a firm lock, and transactional audit.
+- Remaining: register-via-invitation for people without an account; real email delivery; initial firm setup (matter types, reference format); MFA; JWT key rotation; general rate limiting; frontend firm switcher.
+
 Firm creation, invitations (token, expiry, acceptance into `FirmMembership`), membership management with transactional audit, initial firm setup (matter types, reference format), MFA, JWT key rotation, rate limiting, `/me/firms`-driven firm switcher in the frontend.
 
 ## Stage 3 — Core legal workspace

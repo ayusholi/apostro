@@ -34,6 +34,13 @@ AuditEvent  (append-only; firmId?, actorUserId?; no FKs)
   - `status`: `INVITED`, `ACTIVE`, `SUSPENDED` or `REMOVED`.
   - Constraints: `@@unique([firmId, userId])` and `@@unique([firmId, id])`.
   - Every "person" reference in the practice schema points here, not at `User`.
+  - Removal is soft (`REMOVED`): tasks, matters and activity still reference the row. `INVITED` is currently unused — invitations live in `FirmInvitation` and a membership is created only on acceptance.
+  - Invariant (application-enforced under a firm-row lock): every firm keeps at least one `ACTIVE` `OWNER`.
+- **FirmInvitation** (Stage 2): an offer to join a firm with a role.
+  - `email` (lowercase, CHECK), `role`, `tokenHash` (SHA-256 of the emailed token; unique), `expiresAt` (7 days).
+  - `invitedByMembershipId` and `acceptedMembershipId` are composite FKs into the same firm.
+  - Ends exactly one way: `acceptedAt` + `acceptedMembershipId` together, or `revokedAt` (CHECKs).
+  - At most one pending invitation per (firm, email): partial unique index. Re-inviting revokes the previous one.
 
 ### Practice
 - **Client**: an individual or organisation.
@@ -105,7 +112,6 @@ AuditEvent  (append-only; firmId?, actorUserId?; no FKs)
 | Entity | Introduce when |
 |---|---|
 | Firm settings, matter types, stage definitions, reference sequences | Stage 2–3, firm onboarding and matter creation |
-| Invitation (token, expiry, inviter) | Stage 2, invitations |
 | `MatterAccess` / restricted matters | When confidential matters or ethical walls are required (ADR-004) |
 | Client contact details (addresses, multiple contacts), ID verification, conflict-check records | Stage 3, with a data-protection review |
 | `Contact` / conversation participants (multiple parties) | Stage 4, when group threads or CC'd parties matter |

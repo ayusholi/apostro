@@ -5,6 +5,7 @@ import { AppError } from '../../shared/errors';
 import { sendOk } from '../../shared/response';
 import { clientsRouter } from '../clients/clients.routes';
 import { mattersRouter } from '../matters/matters.routes';
+import { firmInvitationsRouter, membersRouter } from '../members/members.routes';
 import { tasksRouter } from '../tasks/tasks.routes';
 import { getTenant, resolveTenant } from './tenancy.middleware';
 import { listActiveMemberships } from './tenancy.repository';
@@ -46,3 +47,5 @@ firmRouter.get('/', async (req: Request, res: Response) => {
 firmRouter.use('/clients', clientsRouter);
 firmRouter.use('/matters', mattersRouter);
 firmRouter.use('/tasks', tasksRouter);
+firmRouter.use('/members', membersRouter);
+firmRouter.use('/invitations', firmInvitationsRouter);

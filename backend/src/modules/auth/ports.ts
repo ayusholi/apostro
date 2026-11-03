@@ -1,8 +1,9 @@
+import { config } from '../../config';
 import { logger } from '../../shared/logger';
 
 export interface AuthEmailMessage {
   to: string;
-  template: 'email-verify' | 'password-reset';
+  template: 'email-verify' | 'password-reset' | 'firm-invitation';
   data: Record<string, string>;
 }
 
@@ -19,7 +20,13 @@ export type EmailSender = (message: AuthEmailMessage) => Promise<void>;
  */
 let sendEmail: EmailSender = (message) => {
   logger.info(
-    { to: message.to, template: message.template },
+    {
+      to: message.to,
+      template: message.template,
+      // Development only: the payload (including one-time tokens) is logged
+      // so links can be followed without a mail server. Never elsewhere.
+      ...(config.app.isDevelopment ? { devData: message.data } : {}),
+    },
     'No email sender configured — logging instead of sending (INFRASTRUCTURE-DESIGN.md §11)',
   );
   return Promise.resolve();

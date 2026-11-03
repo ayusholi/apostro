@@ -196,6 +196,7 @@ model Firm {
   status FirmStatus @default(ACTIVE)
 
   memberships    FirmMembership[]
+  invitations    FirmInvitation[]
   clients        Client[]
   matters        Matter[]
   matterClients  MatterClient[]
@@ -242,11 +243,13 @@ model FirmMembership {
   role   FirmRole
   status MembershipStatus @default(INVITED)
 
-  responsibleFor Matter[]        @relation("MatterResponsible")
-  assignedTasks  Task[]          @relation("TaskAssignee")
-  createdTasks   Task[]          @relation("TaskCreator")
-  conversations  Conversation[]  @relation("ConversationAssignee")
-  activity       ActivityEvent[] @relation("ActivityActor")
+  responsibleFor      Matter[]         @relation("MatterResponsible")
+  assignedTasks       Task[]           @relation("TaskAssignee")
+  createdTasks        Task[]           @relation("TaskCreator")
+  conversations       Conversation[]   @relation("ConversationAssignee")
+  activity            ActivityEvent[]  @relation("ActivityActor")
+  invitationsSent     FirmInvitation[] @relation("InvitationInviter")
+  invitationsAccepted FirmInvitation[] @relation("InvitationAcceptedAs")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -254,6 +257,36 @@ model FirmMembership {
   @@unique([firmId, userId])
   @@unique([firmId, id])
   @@index([userId, status])
+  @@schema("identity")
+}
+
+/// An offer to join a firm with a role. The raw token exists only in the
+/// invitation email; `tokenHash` is its SHA-256. Accepting creates (or
+/// reactivates) the FirmMembership — an invitation is not a membership.
+/// At most one pending invitation per (firm, email): a partial unique
+/// index in the migration, since Prisma can't express it.
+model FirmInvitation {
+  id     String   @id @default(uuid())
+  firmId String
+  firm   Firm     @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  /// Lowercase (CHECK constraint); matched against User.email on acceptance.
+  email  String
+  role   FirmRole
+
+  tokenHash String @unique
+
+  invitedByMembershipId String
+  invitedBy             FirmMembership  @relation("InvitationInviter", fields: [firmId, invitedByMembershipId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  acceptedMembershipId  String?
+  acceptedMembership    FirmMembership? @relation("InvitationAcceptedAs", fields: [firmId, acceptedMembershipId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@unique([firmId, id])
+  @@index([firmId, email])
   @@schema("identity")
 }
 

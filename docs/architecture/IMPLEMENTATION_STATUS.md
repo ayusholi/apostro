@@ -2,6 +2,45 @@
 
 _Update at the end of every meaningful phase. Factual only: say what was verified, and how._
 
+## Current phase: Stage 2 — Identity and onboarding (in progress, 2026-11-03)
+
+### What changed
+**Schema and migration**: `backend/prisma/migrations/20261103120000_firm_invitations/` (additive).
+- `identity.FirmInvitation`, with composite FKs for the inviter and the accepted membership.
+- Hand-written: lowercase-email CHECK, single-outcome CHECKs, and a partial unique index (one pending invitation per firm + email).
+
+**Code** (`backend/src`):
+- `modules/firms/`: `POST /firms` creates the firm, an OWNER membership and a `firm.create` audit row in one transaction. The slug is derived from the name if omitted; a duplicate returns `409 SLUG_TAKEN`.
+- `modules/members/`:
+  - `members.rules.ts`: role rules (only owners touch owners; no self-modification).
+  - `members.service.ts`: list/update/remove, `lockFirmForMembershipChange` (firm-row lock plus actor re-check), last-owner check.
+  - `invitations.service.ts`: create (revokes any earlier pending one), list, revoke, accept (email must match; a removed member rejoins with the same membership id).
+  - Routes: `/firms/:firmId/members`, `/firms/:firmId/invitations`, `POST /invitations/accept`.
+- `tenancy/permissions.ts`: new `member:read` for every role.
+- `tenancy/tenantPrisma.ts`: `FirmInvitation` is tenant-owned. Tenant transactions may *create* `AuditEvent` rows (stamped with their firm) and do nothing else on that table.
+- `audit/audit.writer.ts`: `recordAuditInTransaction` accepts tenant-scoped transactions.
+- `auth/ports.ts`: `firm-invitation` template. In `development` only, the logged-instead-of-sent email includes its data (the token), so links can be followed without a mail server.
+- `docs/tenancy.openapi.ts`: 8 new paths (17 total).
+
+### Checks run (2026-11-03)
+| Check | Result |
+|---|---|
+| typecheck, lint, format, build | ✅ |
+| `npm test` (unit) | ✅ **113 passed** (role-rule matrix, slugify, audit scoping added) |
+| `npm run test:integration` | ✅ **47 passed** (17 new in `membership.test.ts`) |
+| Mutation: firm lock removed | concurrent owner-removal test failed 3/3 runs; passes once restored |
+| Mutation: email-match check removed | mismatch test failed; passes once restored |
+| Dev database: migration + live smoke test | ✅ fee earner can't invite (403); owner invites; wrong user can't accept (403); invitee accepts and sees the firm in `/me/firms`; reuse → 400; a fee earner creates their own firm |
+
+### Known gaps
+- People without an account must register, verify their email and log in before accepting (no register-via-invite yet).
+- No real email delivery (logged instead). In production the invitation email would not actually be sent.
+- No rate limiting on firm creation or invitations.
+- Removing a member doesn't reassign their open tasks or matters.
+- CI hasn't run on GitHub yet.
+
+---
+
 ## Current phase: Stage 1 — Backend foundation (closed 2026-11-03)
 
 ### What existed before this phase

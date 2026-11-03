@@ -12,6 +12,7 @@ import type { FirmRole } from '@prisma/client';
  */
 export const FIRM_PERMISSIONS = [
   'firm:manage',
+  'member:read',
   'member:manage',
   'audit:read',
   'client:read',
@@ -27,6 +28,7 @@ export const FIRM_PERMISSIONS = [
 export type FirmPermission = (typeof FIRM_PERMISSIONS)[number];
 
 const WORKSPACE: FirmPermission[] = [
+  'member:read',
   'client:read',
   'client:write',
   'matter:read',
@@ -44,6 +46,7 @@ const ROLE_PERMISSIONS: Record<FirmRole, ReadonlySet<FirmPermission>> = {
   // Support staff run the inbox and tasks, can look things up, but don't
   // open or change matters and client records.
   SUPPORT: new Set<FirmPermission>([
+    'member:read',
     'client:read',
     'matter:read',
     'task:read',

@@ -29,11 +29,14 @@ Non-members receive `404` for any firm-scoped URL (indistinguishable from a non-
 
 Implemented (pre-existing, unchanged): Argon2id; RS256 access tokens (15 min, identity-only claims); opaque SHA-256-hashed rotating refresh tokens with family revocation on reuse; Redis session allowlist checked on every request; uniform login/forgot-password responses; per-account login throttling; password reset revokes all sessions.
 
-Not implemented: MFA; SSO (Google/Microsoft); JWT signing-key rotation (`kid` + JWKS — `backend/DESIGN-REVIEW.md` P0-4); invitation acceptance; platform-administrator principal; client-portal principal.
+Invitations (Stage 2): the emailed token is 32 random bytes, stored only as SHA-256, single-use, 7-day expiry, sent in the request body (never the URL). Acceptance requires a signed-in `ACTIVE` user (so a verified email) whose email equals the invited address. Unknown, used, revoked and expired tokens get the same `400`.
+
+Not implemented: MFA; SSO (Google/Microsoft); JWT signing-key rotation (`kid` + JWKS — `backend/DESIGN-REVIEW.md` P0-4); platform-administrator principal; client-portal principal. Invitee-without-an-account must register and verify first (no register-via-invite flow yet).
 
 ## 3. Authorisation
 
 - **Firm level:** static role → permission map (`permissions.ts`), checked with `requireFirmPermission`; denials audited.
+- **Membership changes** (`members.rules.ts`): only an `OWNER` grants the owner role, touches an owner's membership, or revokes an owner invitation; nobody modifies their own membership; every change must leave an `ACTIVE` `OWNER`. Each change locks the `Firm` row (`SELECT … FOR UPDATE`) and re-reads the actor's membership under the lock, so concurrent changes can't race past these rules. Suspension and removal take effect on the member's next request.
 - **Resource level:** `matterVisibility(ctx)` is the single extension point; currently every member with `matter:read` sees every matter in their firm. **Do not store matters needing restricted access until this is implemented.**
 - **Platform level:** none. No route operates across firms.
 
@@ -51,7 +54,7 @@ helmet (strict CSP except `/docs`), exact-origin CORS allowlist with credentials
 
 ## 6. Audit (ADR-006)
 
-Append-only `audit.AuditEvent` (trigger rejects UPDATE/DELETE/TRUNCATE). Recorded today: denied tenant access, denied firm permission. **Limitations:** no successful-action auditing yet (no membership/role-change endpoints exist); no audit read API; bypassable by a superuser or table owner; retention and erasure policy undecided. This is an accountability foundation, not a compliance claim.
+Append-only `audit.AuditEvent` (trigger rejects UPDATE/DELETE/TRUNCATE). Recorded today: denied tenant access, denied firm permission, and — written in the same transaction as the change, so they exist if and only if it commits — `firm.create`, `invitation.create|revoke|accept`, `member.role_change|suspend|reactivate|remove`. A tenant-scoped transaction may append audit rows (stamped with its firm) but cannot read or change them. **Limitations:** no audit read API; bypassable by a superuser or table owner; retention and erasure policy undecided. This is an accountability foundation, not a compliance claim.
 
 ## 7. Secrets and configuration
 
@@ -66,13 +69,14 @@ Today one database user owns the schema and runs the app. Before production:
 
 ## 9. Before real client data — must be completed
 
-1. Integration test suite run and passing in CI against Postgres + Redis.
+1. Integration test suite passing in CI against Postgres + Redis (passes locally; CI written, not yet run).
 2. Database role separation (§8); consider RLS as a fourth isolation layer (ADR-002).
 3. MFA for all staff; JWT key rotation with `kid`.
 4. General rate limiting; WAF in front of the API.
 5. Resource-level matter restrictions if any firm needs confidential matters.
 6. Encryption at rest and in transit for Postgres, Redis and backups; UK/EU data residency confirmed; Redis persistence decision (`backend/DESIGN-REVIEW.md` P1-7).
-7. Audit coverage of membership, role and permission changes; audit read API restricted to `audit:read`.
+7. Audit read API restricted to `audit:read` (membership and role changes are now audited).
+10. Rate limiting on firm creation and invitations (any signed-in user can create firms; admins can send unlimited invitations).
 8. Data-protection work: DPIA, retention and erasure policy, subject access process, processor agreements.
 9. Independent penetration test.
 

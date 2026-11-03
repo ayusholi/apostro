@@ -130,6 +130,21 @@ describe('scopeArgs — tenant scoping of Prisma operations', () => {
     }
   });
 
+  it('lets a tenant transaction append audit events, stamped with its own firm', () => {
+    const scoped = scopeArgs('AuditEvent', 'create', { data: { action: 'a' } }, FIRM_A) as {
+      data: Record<string, unknown>;
+    };
+    expect(scoped.data.firmId).toBe(FIRM_A);
+    expect(() =>
+      scopeArgs('AuditEvent', 'create', { data: { action: 'a', firmId: FIRM_B } }, FIRM_A),
+    ).toThrow(TenantScopeError);
+    for (const operation of ['update', 'updateMany', 'delete', 'deleteMany', 'findFirst']) {
+      expect(() => scopeArgs('AuditEvent', operation, {}, FIRM_A), operation).toThrow(
+        TenantScopeError,
+      );
+    }
+  });
+
   it('refuses unknown operations rather than passing them through', () => {
     expect(() => scopeArgs('Client', 'somethingNew', {}, FIRM_A)).toThrow(TenantScopeError);
   });

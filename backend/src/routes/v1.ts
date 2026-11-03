@@ -15,6 +15,8 @@ import * as media from '../modules/media/media.routes';
 import * as notifications from '../modules/notifications/notifications.routes';
 import * as audit from '../modules/audit/audit.routes';
 import { firmRouter, meRouter } from '../modules/tenancy/tenancy.routes';
+import { firmsRouter } from '../modules/firms/firms.routes';
+import { invitationsRouter } from '../modules/members/members.routes';
 
 /**
  * The /api/v1 composition point. Mounts every feature module under the
@@ -39,7 +41,9 @@ v1Router.use('/auth', authRouter);
 // firm-owned resource lives under /firms/:firmId, where tenancy.routes.ts
 // verifies membership before any feature router runs.
 v1Router.use('/me', meRouter);
+v1Router.use('/firms', firmsRouter); // POST /firms only — creating a firm
 v1Router.use('/firms/:firmId', firmRouter);
+v1Router.use('/invitations', invitationsRouter); // accepting, before membership exists
 
 const publicRouter = Router();
 publicRouter.use(appointments.publicRouter); // /availability, /bookings/*

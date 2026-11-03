@@ -23,7 +23,14 @@ export interface AuditEntry {
   metadata?: Prisma.InputJsonValue;
 }
 
-type AuditClient = Pick<Prisma.TransactionClient, 'auditEvent'>;
+/**
+ * Just the one method used, so both a base-client transaction and a
+ * tenant-scoped one (`forTenant(ctx).$transaction`, which stamps firmId)
+ * can be passed.
+ */
+interface AuditClient {
+  auditEvent: { create(args: { data: Prisma.AuditEventCreateInput }): PromiseLike<unknown> };
+}
 
 function toData(entry: AuditEntry): Prisma.AuditEventCreateInput {
   return { ...entry, requestId: getRequestId() };
