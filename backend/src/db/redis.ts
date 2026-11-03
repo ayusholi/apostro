@@ -14,6 +14,8 @@ import { logger } from '../shared/logger';
  * retry forever in the background (ARCHITECTURE.md §14).
  */
 export const redis = new Redis(config.redis.url, {
+  // Tests import the app without always needing Redis; connect on first command there.
+  lazyConnect: config.app.isTest,
   maxRetriesPerRequest: 3,
   retryStrategy(times) {
     if (times > 10) return null; // stop retrying — surfaces as a connection error

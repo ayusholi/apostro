@@ -3,6 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import { OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
 import { z } from 'zod';
 import { registry } from './registry';
+import './tenancy.openapi';
 
 const healthStatusSchema = z
   .object({ status: z.enum(['ok', 'unavailable']) })

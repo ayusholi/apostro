@@ -2,17 +2,20 @@
   "name": "@alls/backend",
   "version": "0.1.0",
   "private": true,
-  "description": "ALLS Solicitors — Express/TypeScript API and background worker.",
+  "description": "ALLS Solicitors \u2014 Express/TypeScript API and background worker.",
   "engines": {
     "node": ">=22.0.0"
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "dev:worker": "tsx watch src/worker.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "start": "node dist/server.js",
     "start:worker": "node dist/worker.js",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run --project unit",
+    "test:integration": "tsx scripts/test-integration.ts",
+    "test:watch": "vitest --project unit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -20,7 +23,9 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "prisma:validate": "prisma validate",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.3.0",
@@ -48,14 +53,20 @@
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.5",
+    "@types/supertest": "^6.0.3",
     "@types/swagger-ui-express": "^4.1.7",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^9.1.0",
     "pino-pretty": "^13.0.0",
     "prettier": "^3.4.2",
     "prisma": "^6.2.1",
+    "supertest": "^7.3.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.19.1"
+    "typescript-eslint": "^8.19.1",
+    "vitest": "^3.2.7"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }

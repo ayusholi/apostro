@@ -14,6 +14,7 @@ import * as offices from '../modules/offices/offices.routes';
 import * as media from '../modules/media/media.routes';
 import * as notifications from '../modules/notifications/notifications.routes';
 import * as audit from '../modules/audit/audit.routes';
+import { firmRouter, meRouter } from '../modules/tenancy/tenancy.routes';
 
 /**
  * The /api/v1 composition point. Mounts every feature module under the
@@ -33,6 +34,12 @@ v1Router.get('/', (_req, res) => {
 });
 
 v1Router.use('/auth', authRouter);
+
+// Multi-tenant practice workspace (docs/architecture, ADR-002). Every
+// firm-owned resource lives under /firms/:firmId, where tenancy.routes.ts
+// verifies membership before any feature router runs.
+v1Router.use('/me', meRouter);
+v1Router.use('/firms/:firmId', firmRouter);
 
 const publicRouter = Router();
 publicRouter.use(appointments.publicRouter); // /availability, /bookings/*

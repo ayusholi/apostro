@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCookieConsent } from "@/hooks/useCookieConsent";
 import { ACCEPT_ALL, DECLINE_ALL } from "@/lib/cookies/consent";
 import { CookiePreferencesDialog } from "@/components/legal/CookiePreferencesDialog";
@@ -14,8 +15,10 @@ import { CookiePreferencesDialog } from "@/components/legal/CookiePreferencesDia
 export function CookieConsentBanner() {
   const { consent, setConsent } = useCookieConsent();
   const [showPreferences, setShowPreferences] = useState(false);
+  const pathname = usePathname();
 
-  if (consent !== null) return null;
+  // The practice workspace is a signed-in tool, not part of the public site.
+  if (consent !== null || pathname.startsWith("/workspace")) return null;
 
   return (
     <aside className="cookie-banner" role="region" aria-label="Cookie consent">

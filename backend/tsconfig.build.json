@@ -1,0 +1,11 @@
+{
+  // Compiles the application only. tsconfig.json (which this extends) also
+  // type-checks tests, the seed script and tool config, without emitting.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src/**/*.ts"]
+}

@@ -16,6 +16,8 @@ services:
       - '5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      # Creates alls_test for integration tests on first start of a fresh volume.
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U alls -d alls']
       interval: 5s
@@ -64,6 +66,11 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
+    # JWT keys (and anything else not listed below) come from .env; the
+    # explicit values below override it with container-network addresses.
+    env_file:
+      - path: .env
+        required: false
     environment:
       NODE_ENV: development
       PORT: 4000
@@ -87,6 +94,9 @@ services:
     # Same image as `api`; this is the whole "one image, two roles" pattern.
     command: ['node', 'dist/worker.js']
     restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
     environment:
       NODE_ENV: development
       LOG_LEVEL: debug

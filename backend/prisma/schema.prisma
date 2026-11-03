@@ -20,6 +20,25 @@
 //   - `RoleAssignment`/`Role`/`Permission` are out of scope here — that's
 //     the separate Roles & Permissions module (RBAC-DESIGN.md). This slice
 //     only carries what Authentication itself needs.
+//
+// Second slice — multi-tenant practice foundation
+// (docs/architecture/decisions/ADR-002, ADR-003). The firm is the tenant
+// boundary. Rules every tenant-owned model below follows:
+//   - It carries a required `firmId` and `@@unique([firmId, id])`, so other
+//     tenant-owned rows can reference it by `(firmId, id)`.
+//   - Every reference to another tenant-owned row is a *composite* foreign
+//     key `(firmId, xId) -> X(firmId, id)` sharing the row's own `firmId`.
+//     Postgres then rejects a row in Firm A that points at a record in
+//     Firm B — enforced by the database, not by developer discipline. With
+//     MATCH SIMPLE (Postgres' default) a null `xId` skips the check, which
+//     is exactly the optional-relation semantics we want.
+//   - People are referenced through `FirmMembership`, never `User`
+//     directly, so an assignee is always a member of the same firm.
+//   - Deletion is `Restrict` — records are archived via status, not
+//     cascaded away. `onUpdate: Restrict` stops a row silently migrating
+//     tenant by an id/firm change.
+// CHECK constraints and the audit append-only trigger live in the
+// migration SQL (Prisma doesn't model them, and doesn't drop them).
 
 generator client {
   provider = "prisma-client-js"
@@ -28,7 +47,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["identity"]
+  schemas  = ["identity", "practice", "audit"]
 }
 
 enum UserStatus {
@@ -57,6 +76,7 @@ model User {
   sessions           Session[]
   refreshTokens      RefreshToken[]
   verificationTokens VerificationToken[]
+  memberships        FirmMembership[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -79,10 +99,10 @@ model Session {
   ipAddress  String?
   userAgent  String?
 
-  createdAt  DateTime  @default(now())
-  lastSeenAt DateTime  @default(now())
-  expiresAt  DateTime
-  revokedAt  DateTime?
+  createdAt     DateTime  @default(now())
+  lastSeenAt    DateTime  @default(now())
+  expiresAt     DateTime
+  revokedAt     DateTime?
   revokedReason String?
 
   refreshTokens RefreshToken[]
@@ -152,4 +172,455 @@ model VerificationToken {
 
   @@index([userId, purpose])
   @@schema("identity")
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// Tenancy — identity schema. A User is a person; a FirmMembership is that
+// person's place in one firm. One user may belong to several firms.
+// ════════════════════════════════════════════════════════════════════════
+
+enum FirmStatus {
+  ACTIVE
+  SUSPENDED
+  CLOSED
+
+  @@schema("identity")
+}
+
+/// The tenant. Every practice-schema row belongs to exactly one firm.
+model Firm {
+  id     String     @id @default(uuid())
+  name   String
+  /// Stable, URL-safe handle. Lowercase is enforced by a CHECK constraint.
+  slug   String     @unique
+  status FirmStatus @default(ACTIVE)
+
+  memberships    FirmMembership[]
+  clients        Client[]
+  matters        Matter[]
+  matterClients  MatterClient[]
+  tasks          Task[]
+  conversations  Conversation[]
+  messages       Message[]
+  providerRefs   MessageProviderRef[]
+  activityEvents ActivityEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("identity")
+}
+
+/// Firm-level role. Bundles permissions in code (src/modules/tenancy/
+/// permissions.ts) — deliberately not a DB-driven RBAC engine yet (ADR-004).
+enum FirmRole {
+  OWNER
+  ADMIN
+  FEE_EARNER
+  SUPPORT
+
+  @@schema("identity")
+}
+
+enum MembershipStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  REMOVED
+
+  @@schema("identity")
+}
+
+/// A user's membership of one firm. Only ACTIVE memberships of ACTIVE
+/// firms by ACTIVE users establish tenant context (tenancy.repository.ts).
+model FirmMembership {
+  id     String           @id @default(uuid())
+  firmId String
+  firm   Firm             @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  userId String
+  user   User             @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  role   FirmRole
+  status MembershipStatus @default(INVITED)
+
+  responsibleFor Matter[]        @relation("MatterResponsible")
+  assignedTasks  Task[]          @relation("TaskAssignee")
+  createdTasks   Task[]          @relation("TaskCreator")
+  conversations  Conversation[]  @relation("ConversationAssignee")
+  activity       ActivityEvent[] @relation("ActivityActor")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([firmId, userId])
+  @@unique([firmId, id])
+  @@index([userId, status])
+  @@schema("identity")
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// Practice — firm-owned legal workspace data.
+// ════════════════════════════════════════════════════════════════════════
+
+enum ClientKind {
+  INDIVIDUAL
+  ORGANISATION
+
+  @@schema("practice")
+}
+
+enum ClientStatus {
+  PROSPECT
+  ACTIVE
+  ARCHIVED
+
+  @@schema("practice")
+}
+
+/// A person or organisation the firm acts (or may act) for. Contact fields
+/// are deliberately minimal; ID verification and conflict data are deferred.
+model Client {
+  id          String       @id @default(uuid())
+  firmId      String
+  firm        Firm         @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  kind        ClientKind
+  status      ClientStatus @default(ACTIVE)
+  displayName String
+  email       String?
+  phone       String?
+
+  matters       MatterClient[]
+  tasks         Task[]
+  conversations Conversation[]
+  activity      ActivityEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([firmId, id])
+  @@index([firmId, status, displayName])
+  @@index([firmId, email])
+  @@schema("practice")
+}
+
+/// System lifecycle, common to every practice area. Firm-specific stages
+/// ("Searches", "Exchange", …) are free text in `Matter.stage` until a
+/// configurable workflow model is introduced.
+enum MatterStatus {
+  OPEN
+  ON_HOLD
+  CLOSED
+  ARCHIVED
+
+  @@schema("practice")
+}
+
+model Matter {
+  id         String       @id @default(uuid())
+  firmId     String
+  firm       Firm         @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  /// Firm-scoped human reference, e.g. "PRO/0142". Unique per firm only.
+  reference  String
+  title      String
+  /// Firm-defined practice area label (not an enum — firms differ).
+  matterType String
+  status     MatterStatus @default(OPEN)
+  stage      String?
+
+  responsibleMembershipId String?
+  responsible             FirmMembership? @relation("MatterResponsible", fields: [firmId, responsibleMembershipId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+
+  openedAt DateTime  @default(now())
+  closedAt DateTime?
+
+  clients       MatterClient[]
+  tasks         Task[]
+  conversations Conversation[]
+  activity      ActivityEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([firmId, reference])
+  @@unique([firmId, id])
+  @@index([firmId, status])
+  @@index([firmId, responsibleMembershipId, status])
+  @@schema("practice")
+}
+
+enum MatterClientRole {
+  CLIENT
+  JOINT_CLIENT
+  OTHER
+
+  @@schema("practice")
+}
+
+/// Matter ↔ client, many-to-many: a matter may have joint clients, and a
+/// client many matters. Both sides share `firmId`, so a link can only ever
+/// join records of the same firm.
+model MatterClient {
+  firmId   String
+  firm     Firm             @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  matterId String
+  matter   Matter           @relation(fields: [firmId, matterId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  clientId String
+  client   Client           @relation(fields: [firmId, clientId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  role     MatterClientRole @default(CLIENT)
+
+  createdAt DateTime @default(now())
+
+  @@id([firmId, matterId, clientId])
+  @@index([firmId, clientId])
+  @@schema("practice")
+}
+
+enum TaskStatus {
+  OPEN
+  DONE
+  CANCELLED
+
+  @@schema("practice")
+}
+
+/// A unit of work. May relate to a matter, a client, both, or neither
+/// (operational tasks). `completedAt` is set iff status = DONE (CHECK).
+model Task {
+  id          String     @id @default(uuid())
+  firmId      String
+  firm        Firm       @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  title       String
+  description String?
+  status      TaskStatus @default(OPEN)
+  dueAt       DateTime?
+
+  matterId String?
+  matter   Matter? @relation(fields: [firmId, matterId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  clientId String?
+  client   Client? @relation(fields: [firmId, clientId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+
+  assigneeMembershipId  String?
+  assignee              FirmMembership? @relation("TaskAssignee", fields: [firmId, assigneeMembershipId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  createdByMembershipId String?
+  createdBy             FirmMembership? @relation("TaskCreator", fields: [firmId, createdByMembershipId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([firmId, id])
+  // Work queue: "my open tasks by due date".
+  @@index([firmId, assigneeMembershipId, status, dueAt])
+  // Matter view: "this matter's outstanding tasks".
+  @@index([firmId, matterId, status])
+  @@index([firmId, clientId])
+  @@schema("practice")
+}
+
+enum Channel {
+  EMAIL
+  WHATSAPP
+  WEB_FORM
+  PHONE
+  INTERNAL
+
+  @@schema("practice")
+}
+
+enum ConversationKind {
+  /// From someone who isn't (yet) linked to a client.
+  ENQUIRY
+  CLIENT
+  OTHER
+
+  @@schema("practice")
+}
+
+enum ConversationStatus {
+  OPEN
+  CLOSED
+  ARCHIVED
+
+  @@schema("practice")
+}
+
+/// Provider-neutral conversation (unified inbox). Provider identifiers live
+/// in MessageProviderRef, never here. `contactName`/`contactAddress` hold
+/// the counterparty for enquiries that have no Client yet.
+model Conversation {
+  id      String             @id @default(uuid())
+  firmId  String
+  firm    Firm               @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  channel Channel
+  kind    ConversationKind   @default(ENQUIRY)
+  status  ConversationStatus @default(OPEN)
+  subject String?
+
+  contactName    String?
+  contactAddress String?
+
+  clientId String?
+  client   Client? @relation(fields: [firmId, clientId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  matterId String?
+  matter   Matter? @relation(fields: [firmId, matterId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+
+  assigneeMembershipId String?
+  assignee             FirmMembership? @relation("ConversationAssignee", fields: [firmId, assigneeMembershipId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+
+  /// Set when an inbound message arrives unanswered; cleared on reply.
+  /// Drives "awaiting response" without scanning messages.
+  awaitingResponseSince DateTime?
+  lastMessageAt         DateTime?
+
+  messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([firmId, id])
+  // Inbox: unassigned enquiries / my conversations, newest first.
+  @@index([firmId, status, assigneeMembershipId, lastMessageAt])
+  @@index([firmId, status, awaitingResponseSince])
+  @@index([firmId, matterId])
+  @@index([firmId, clientId])
+  @@schema("practice")
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+  INTERNAL_NOTE
+
+  @@schema("practice")
+}
+
+enum DeliveryStatus {
+  RECEIVED
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+
+  @@schema("practice")
+}
+
+/// One message in a conversation. `bodyText` is confidential client
+/// content: never logged, never written to audit metadata.
+model Message {
+  id             String           @id @default(uuid())
+  firmId         String
+  firm           Firm             @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  conversationId String
+  conversation   Conversation     @relation(fields: [firmId, conversationId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  direction      MessageDirection
+  senderLabel    String?
+  bodyText       String?
+  deliveryStatus DeliveryStatus
+  occurredAt     DateTime
+
+  providerRefs MessageProviderRef[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([firmId, id])
+  @@index([firmId, conversationId, occurredAt])
+  @@schema("practice")
+}
+
+/// Maps a message to an external provider's identifiers. The unique key is
+/// the idempotency guard for webhook/sync ingestion: the same provider
+/// message can only be recorded once per firm. No raw payloads are stored.
+model MessageProviderRef {
+  id                String  @id @default(uuid())
+  firmId            String
+  firm              Firm    @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  messageId         String
+  message           Message @relation(fields: [firmId, messageId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  /// e.g. "gmail", "microsoft-graph", "whatsapp-cloud". Free text: adding a
+  /// provider must not need a migration.
+  provider          String
+  providerMessageId String
+  providerThreadId  String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([firmId, provider, providerMessageId])
+  @@index([firmId, messageId])
+  @@schema("practice")
+}
+
+enum ActivityType {
+  MATTER_OPENED
+  MATTER_STATUS_CHANGED
+  TASK_CREATED
+  TASK_COMPLETED
+  MESSAGE_RECORDED
+  NOTE_ADDED
+  DOCUMENT_ADDED
+
+  @@schema("practice")
+}
+
+/// Matter/client timeline — useful history for the people doing the work.
+/// Not the audit trail (that's audit.AuditEvent). `summary` is a short
+/// human label; no message bodies or document content.
+model ActivityEvent {
+  id     String       @id @default(uuid())
+  firmId String
+  firm   Firm         @relation(fields: [firmId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  type   ActivityType
+
+  matterId String?
+  matter   Matter? @relation(fields: [firmId, matterId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+  clientId String?
+  client   Client? @relation(fields: [firmId, clientId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+
+  actorMembershipId String?
+  actor             FirmMembership? @relation("ActivityActor", fields: [firmId, actorMembershipId], references: [firmId, id], onDelete: Restrict, onUpdate: Restrict)
+
+  summary    String
+  /// Ids of related records (taskId, messageId, …) — not content.
+  subjectId  String?
+  occurredAt DateTime @default(now())
+
+  @@unique([firmId, id])
+  @@index([firmId, matterId, occurredAt])
+  @@index([firmId, clientId, occurredAt])
+  @@schema("practice")
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// Audit — accountability trail, append-only (trigger in migration SQL).
+// ════════════════════════════════════════════════════════════════════════
+
+enum AuditOutcome {
+  SUCCESS
+  FAILURE
+  DENIED
+
+  @@schema("audit")
+}
+
+/// Security- and accountability-relevant events. Deliberately no foreign
+/// keys: an audit record must survive (and must not block) changes to the
+/// rows it describes, and a denied cross-tenant attempt may name a firm id
+/// that doesn't exist. `metadata` must never hold message bodies,
+/// credentials, tokens, or unnecessary personal data.
+model AuditEvent {
+  id           String       @id @default(uuid())
+  firmId       String?
+  actorUserId  String?
+  action       String
+  outcome      AuditOutcome
+  resourceType String?
+  resourceId   String?
+  requestId    String?
+  ipAddress    String?
+  metadata     Json?
+  occurredAt   DateTime     @default(now())
+
+  @@index([firmId, occurredAt])
+  @@index([actorUserId, occurredAt])
+  @@index([resourceType, resourceId])
+  @@schema("audit")
 }

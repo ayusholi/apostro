@@ -10,7 +10,9 @@ export type ErrorCode =
   | 'NOT_FOUND'
   | 'RATE_LIMITED'
   | 'INTERNAL'
-  | 'NOT_IMPLEMENTED';
+  | 'NOT_IMPLEMENTED'
+  | 'CONFLICT'
+  | 'INVALID_REFERENCE';
 
 interface AppErrorOptions {
   status: number;
@@ -57,6 +59,14 @@ export class AppError extends Error {
 
   static forbidden(detail = 'You do not have permission to perform this action.'): AppError {
     return new AppError({ status: 403, code: 'FORBIDDEN', detail });
+  }
+
+  static conflict(detail = 'This conflicts with an existing record.'): AppError {
+    return new AppError({ status: 409, code: 'CONFLICT', detail });
+  }
+
+  static invalidReference(detail = 'A referenced record does not exist.'): AppError {
+    return new AppError({ status: 422, code: 'INVALID_REFERENCE', detail });
   }
 
   /**

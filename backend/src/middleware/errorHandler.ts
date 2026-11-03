@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import type { NextFunction, Request, Response } from 'express';
 import { AppError } from '../shared/errors';
 import { logger } from '../shared/logger';
@@ -28,9 +29,36 @@ function toErrorType(code: string): string {
  * The unused `_next` parameter is required: Express only recognizes a
  * 4-argument function as error-handling middleware.
  */
-export function errorHandler(err: unknown, req: Request, res: Response, _next: NextFunction): void {
+/**
+ * Database constraint violations that reach here are client-correctable
+ * conflicts, not crashes. The constraint/column names stay in the server
+ * log only — they describe the schema, which clients don't need.
+ */
+function fromPrismaError(err: unknown): AppError | null {
+  if (!(err instanceof Prisma.PrismaClientKnownRequestError)) return null;
+  switch (err.code) {
+    case 'P2002':
+      return AppError.conflict();
+    case 'P2003':
+      return AppError.invalidReference();
+    case 'P2025':
+      return AppError.notFound();
+    default:
+      return null;
+  }
+}
+
+export function errorHandler(
+  rawErr: unknown,
+  req: Request,
+  res: Response,
+  _next: NextFunction,
+): void {
   const traceId = req.id;
   const log = req.log ?? logger;
+  const mapped = fromPrismaError(rawErr);
+  if (mapped) log.warn({ err: rawErr, traceId }, 'Database constraint rejected request');
+  const err = mapped ?? rawErr;
 
   if (err instanceof AppError) {
     const problem: ProblemDetails = {

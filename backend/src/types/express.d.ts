@@ -1,5 +1,6 @@
 import 'express';
 import type { Principal } from '../shared/principal';
+import type { TenantContext } from '../modules/tenancy/tenancy.types';
 
 /** What validate() (validation/validate.ts) attaches after a successful parse. */
 interface ValidatedRequestData {
@@ -19,5 +20,7 @@ declare module 'express-serve-static-core' {
     principal?: Principal;
     /** Set by validation/validate.ts. Absent until validate() runs for this route. */
     validated?: ValidatedRequestData;
+    /** Set by modules/tenancy/tenancy.middleware.ts — a *verified* membership, never client input. */
+    tenant?: TenantContext;
   }
 }
