@@ -2,5 +2,5 @@
 
 ## [Unreleased]
 
-- move constants to dedicated config file
-- Updated: 2026-11-04T14:00:01.194Z
+- implement retry logic for failed requests
+- Updated: 2026-11-06T14:00:01.015Z
