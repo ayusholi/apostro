@@ -2,5 +2,5 @@
 
 ## [Unreleased]
 
-- optimize database query performance
-- Updated: 2026-11-07T14:00:01.021Z
+- add integration tests for API endpoints
+- Updated: 2026-11-10T14:00:02.482Z
