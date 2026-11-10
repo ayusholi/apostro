@@ -1,7 +1,7 @@
 # Notes
 
-Last updated: 2026-11-07T14:00:01.021Z
+Last updated: 2026-11-10T14:00:02.482Z
 
 ## Progress
 
-- extract helper functions to utils
+- add end-to-end test suite
