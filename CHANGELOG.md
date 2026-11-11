@@ -2,5 +2,5 @@
 
 ## [Unreleased]
 
-- add integration tests for API endpoints
-- Updated: 2026-11-10T14:00:02.482Z
+- add rate limiting to API endpoints
+- Updated: 2026-11-11T14:00:01.232Z
